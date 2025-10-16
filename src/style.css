@@ -1,1 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Cursive:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 @import "tailwindcss";
+
+:root {
+  font-family: "Poppins", sans-serif;
+  --primary: #00C853;
+  --secondry: #00B0FFB2;
+  --third: #ffffff;
+  --fourth:#7AE2A5F2;
+}
+
+.features-card {
+  @apply w-full max-w-[411px] h-[300px] bg-[#D9EEFF] rounded-[20px] shadow-sm;
+}
+
+.img-box{
+  @apply absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center w-[60px] h-[60px] rounded-full bg-white border border-[#0D8BF2];
+}
+.img-box img{
+  @apply w-10 h-10 p-1 rounded-full bg-gradient-to-b from-[#00C853F2] to-[#0D8BF2] border border-[#0D8BF2] object-contain;
+}
+.bg-primary {
+  background: linear-gradient(to right, var(--primary), var(--secondry));
+}
