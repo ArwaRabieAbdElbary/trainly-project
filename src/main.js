@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-
+import '../src/style.css'
 import LandingPage from './pages/LandingPage.vue'
 import PaymentPage from './pages/PaymentPage.vue'
 import FailedPage from './pages/FailedPage.vue'

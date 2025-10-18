@@ -12,7 +12,7 @@ export default {
         class="w-[40%] h-full flex items-center justify-center bg-gray-100"
       >
         <img
-          src="@/assets/pic4.png"
+          src="@/assets/images/pic4.png"
           alt="Payment Illustration"
           class="w-full h-screen object-cover"
         />
@@ -21,7 +21,7 @@ export default {
       <div class="w-[60%] h-full flex flex-col">
         <div class="flex ml-18">
           <img
-            src="@/assets/Project LOGO.png"
+            src="@/assets/images/Project LOGO.png"
             alt="Project Logo"
             class="w-40 h-13 mb-15 mt-7"/>
         </div>
@@ -30,7 +30,7 @@ export default {
             <div class="bg-white rounded-3xl p-10 text-center w-full h-full overflow-auto pb-1 ">
             <div class="flex justify-center">
               <img
-                src="@/assets/success icon.png"
+                src="@/assets/images/success icon.png"
                 alt="Success"
                 class="w-30 h-30"
               />

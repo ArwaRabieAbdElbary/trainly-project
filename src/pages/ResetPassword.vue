@@ -12,7 +12,7 @@ export default {
       <!-- الصورة الجانبية (للكبير فقط) -->
       <div class="hidden lg:flex w-[40%] h-screen items-center justify-center">
         <img
-          src="@/assets/pic4.png"
+          src="@/assets/images/pic4.png"
           alt="Payment Illustration"
           class="w-full h-full object-cover"
         />
@@ -21,7 +21,7 @@ export default {
       <!-- الصورة الخلفية في التابلت -->
       <div class="absolute inset-0 hidden md:flex lg:hidden">
         <img
-          src="@/assets/pic4.png"
+          src="@/assets/images/pic4.png"
           alt="Background"
           class="w-full h-full object-cover blur-md brightness-75"
         />
@@ -33,7 +33,7 @@ export default {
         <!-- اللوجو (فقط في الكبير) -->
         <div class="hidden lg:flex ml-13 mb-5">
           <img
-            src="@/assets/Project LOGO.png"
+            src="@/assets/images/Project LOGO.png"
             alt="Project Logo"
             class="w-40 h-13"
           />
@@ -48,7 +48,7 @@ export default {
           <div class="w-full">
             <div class="flex justify-center">
               <img
-                src="@/assets/pass reset icon.png"
+                src="@/assets/images/pass reset icon.png"
                 alt="Success"
                 class="w-16 h-16"
               />
