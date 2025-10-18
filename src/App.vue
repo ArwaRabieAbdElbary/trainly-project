@@ -1,14 +1,26 @@
-<script>
-export default{
-  name:"App"
-}
-
-
-</script>
-
 <template>
-  <router-view :key="$route.fullPath"></router-view>  
-
+  
+<NavBar v-if="!['payment', 'failed', 'error'].includes($route.name)" />
+<router-view></router-view>
+<FooterComp v-if="!['payment', 'failed', 'error'].includes($route.name)" />
+  
 </template>
 
-<style scoped></style>
+<script>
+import FooterComp from './components/FooterComp.vue';
+import NavBar from './components/NavBar.vue'
+
+
+
+export default {
+  name: 'App',
+  components: {
+    NavBar,
+    FooterComp
+   
+  }
+}
+</script>
+
+<style></style>
+

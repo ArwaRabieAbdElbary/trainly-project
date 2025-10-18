@@ -9,16 +9,25 @@
   --third: #ffffff;
   --fourth:#7AE2A5F2;
 }
+.btn-primary {
+  color:black;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  color: var(--secondry);
+}
+
 
 .features-card {
-  @apply w-full max-w-[411px] h-[300px] bg-[#D9EEFF] rounded-[20px] shadow-sm;
+  @apply md:w-[27%]  lg:h-[300px] bg-[#D9EEFF] rounded-[20px] shadow-sm w-[300px] h-[230px] ;
 }
 
 .img-box{
-  @apply absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center w-[60px] h-[60px] rounded-full bg-white border border-[#0D8BF2];
+  @apply absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center w-[40px] h-[40px] md:w-[60px] md:h-[60px] rounded-full bg-white border border-[#0D8BF2];
 }
 .img-box img{
-  @apply w-10 h-10 p-1 rounded-full bg-gradient-to-b from-[#00C853F2] to-[#0D8BF2] border border-[#0D8BF2] object-contain;
+  @apply w-7 h-7 md:w-10 md:h-10 p-1 rounded-full bg-gradient-to-b from-[#00C853F2] to-[#0D8BF2] border border-[#0D8BF2] object-contain;
 }
 .bg-primary {
   background: linear-gradient(to right, var(--primary), var(--secondry));
