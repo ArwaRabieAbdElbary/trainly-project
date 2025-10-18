@@ -18,14 +18,12 @@ export default {
         <p class="text-gray-800 text-lg font-medium text-center mt-8">
           The page you are looking for doesn't exist or has been removed.
         </p>
-
-        <button
-          class="px-8 py-4 rounded-4xl bg-red-700 text-white hover:opacity-90 transition text-xl font-semibold w-60 h-15 mt-8"
-        >
+        <router-link to="/">
+        <button class="px-8 py-4 rounded-4xl bg-red-600 text-white hover:opacity-90 transition text-xl font-semibold w-60 h-15 mt-8">
           Go to Home Page
         </button>
-
-        <p class="text-gray-500 text-base font-medium mt-5">Back To Home Page</p>
+        </router-link>
+       
       </div>
     </div>
   </section>

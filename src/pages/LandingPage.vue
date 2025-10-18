@@ -58,7 +58,7 @@
         <img
           src="@/assets/images/pic2.png"
           alt="Trainer Image"
-          class="w-full h-full object-cover relative z-10"
+          class="w-full h-full object-contain relative z-10"
         />
       </div>
       <div
