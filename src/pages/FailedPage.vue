@@ -31,7 +31,7 @@ export default {
         </p>
 
         <button
-          class="px-8 py-4 rounded-4xl bg-red-700 text-white hover:opacity-90 transition text-xl font-semibold w-60 h-15 mt-4"
+          class="px-8 py-4 rounded-4xl bg-red-600 text-white hover:opacity-90 transition text-xl font-semibold w-60 h-15 mt-4"
         >
           Try again
         </button>
