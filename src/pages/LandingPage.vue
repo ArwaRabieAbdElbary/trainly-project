@@ -6,14 +6,14 @@ export default {
 
 <template>
   <section
-    class="relative w-full h-[796px] max-w-[1445px] mx-auto overflow-visible mt-1 bg-sec1"
+    class="relative w-full h-[796px] max-w-full mx-auto overflow-visible mt-1 bg-sec1"
   >
     <div class="flex h-full">
       <div
         class="flex-1 p-11 flex flex-col justify-start max-w-xl relative z-10 mt-13"
       >
         <h1 class="text-5xl font-bold mt-10">
-          Welcome To <span class="text-blue-400">Trainly</span>
+          Welcome To <span class="text-gradient">Trainly</span>
         </h1>
         <h2 class="text-2xl tracking-widest mt-3">
           Your fitness journey starts here!
@@ -63,14 +63,14 @@ export default {
         <img
           src="@/assets/pic2.png"
           alt="Trainer Image"
-          class="w-full h-full object-cover relative z-10"
+          class="w-full h-full object-contain relative z-10"
         />
       </div>
       <div
         class="flex-1 p-11 flex flex-col justify-start max-w-xl relative z-10 mt-10"
       >
         <h1 class="text-5xl font-bold mt-10">
-          Why choose <span class="text-gradient">Trainly</span>?
+          Why choose <span class="text-gradient">Trainly</span> ?
         </h1>
         <p class="text-xl mt-4 mb-7 text-center">
           Trainly connects you with top personal trainers,offering expert
