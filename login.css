@@ -1,4 +1,4 @@
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -167,7 +167,7 @@ form label {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+ /* @media (max-width: 768px) {
   .overlay {
     justify-content: center;
     padding-left: 0;
@@ -183,4 +183,4 @@ form label {
     background-attachment: scroll;
     padding-left: 20px;
   }
-}
+} */ 
