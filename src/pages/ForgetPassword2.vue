@@ -41,8 +41,8 @@ export default {
 
         <!-- المحتوى -->
         <div
-          class="relative w-4/5 mx-auto flex flex-col items-center justify-center 
-          bg-transparent md:bg-white lg:bg-transparent 
+          class="relative w-4/5 mx-auto flex flex-col items-center justify-center
+          bg-transparent md:bg-white lg:bg-transparent
           md:rounded-3xl p-8 md:p-10 text-center"
         >
           <div class="bg-transparent w-full">
@@ -71,7 +71,7 @@ export default {
             <router-link to="/forgetpassword1">
               <button
                 type="submit"
-                class="px-10 py-1 rounded-4xl bg-gradient-to-r from-green-500 to-sky-400 
+                class="cursor-pointer px-10 py-1 rounded-4xl bg-gradient-to-r from-green-500 to-sky-400
                 text-white hover:opacity-90 transition text-[90%] font-semibold w-[50%] h-11 mb-5"
               >
                 Resend Email

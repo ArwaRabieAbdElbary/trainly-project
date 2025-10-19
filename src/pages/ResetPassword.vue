@@ -41,8 +41,8 @@ export default {
 
         <!-- الفورم -->
         <div
-          class="relative w-4/5 mx-auto flex flex-col items-center justify-center 
-          bg-transparent md:bg-white lg:bg-transparent 
+          class="relative w-4/5 mx-auto flex flex-col items-center justify-center
+          bg-transparent md:bg-white lg:bg-transparent
           md:rounded-3xl p-8 md:p-10 text-center"
         >
           <div class="w-full">
@@ -78,8 +78,8 @@ export default {
 
               <button
                 type="submit"
-                class="px-10 py-1 rounded-4xl bg-gradient-to-r from-green-500 to-sky-400 text-white 
-                hover:opacity-90 transition font-semibold w-[50%] h-12 mb-5 text-[90%]"
+                class="px-10 py-1 rounded-4xl bg-gradient-to-r from-green-500 to-sky-400 text-white
+                hover:opacity-90 transition font-semibold w-[50%] h-12 mb-5 text-[90%] cursor-pointer"
               >
                 Reset Password
               </button>

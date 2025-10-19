@@ -21,7 +21,7 @@ export default {
         <p class="text-gray-500 mb-10 text-base">Click below to return to the home page.</p>
 
         <button
-          class="px-8 py-4 rounded-3xl bg-gradient-to-r from-green-500 to-sky-400 text-white hover:opacity-90 transition text-xl font-semibold w-60 h-15"
+          class="cursor-pointer px-8 py-4 rounded-3xl bg-gradient-to-r from-green-500 to-sky-400 text-white hover:opacity-90 transition text-xl font-semibold w-60 h-15"
         >
           Home Page
         </button>

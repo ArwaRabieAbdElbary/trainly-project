@@ -26,7 +26,7 @@ export default {
             class="w-40 h-13 mb-15 mt-7"/>
         </div>
         <div class="relative p-[4px] rounded-3xl bg-gradient-to-r from-green-500 to-sky-400 shadow-xl w-4/5 h-[60vh] flex mx-auto">
-         
+
             <div class="bg-white rounded-3xl p-10 text-center w-full h-full overflow-auto pb-1 ">
             <div class="flex justify-center">
               <img
@@ -35,12 +35,12 @@ export default {
                 class="w-30 h-30"
               />
             </div>
-            
+
 
             <h1 class="text-2xl font-bold text-black-600 mb-7 mt-10">
               Password was reset successfully
             </h1>
-            <router-link to="/" >  <button type="sumbet" class="px-10 py-1 rounded-4xl bg-gradient-to-r from-green-500 to-sky-400 text-white hover:opacity-90 transition text-lg font-semibold w-60 h-12 mb-5 ">
+            <router-link to="/" >  <button type="sumbet" class="cursor-pointer px-10 py-1 rounded-4xl bg-gradient-to-r from-green-500 to-sky-400 text-white hover:opacity-90 transition text-lg font-semibold w-60 h-12 mb-5 ">
               Login
             </button> </router-link>
           </div>

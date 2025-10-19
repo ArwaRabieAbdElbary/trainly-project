@@ -19,11 +19,11 @@ export default {
           The page you are looking for doesn't exist or has been removed.
         </p>
         <router-link to="/">
-        <button class="px-8 py-4 rounded-4xl bg-red-600 text-white hover:opacity-90 transition text-xl font-semibold w-60 h-15 mt-8">
+        <button class="cursor-pointer px-8 py-4 rounded-4xl bg-red-600 text-white hover:opacity-90 transition text-xl font-semibold w-60 h-15 mt-8">
           Go to Home Page
         </button>
         </router-link>
-       
+
       </div>
     </div>
   </section>
