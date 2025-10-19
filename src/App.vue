@@ -1,11 +1,26 @@
-<script setup></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+
+<NavBar v-if="!['payment', 'failed', 'error','resetpassword','resetpassword2','forgetpassword1','forgetpassword2','login','signup'].includes($route.name)" />
+<router-view></router-view>
+<FooterComp v-if="!['payment', 'failed', 'error','login','signup'].includes($route.name)" />
+
 </template>
 
-<style scoped></style>
+<script>
+import FooterComp from './components/FooterComp.vue';
+import NavBar from './components/NavBar.vue'
+
+
+
+export default {
+  name: 'App',
+  components: {
+    NavBar,
+    FooterComp
+
+  }
+}
+</script>
+
+<style></style>
+

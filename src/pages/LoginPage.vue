@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-[url('images/couple-training-together-gym.jpg')] bg-cover bg-no-repeat bg-[position-x:100%] w-full h-screen flex items-center justify-start pl-20 max-[768px]:pl-0 max-[768px]:justify-center"
+    class="bg-[url('/src/assets/images/couple-training-together-gym.jpg')] bg-cover bg-no-repeat bg-[position-x:100%] w-full h-screen flex items-center justify-start pl-20 max-[768px]:pl-0 max-[768px]:justify-center"
   >
     <div
       class="w-[480px] max-w-[calc(100%-40px)] mx-0 rounded-[10px] bg-white/95 p-3 flex items-start justify-center relative animate-slideUp"
@@ -46,7 +46,7 @@
               @click="togglePasswordVisibility"
             >
               <img
-                :src="passwordVisible ? '/images/eye off.png' : '/images/Eye.png'"
+                :src="passwordVisible ? '/src/assets/images/eye off.png' : '/src/assets/images/Eye.png'"
                 alt="Show/Hide"
                 class="w-full h-auto"
               />
@@ -74,7 +74,7 @@
             type="button"
             class="flex items-center justify-center gap-2 border border-gray-300 p-2 cursor-pointer rounded-md bg-white w-full"
           >
-            <img src="/images/g-logo.png" alt="google" class="w-5 h-5" />
+            <img src="/src/assets/images/g-logo.png" alt="google" class="w-5 h-5" />
             Continue with Google
           </button>
 

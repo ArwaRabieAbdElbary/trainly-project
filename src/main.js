@@ -1,11 +1,31 @@
-import { createApp } from 'vue'
-// import App from './App.vue'
-import router from './router'
-import './style.css'
-import Signup from './SignUp.vue'
-// import LoginPage from './LoginPage.vue'
-// import LoginPage from './LoginPage.vue'
+import { createApp } from "vue";
+import App from "./App.vue";
+import { createRouter, createWebHistory } from "vue-router";
+import "../src/style.css";
+import LandingPage from "./pages/LandingPage.vue";
+import PaymentPage from "./pages/PaymentPage.vue";
+import FailedPage from "./pages/FailedPage.vue";
+import ErrorPage from "./pages/ErrorPage.vue";
+import ResetPassword from "./pages/ResetPassword.vue";
+import ForgetPassword1 from "./pages/ForgetPassword1.vue";
+import ForgetPassword2 from "./pages/ForgetPassword2.vue";
+import ResetPassword2 from "./pages/ResetPassword2.vue";
+import Signup from "./pages/SignUp.vue";
+import LoginPage from "./pages/LoginPage.vue";
 
-createApp(Signup)
-.mount('#app')
-.use(router)
+const routes = [
+  { path: "/", name: "landing", component: LandingPage },
+  { path: "/payment", name: "payment", component: PaymentPage },
+  { path: "/failed", name: "failed", component: FailedPage },
+  { path: "/resetpassword", name: "resetpassword", component: ResetPassword },
+  { path: "/resetpassword2", name: "resetpassword2", component: ResetPassword2 },
+  { path: "/forgetpassword1", name: "forgetpassword1", component: ForgetPassword1 },
+  { path: "/forgetpassword2", name: "forgetpassword2", component: ForgetPassword2 },
+  { path: "/signup", name: "signup", component: Signup },
+  { path: "/login", name: "login", component: LoginPage },
+  { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
+];
+
+const router = createRouter({ history: createWebHistory(), routes });
+
+createApp(App).use(router).mount("#app");

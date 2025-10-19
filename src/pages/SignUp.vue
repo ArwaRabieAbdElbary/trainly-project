@@ -1,7 +1,7 @@
 <template>
   <div
     class="min-h-screen flex items-center justify-start px-20 bg-cover bg-center bg-no-repeat"
-    style="background-image: url('images/sign up.png')"
+    style="background-image: url('/src/assets/images/sign up.png')"
   >
     <div class="w-full max-w-md bg-white bg-opacity-95 rounded-lg p-3">
       <div class="bg-white rounded-lg p-4">
