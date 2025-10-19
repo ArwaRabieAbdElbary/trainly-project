@@ -8,7 +8,7 @@
         <!-- Brand -->
         <div class="mb-4">
           <span
-            class="text-2xl font-bold bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent"
+            class="text-2xl font-bold bg-gradient-to-r from-[#00C853] to-[#00B0FF] bg-clip-text text-transparent"
           >
             Trainly
           </span>
@@ -23,7 +23,7 @@
               class="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300"
               :class="
                 currentStep >= step
-                  ? 'bg-gradient-to-r from-green-500 to-blue-500 text-white scale-110'
+                  ? 'bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white scale-110'
                   : 'bg-gray-300 text-gray-500'
               "
             >
@@ -34,7 +34,7 @@
               class="w-10 h-0.5 mx-1 transition-all duration-300"
               :class="
                 currentStep > step
-                  ? 'bg-gradient-to-r from-green-500 to-blue-500'
+                  ? 'bg-gradient-to-r from-[#00C853] to-[#00B0FF]'
                   : 'bg-gray-300'
               "
             ></div>
@@ -70,7 +70,7 @@
                       class="w-full p-3 text-lg rounded-md transition-all duration-300"
                       :class="
                         formData.role === 'trainee'
-                          ? 'bg-gradient-to-r from-green-500 to-blue-500 text-white'
+                          ? 'bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white'
                           : 'bg-[#E9F5EE] text-black'
                       "
                     >
@@ -101,7 +101,7 @@
                       class="w-full p-3 text-lg rounded-md transition-all duration-300"
                       :class="
                         formData.role === 'trainer'
-                          ? 'bg-gradient-to-r from-green-500 to-blue-500 text-white'
+                          ? 'bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white'
                           : 'bg-[#E9F5EE] text-black'
                       "
                     >
@@ -267,7 +267,7 @@
               <button
                 type="button"
                 @click="nextStep"
-                class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
+                class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
               >
                 Next
               </button>
@@ -374,7 +374,7 @@
                 <label class="block text-sm mb-1">Upload Certifications</label>
                 <label
                   for="certifications"
-                  class="inline-block px-3 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white text-sm rounded-md cursor-pointer transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
+                  class="inline-block px-3 py-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white text-sm rounded-md cursor-pointer transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
                   :class="
                     certificationsError ? 'border-red-500 text-red-500' : ''
                   "
@@ -425,7 +425,7 @@
               <button
                 type="button"
                 @click="nextStep"
-                class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
+                class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
               >
                 Next
               </button>
@@ -456,7 +456,7 @@
                 </div>
                 <label
                   for="profile-picture"
-                  class="inline-block px-3 py-2 bg-gradient-to-r from-green-500 to-blue-500 text-white text-sm rounded-md cursor-pointer transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
+                  class="inline-block px-3 py-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white text-sm rounded-md cursor-pointer transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
                 >
                   Choose Profile Picture
                 </label>
@@ -517,7 +517,7 @@
               </button>
               <button
                 type="submit"
-                class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
+                class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
               >
                 Create Account
               </button>

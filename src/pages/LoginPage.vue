@@ -11,7 +11,7 @@
         <h2 class="mb-5 text-[22px] font-semibold">
           Welcome back To
           <span
-            class="bg-gradient-to-r from-[#51b95d] to-[#00b0ff] bg-clip-text text-transparent"
+            class="bg-gradient-to-r from-[#00C853] to-[#00B0FF] bg-clip-text text-transparent"
           >
             Trainly
           </span>
@@ -64,7 +64,7 @@
           <!-- Login Button -->
           <button
             type="submit"
-            class="w-full p-3 text-white text-lg rounded-md cursor-pointer mb-4 bg-gradient-to-r from-[#51b95d] to-[#00b0ff]"
+            class="w-full p-3 text-white text-lg rounded-md cursor-pointer mb-4 bg-gradient-to-r from-[#00C853] to-[#00b0ff]"
           >
             Log In
           </button>
