@@ -12,6 +12,15 @@
   @apply p-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-md transition-all hover:opacity-90;
 } */
 
+html[lang="en"], body[lang="en"], :root[lang="en"] {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+html[lang="ar"], body[lang="ar"], :root[lang="ar"] {
+  font-family: 'Tajawal', sans-serif !important;
+}
+
+
 :root {
   font-family: "Poppins", sans-serif;
   --primary: #00C853;
@@ -19,6 +28,13 @@
   --third: #ffffff;
   --fourth:#7AE2A5F2;
 }
+
+html, body {
+  overflow-x: hidden;
+}
+
+
+
 .btn-primary {
   color:black;
   transition: all 0.3s ease;

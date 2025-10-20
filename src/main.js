@@ -1,7 +1,15 @@
+// ⬆️ ضيفي ده في أول سطرين في main.js (قبل أي import)
+const savedLocale = localStorage.getItem('lang') || 'en';
+document.documentElement.lang = savedLocale;
+document.dir = savedLocale === 'ar' ? 'rtl' : 'ltr';
+
+// بعد كده تبدأي الاستيرادات
 import { createApp } from "vue";
 import App from "./App.vue";
 import { createRouter, createWebHistory } from "vue-router";
+import i18n from "./i18n"; // ✅ ملف اللغة
 import "../src/style.css";
+
 import LandingPage from "./pages/LandingPage.vue";
 import PaymentPage from "./pages/PaymentPage.vue";
 import FailedPage from "./pages/FailedPage.vue";
@@ -26,6 +34,10 @@ const routes = [
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
 ];
 
-const router = createRouter({ history: createWebHistory(), routes });
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
 
-createApp(App).use(router).mount("#app");
+// ✅ تفعيل التطبيق
+createApp(App).use(router).use(i18n).mount("#app");

@@ -1,34 +1,34 @@
 <template>
   <section
-    class="relative w-full h-[450px] md:h-[600px] lg:h-[796px] max-w-full mx-auto overflow-visible mt-1 bg-sec1-sm md:bg-sec1-md lg:bg-sec1"
+    class="relative w-full h-[450px] md:h-[600px] lg:h-[796px] max-w-full mx-auto overflow-visible mt-1 bg-sec1-sm"
   >
     <div class="flex md:px-[70px] h-full justify-between">
       <div
         class="flex-1 pt-8 flex flex-col items-center md:items-start md:justify-start relative z-10 mt-13"
       >
         <h1 class="text-3xl lg:text-5xl font-bold mt-0 lg:mt-10">
-          Welcome To <span class="text-gradient">Trainly</span>
+          {{ $t('welcomeTitle') }} <span class="text-gradient">{{$t('trainly')}}</span>
         </h1>
         <h2 class="text-xl lg:text-2xl tracking-wide lg:tracking-widest mt-3">
-          Your fitness journey starts here!
+          {{ $t('yourJourney') }}
         </h2>
-        <br />
         <h2 class="text-2xl lg:text-4xl font-medium mt-0 md:mt-3 text-gradient">
-          Find Your Perfect Trainer
+          {{ $t('findTrainer') }}
+        
         </h2>
-        <p class="text-sm text-center md:text-left lg:text-xl mt-3 mb-2">
-          Connect with certified personal trainer in various <br />
-          sports. Achieve your fitness goal with personalized <br />
-          guidance and support.
+        
+        <p class="text-sm text-center md:text-left lg:text-xl mt-4 mb-2">
+          {{ $t('description1') }}<br />
+          {{ $t('description2') }}
         </p>
         <button
           class="mt-6 px-6 py-1 lg:py-1 cursor-pointer rounded-3xl bg-primary text-white hover:opacity-90 transition text-lg md:text-2xl font-light lg:font-medium md:w-60 md:h-12 w-[40%]"
         >
-          Start journey
+          {{ $t('startJourney') }}
         </button>
       </div>
 
-      <div class="hidden md:flex relative overflow-hidden md:flex-1 md:mt-[225px]">
+      <div class="hidden md:flex relative overflow-hidden md:flex-1 md:mt-[225px] lg:mt-[10px]">
         <div class="absolute"></div>
         <img
           src="@/assets/images/pic1.png"
@@ -47,7 +47,6 @@
     </div>
   </section>
 
-  <br />
 
   <section
     class="relative max-w-full pb-10 md:pb-0 h-auto md:h-[650px] lg:h-[796px] mx-auto overflow-hidden mt-0 lg:mt-10 bg-sec2-sm md:bg-sec2"
@@ -65,17 +64,94 @@
         class="flex-1 px-[10px] pt-10 flex flex-col items-center relative z-10 mt-0 lg:mt-10 mx-auto"
       >
         <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mt-1 md:mt-10">
-          Why choose <span class="text-gradient">Trainly</span> ?
+          {{$t('whyChoose')}} <span class="text-gradient">{{$t('trainly')}}</span> ؟
         </h1>
         <p class="text-sm text-center lg:text-xl mt-4 mb-7">
-          Trainly connects you with top personal trainers,offering <br />
-          expert guidance tailored to your fitness goals.
+          {{ $t('whyChooseDesc1') }} <br />
+          {{ $t('whyChooseDesc2') }}
         </p>
+        <div class="grid grid-cols-2 md:grid-cols-2 gap-5 w-[60%] md:w-[70%] lg:w-[80%] ">
+          <!-- Card 1 -->
+          <div
+            class="bg-[#C3F7E3] rounded-2xl p-3 md:p-4 shadow-md flex flex-col  md:gap-2 h-[200px]"
+          >
+            <img
+              src="@/assets/images/octicon_goal-16.png"
+              alt="icon"
+              class="align-left w-6 h-6 md:w-6 md:h-6 lg:w-8 lg:h-8 mt-1"
+            />
+            <div>
+              <h3 class="font-semibold text-sm md:text-[17px] mb-1 leading-tight">
+                {{$t('personalizedTrainingTitle')}}
+              </h3>
+              <p class="text-[11px] md:text-[15px] text-gray-900 leading-snug">
+                {{$t('personalizedTrainingDesc')}}
+              </p>
+            </div>
+          </div>
 
-        <img src="@/assets/images/cards section.png" alt="" class="w-[70%] md:w-[60%]" />
+          <!-- Card 2 -->
+          <div
+            class="bg-[#C3F7E3] rounded-2xl p-3 md:p-4 shadow-md flex flex-col  gap-2 h-[200px]"
+          >
+            <img
+              src="@/assets/images/Vector-1.png"
+              alt="icon"
+              class="align-left w-6 h-6 md:w-8 md:h-8 mt-1"
+            />
+            <div>
+              <h3 class="font-semibold text-sm md:text-[17px] mb-1 leading-tight">
+                {{$t('certifiedTrainersTitle')}}
+              </h3>
+              <p class="text-[11px] md:text-[15px] text-gray-900 leading-snug">
+                {{$t('certifiedTrainersDesc')}}
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div
+            class="bg-[#C3F7E3] rounded-2xl p-3 md:p-4 shadow-md flex flex-col  gap-2 h-[200px]"
+          >
+            <img
+              src="@/assets/images/Vector2.png"
+              alt="icon"
+              class="align-left w-6 h-6 md:w-8 md:h-8 mt-1"
+            />
+            <div>
+              <h3 class="font-semibold text-sm md:text-[17px] mb-1 leading-tight">
+                {{$t('flexibleSchedulingTitle')}}
+              </h3>
+              <p class="text-[11px] md:text-[15px] text-gray-900 leading-snug">
+                 {{$t('flexibleSchedulingDesc')}}
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div
+            class="bg-[#C3F7E3] rounded-2xl p-3 md:p-4 shadow-md flex flex-col  gap-2 h-[200px]"
+          >
+            <img
+              src="@/assets/images/solar_cup-bold.png"
+              alt="icon"
+              class="align-left w-6 h-6 md:w-8 md:h-8 mt-1"
+            />
+            <div>
+              <h3 class="font-semibold text-sm md:text-base mb-1 leading-tight">
+                 {{$t('progressTrackingTitle')}}
+              </h3>
+              <p class="text-[11px] md:text-[15px] text-gray-900 leading-snug">
+                 {{$t('progressTrackingDesc')}}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="hidden absolute -bottom-13 pt-[300px] left-0 w-full lg:flex justify-center z-30">
+    <div
+      class="hidden absolute -bottom-13 pt-[300px] left-0 w-full lg:flex justify-center z-30"
+    >
       <img
         src="@/assets/images/Rectangle2.png"
         alt=""
@@ -85,7 +161,7 @@
   </section>
 
   <section class="relative bg-white pb-[30px] lg:pb-[100px] pt-20 overflow-hidden">
-    <h2 class="text-3xl font-[600] mb-6 lg:ps-[70px] text-center lg:text-left">Features</h2>
+    <h2 class="text-3xl font-[600] mb-6 text-center ">{{$t('featureTitle')}}</h2>
 
     <div
       class="flex flex-wrap justify-center md:justify-evenly items-center gap-5 text-center mx-auto"
@@ -270,7 +346,7 @@
 }
 .bg-sec1-sm {
   background-image: linear-gradient(
-    to left,
+    to top,
     var(--secondry) 0%,
     var(--secondry) 20%,
     var(--third) 60%
