@@ -4,41 +4,60 @@ export default {
   data() {
     return {
       isOpen: false,
-    };
+    }
   },
-};
+methods: {
+  switchLang() {
+    const newLocale = this.$i18n.locale === 'en' ? 'ar' : 'en';
+    this.$i18n.locale = newLocale;
+    localStorage.setItem('lang', newLocale);
+    document.dir = newLocale === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = newLocale;
+
+    // 🟢 السطر السحري لتحديث الخط مباشرة:
+    document.body.style.fontFamily = newLocale === 'ar'
+      ? "'Tajawal', sans-serif"
+      : "'Poppins', sans-serif";
+  }
+
+},
+  mounted() {
+    // لما الصفحة تفتح، نضبط الاتجاه حسب اللغة المحفوظة
+    document.dir = this.$i18n.locale === 'ar' ? 'rtl' : 'ltr'
+  }
+}
 </script>
 
 <template>
-  <nav
-    class="flex justify-between items-center px-[25px] md:px-[40px] lg:pr-[90px] h-20 bg-white shadow-sm relative"
-  >
+    <nav class="flex justify-between items-center px-[25px] md:px-[40px] lg:px-[90px] h-20 bg-white shadow-sm relative">
+
     <img src="@/assets/images/Project LOGO.png" alt="Logo" class="w-[110px] h-auto md:w-[12%]" />
 
     <ul
       class="hidden sm:hidden md:flex lg:flex lg:items-center justify-center md:space-x-10 lg:space-x-16 text-gray-800 font-[500] md:text-[85%] lg:text-[100%] w-[50%]"
     >
-      <li><a href="#" class="btn-primary">Home</a></li>
-      <li><a href="#" class="btn-primary">Sports</a></li>
-      <li><a href="#" class="btn-primary">About</a></li>
-      <li><a href="#" class="btn-primary">Contact Us</a></li>
+      <li><a href="#" class="btn-primary">{{$t('home')}}</a></li>
+      <li><a href="#" class="btn-primary">{{$t('about')}}</a></li>
+      <li><a href="#" class="btn-primary">{{$t('sports')}}</a></li>
+      <li><a href="#" class="btn-primary">{{$t('contact')}}</a></li>
     </ul>
 
     <div class="hidden sm:hidden md:flex lg:flex gap-3 lg:gap-4 items-center">
       <button
-        class="px-3 md:px-3.5 lg:px-4 rounded-3xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition md:w-[40%] lg:min-w-[45%] h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
+        class="px-3 md:px-3.5 lg:px-4 rounded-3xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition md:w-[40%] lg:min-w-[46%] h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
       >
-        Login
+        {{$t('login')}}
       </button>
       <button
-        class="px-3 md:px-3.5 lg:px-4 rounded-3xl bg-primary text-white hover:opacity-90 transition md:w-[40%] lg:min-w-[45%] h-10 lg:h-11 text-[12px] lg:text-[17px] cursor-pointer"
+        class="px-3 md:px-3.5 lg:px-4 rounded-3xl bg-primary text-white hover:opacity-90 transition md:w-[40%] lg:min-w-[46%] h-10 lg:h-11 text-[12px] lg:text-[17px] cursor-pointer"
       >
-        Get Started
+        {{$t('get_started')}}
       </button>
       <img
         src="@/assets/images/language switch(1)(1).png"
         alt="Language"
-        class="w-[35px] h-[35px] md:w-[40px] lg:w-[50px]"
+        class="w-[35px] h-[35px] md:w-[40px] lg:w-[50px] cursor-pointer transition-transform duration-500 hover:rotate-180"
+        @click="switchLang"
       />
     </div>
 
