@@ -10,9 +10,7 @@
       >
         <h2 class="mb-5 text-[22px] font-semibold">
           Welcome back To
-          <span
-            class="bg-gradient-to-r from-[#00C853] to-[#00B0FF] bg-clip-text text-transparent"
-          >
+          <span class="bg-gradient-to-r from-[#00C853] to-[#00B0FF] bg-clip-text text-transparent">
             Trainly
           </span>
         </h2>
@@ -46,7 +44,9 @@
               @click="togglePasswordVisibility"
             >
               <img
-                :src="passwordVisible ? '/src/assets/images/eye off.png' : '/src/assets/images/Eye.png'"
+                :src="
+                  passwordVisible ? '/src/assets/images/eye off.png' : '/src/assets/images/Eye.png'
+                "
                 alt="Show/Hide"
                 class="w-full h-auto"
               />
@@ -54,12 +54,11 @@
           </div>
 
           <!-- Forgot Password -->
-          <a
-            href="#"
+          <router-link to="/forgetpassword1"
             class="text-xs text-[#2d8fff] hover:underline block text-right mb-4 cursor-pointer"
           >
             Forgot Password?
-          </a>
+        </router-link>
 
           <!-- Login Button -->
           <button
@@ -81,7 +80,7 @@
           <!-- Sign Up Link -->
           <p class="text-left text-sm mt-7">
             Don't have an account?
-            <a href="sign up.html" class="text-[#2d8fff] hover:underline">Sign up</a>
+            <router-link to="/signup" class="text-[#2d8fff] hover:underline"> Sign up </router-link>
           </p>
         </form>
       </div>
@@ -91,17 +90,17 @@
 
 <script>
 export default {
-  name: 'LoginPage',
+  name: "LoginPage",
   data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       passwordVisible: false,
     };
   },
   computed: {
     passwordFieldType() {
-      return this.passwordVisible ? 'text' : 'password';
+      return this.passwordVisible ? "text" : "password";
     },
   },
   methods: {
@@ -109,7 +108,7 @@ export default {
       this.passwordVisible = !this.passwordVisible;
     },
     handleLogin() {
-      console.log('Login attempt with:', {
+      console.log("Login attempt with:", {
         email: this.email,
         password: this.password,
       });

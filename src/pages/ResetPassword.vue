@@ -85,7 +85,7 @@ export default {
               </button>
             </form>
 
-            <router-link to="/" class="text-gray-600">
+            <router-link to="/" class="text-gray-600 hover:underline">
               Back to login
             </router-link>
           </div>
