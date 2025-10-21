@@ -20,6 +20,13 @@ html[lang="ar"], body[lang="ar"], :root[lang="ar"] {
   font-family: 'Tajawal', sans-serif !important;
 }
 
+html[dir="rtl"] .text-start {
+  text-align: right !important;
+}
+html[dir="ltr"] .text-start {
+  text-align: left !important;
+}
+
 
 :root {
   font-family: "Poppins", sans-serif;

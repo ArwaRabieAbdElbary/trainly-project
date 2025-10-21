@@ -14,6 +14,7 @@
   "startJourney": "Start journey",
   
   "whyChoose": "Why choose",
+  "questionMark": "?",
   "whyChooseDesc1": "Trainly connects you with top personal trainers, offering",
   "whyChooseDesc2": "expert guidance tailored to your fitness goals.",
   "personalizedTrainingTitle": "Personalized Training",
@@ -35,15 +36,29 @@
   
   "howItWorks": "How It Works",
   "step1Title": "1. Create Your Profile",
-  "step1Desc": "Set up your profile with your fitness goals and preferences.",
+  "step1Desc": "Set up your profile with your fitness",
+  "step1Desc2":"goals and preferences.",
   "step2Title": "2. Browse Trainers",
-  "step2Desc": "Explore our network of certified trainers and find the perfect match.",
+  "step2Desc": "Explore our network of certified trainers and ",
+  "step2Desc2": "find the perfect match.",
   "step3Title": "3. Book Sessions",
-  "step3Desc": "Schedule and book training sessions directly through the app.",
+  "step3Desc": "Schedule and book training sessions ",
+  "step3Desc2": "directly through the app.",
   "step4Title": "4. Achieve Your Goals",
-  "step4Desc": "Track your progress, stay motivated, and achieve your fitness aspirations.",
+  "step4Desc": "Track your progress, stay motivated, and ",
+  "step4Desc2": "achieve your fitness aspirations.",
   
   "readyTitle": "Ready to Start Your Fitness Journey?",
   "readyDesc": "Join us today and get in the best shape of your life with the help of professional trainers.",
-  "getStarted": "Get Started Now"
+  "getStarted": "Get Started Now",
+
+  "aboutUs": "About Us",
+  "aboutText": "We are dedicated to helping",
+  "aboutText2": "you find the best trainers to",
+  "aboutText3":"meet your fitness goals.", 
+  "contactUs": "Contact Us",
+  "email": "Email",
+  "phone": "Phone",
+  "followUs": "Follow Us",
+  "rights": "All Rights Reserved."
 }
