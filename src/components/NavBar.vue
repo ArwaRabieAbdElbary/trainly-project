@@ -41,10 +41,21 @@ export default {
     <ul
       class="hidden md:flex items-center justify-center md:space-x-10 lg:space-x-16 font-[500] md:text-[85%] lg:text-[100%]"
     >
-      <li><a href="#" class="btn-primary">{{ $t("home") }}</a></li>
-      <li><a href="#" class="btn-primary">{{ $t("about") }}</a></li>
-      <li><a href="#" class="btn-primary">{{ $t("sports") }}</a></li>
-      <li><a href="#" class="btn-primary">{{ $t("contact") }}</a></li>
+      <router-link to="/">
+        <li><a href="#" class="btn-primary">{{ $t("home") }}</a></li>
+      </router-link>
+
+      <router-link to="aboutus">
+        <li><a href="#" class="btn-primary">{{ $t("about") }}</a></li>
+      </router-link>      
+
+      <router-link to="sports">
+        <li><a href="#" class="btn-primary">{{ $t("sports") }}</a></li>
+      </router-link>
+
+      <router-link to="contactus">
+        <li><a href="#" class="btn-primary">{{ $t("contact") }}</a></li>
+      </router-link>
     </ul>
 
     <!-- 🔹 الأزرار وتبديل اللغة -->

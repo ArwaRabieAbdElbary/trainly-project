@@ -271,7 +271,7 @@
           </div>
 
           <div class="img-box">
-            <img src="@/assets/images/Vector.png" alt="icon" />
+            <img src="@/assets/images/vector-step3.png" alt="icon" />
           </div>
 
           <div class="w-1/2"></div>
@@ -305,11 +305,13 @@
       <p class="font-[400] text-[14px] md:text-[16px] mb-8 md:text-left text-center">
         {{ $t("readyDesc") }}
       </p>
-      <button
-        class="mb-10 rounded-3xl bg-primary text-white hover:opacity-90 transition md:text-xl font-medium w-[40%] h-10 md:w-60 md:h-15 cursor-pointer"
-      >
-        {{ $t("getStarted") }}
-      </button>
+     <router-link
+  to="/signup"
+  class="mb-10 w-[40%] md:w-60 h-10 md:h-15 rounded-3xl bg-primary text-white hover:opacity-90 transition md:text-xl font-medium cursor-pointer flex justify-center items-center"
+>
+  {{ $t("getStarted") }}
+</router-link>
+
     </div>
   </section>
 </template>

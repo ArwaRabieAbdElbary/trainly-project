@@ -1,7 +1,7 @@
 <template>
   <div
     class="min-h-screen flex items-center justify-start px-20 bg-cover bg-center bg-no-repeat"
-    style="background-image: url('/src/assets/images/sign up.png')"
+    style="background-image: url(&quot;/src/assets/images/signup.png&quot;)"
   >
     <div class="w-full max-w-md bg-white bg-opacity-95 rounded-lg p-3">
       <div class="bg-white rounded-lg p-4">
@@ -33,9 +33,7 @@
               v-if="step < 3"
               class="w-10 h-0.5 mx-1 transition-all duration-300"
               :class="
-                currentStep > step
-                  ? 'bg-gradient-to-r from-[#00C853] to-[#00B0FF]'
-                  : 'bg-gray-300'
+                currentStep > step ? 'bg-gradient-to-r from-[#00C853] to-[#00B0FF]' : 'bg-gray-300'
               "
             ></div>
           </div>
@@ -115,36 +113,28 @@
             <!-- Name Fields -->
             <div class="flex gap-3 mb-4">
               <div class="flex-1">
-                <label for="first-name" class="block text-sm mb-1"
-                  >First Name</label
-                >
+                <label for="first-name" class="block text-sm mb-1">First Name</label>
                 <input
                   type="text"
                   id="first-name"
                   v-model="formData.firstName"
                   placeholder="Enter name"
                   class="w-full p-2 border rounded-md shadow-sm text-sm"
-                  :class="
-                    errors.firstName ? 'border-red-500' : 'border-gray-300'
-                  "
+                  :class="errors.firstName ? 'border-red-500' : 'border-gray-300'"
                 />
                 <p v-if="errors.firstName" class="text-red-500 text-xs mt-1">
                   {{ errors.firstName }}
                 </p>
               </div>
               <div class="flex-1">
-                <label for="last-name" class="block text-sm mb-1"
-                  >Last Name</label
-                >
+                <label for="last-name" class="block text-sm mb-1">Last Name</label>
                 <input
                   type="text"
                   id="last-name"
                   v-model="formData.lastName"
                   placeholder="Enter name"
                   class="w-full p-2 border rounded-md shadow-sm text-sm"
-                  :class="
-                    errors.lastName ? 'border-red-500' : 'border-gray-300'
-                  "
+                  :class="errors.lastName ? 'border-red-500' : 'border-gray-300'"
                 />
                 <p v-if="errors.lastName" class="text-red-500 text-xs mt-1">
                   {{ errors.lastName }}
@@ -155,17 +145,13 @@
             <!-- Birthday and Gender -->
             <div class="flex gap-3 mb-4">
               <div class="cursor-pointer flex-1">
-                <label for="birthdate" class="block text-sm mb-1"
-                  >Birthday</label
-                >
+                <label for="birthdate" class="block text-sm mb-1">Birthday</label>
                 <input
                   type="date"
                   id="birthdate"
                   v-model="formData.birthdate"
                   class="w-full p-2 border rounded-md shadow-sm text-sm"
-                  :class="
-                    errors.birthdate ? 'border-red-500' : 'border-gray-300'
-                  "
+                  :class="errors.birthdate ? 'border-red-500' : 'border-gray-300'"
                 />
                 <p v-if="errors.birthdate" class="text-red-500 text-xs mt-1">
                   {{ errors.birthdate }}
@@ -176,7 +162,6 @@
                 <select
                   id="gender"
                   v-model="formData.gender"
-                  required
                   class="cursor-pointer w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm"
                   :class="errors.gender ? 'border-red-500' : 'border-gray-300'"
                 >
@@ -200,7 +185,6 @@
                 id="email"
                 v-model="formData.email"
                 placeholder="Enter email"
-                required
                 class="w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm"
                 :class="errors.email ? 'border-red-500' : 'border-gray-300'"
               />
@@ -212,43 +196,30 @@
             <!-- Password -->
             <div class="flex gap-3 mb-2">
               <div class="flex-1">
-                <label for="password" class="block text-sm mb-1"
-                  >Password</label
-                >
+                <label for="password" class="block text-sm mb-1">Password</label>
                 <input
                   type="password"
                   id="password"
                   v-model="formData.password"
                   placeholder="Enter password"
                   class="w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm"
-                  :class="
-                    errors.password ? 'border-red-500' : 'border-gray-300'
-                  "
+                  :class="errors.password ? 'border-red-500' : 'border-gray-300'"
                 />
                 <p v-if="errors.password" class="text-red-500 text-xs mt-1">
                   {{ errors.password }}
                 </p>
               </div>
               <div class="flex-1">
-                <label for="confirm-password" class="block text-sm mb-1"
-                  >Confirm Password</label
-                >
+                <label for="confirm-password" class="block text-sm mb-1">Confirm Password</label>
                 <input
                   type="password"
                   id="confirm-password"
                   v-model="formData.confirmPassword"
                   placeholder="Enter password"
                   class="w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm"
-                  :class="
-                    errors.confirmPassword
-                      ? 'border-red-500'
-                      : 'border-gray-300'
-                  "
+                  :class="errors.confirmPassword ? 'border-red-500' : 'border-gray-300'"
                 />
-                <p
-                  v-if="errors.confirmPassword"
-                  class="text-red-500 text-xs mt-1"
-                >
+                <p v-if="errors.confirmPassword" class="text-red-500 text-xs mt-1">
                   {{ errors.confirmPassword }}
                 </p>
               </div>
@@ -260,7 +231,7 @@
 
             <div class="text-sm mb-5">
               Already have an account?
-              <a href="#" class="text-blue-500 underline">Log in</a>
+              <router-link to="login" class="text-blue-500 underline">Log in</router-link>
             </div>
 
             <div class="flex gap-2 mt-4">
@@ -284,7 +255,6 @@
                 id="phone"
                 v-model="formData.phone"
                 placeholder="Enter phone number"
-                required
                 class="w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm"
                 :class="errors.phone ? 'border-red-500' : 'border-gray-300'"
               />
@@ -335,7 +305,6 @@
                 <select
                   id="sport"
                   v-model="formData.sport"
-                  :required="formData.role === 'trainer'"
                   class="w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm"
                   :class="errors.sport ? 'border-red-500' : 'border-gray-300'"
                 >
@@ -350,20 +319,15 @@
               </div>
 
               <div class="mb-4">
-                <label for="experience" class="block text-sm mb-1"
-                  >Years of Experience</label
-                >
+                <label for="experience" class="block text-sm mb-1">Years of Experience</label>
                 <input
                   type="number"
                   id="experience"
                   v-model="formData.experience"
-                  :required="formData.role === 'trainer'"
                   min="0"
                   max="50"
                   class="w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm"
-                  :class="
-                    errors.experience ? 'border-red-500' : 'border-gray-300'
-                  "
+                  :class="errors.experience ? 'border-red-500' : 'border-gray-300'"
                 />
                 <p v-if="errors.experience" class="text-red-500 text-xs mt-1">
                   {{ errors.experience }}
@@ -375,9 +339,7 @@
                 <label
                   for="certifications"
                   class="inline-block px-3 py-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white text-sm rounded-md cursor-pointer transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
-                  :class="
-                    certificationsError ? 'border-red-500 text-red-500' : ''
-                  "
+                  :class="certificationsError ? 'border-red-500 text-red-500' : ''"
                 >
                   Choose Files
                 </label>
@@ -385,14 +347,10 @@
                   type="file"
                   id="certifications"
                   @change="handleCertificationsUpload"
-                  :required="formData.role === 'trainer'"
                   multiple
                   class="hidden"
                 />
-                <div
-                  v-if="certificationsError"
-                  class="text-red-500 text-sm mt-1"
-                >
+                <div v-if="certificationsError" class="text-red-500 text-sm mt-1">
                   {{ certificationsError }}
                 </div>
                 <div class="mt-2">
@@ -438,7 +396,7 @@
             <div class="text-center mb-6">
               <div class="mb-4">
                 <div
-                  class="w-20 h-20 rounded-full border-2 border-gray-300 mx-auto mb-4 overflow-hidden cursor-pointer transition-all duration-300 hover:border-green-500"
+                  class="w-30 h-30 rounded-full border-2 border-gray-300 mx-auto mb-4 overflow-hidden cursor-pointer transition-all duration-300 hover:border-green-500"
                   @click="$refs.profilePicture.click()"
                 >
                   <div
@@ -480,7 +438,6 @@
                 v-model="formData.username"
                 @input="checkUsernameAvailability"
                 placeholder="Choose a username"
-                required
                 class="w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm"
                 :class="errors.username ? 'border-red-500' : 'border-gray-300'"
               />
@@ -500,10 +457,9 @@
                 {{ usernameMessage }}
               </div>
               <p class="text-xs text-gray-600 mt-2">
-                *Upload your profile picture and choose your username to
-                complete your registration. Once you're done, your account will
-                be reviewed by the admin — you'll be notified as soon as it's
-                approved!
+                *Upload your profile picture and choose your username to complete your registration.
+                Once you're done, your account will be reviewed by the admin — you'll be notified as
+                soon as it's approved!
               </p>
             </div>
 
@@ -516,7 +472,8 @@
                 Previous
               </button>
               <button
-                type="submit"
+                type="button"
+                @click="handleSubmit"
                 class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
               >
                 Create Account
@@ -526,45 +483,92 @@
         </form>
       </div>
     </div>
+
+    <!-- Success Popup -->
+    <div
+      v-if="showSuccess"
+      class="fixed inset-0 flex items-center justify-center z-50 bg-blur animate-fade-in"
+      style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh"
+    >
+      <div
+        class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl animate-scale-in border-4 border-blue-400"
+      >
+        <!-- Green Heart Icon -->
+        <div
+          class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6"
+        >
+          <svg class="w-14 h-14 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+
+        <h2 class="text-2xl font-bold text-green-600 mb-4">Thank you for signing up! 🎉</h2>
+
+        <p class="text-gray-700 mb-2 leading-relaxed">
+          Your information is currently being reviewed by our admin team.
+        </p>
+        <p class="text-gray-700 mb-2 leading-relaxed">
+          If your details are valid, your account will be activated within 48 hours.
+        </p>
+        <p class="text-gray-600 mb-6 leading-relaxed">
+          You'll receive an email once your account is approved.
+        </p>
+
+        <!-- OK Button -->
+        <button
+          @click="closeSuccessModal"
+          class="cursor-pointer w-full py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+        >
+          Ok
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'RegistrationForm',
+  name: "RegistrationForm",
   data() {
     return {
       currentStep: 1,
       totalSteps: 3,
+      showSuccess: false,
       formData: {
-        role: 'trainee',
-        firstName: '',
-        lastName: '',
-        birthdate: '',
-        gender: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        phone: '',
-        city: '',
-        country: '',
-        username: '',
-        sport: '',
-        experience: '',
+        role: "trainee",
+        firstName: "",
+        lastName: "",
+        birthdate: "",
+        gender: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        phone: "",
+        city: "",
+        country: "",
+        username: "",
+        sport: "",
+        experience: "",
       },
       errors: {},
       profilePicture: null,
       profilePicturePreview: null,
       certifications: [],
-      certificationsError: '',
-      usernameStatus: '',
-      usernameMessage: '',
+      certificationsError: "",
+      usernameStatus: "",
+      usernameMessage: "",
       usernameTimeout: null,
     };
   },
   methods: {
     nextStep() {
-      if (!this.validateStep(this.currentStep)) return;
+      if (!this.validateStep(this.currentStep)) {
+        return;
+      }
 
       if (this.currentStep < this.totalSteps) {
         this.currentStep++;
@@ -590,19 +594,19 @@ export default {
     },
     validateStep1() {
       const required = [
-        'firstName',
-        'lastName',
-        'birthdate',
-        'gender',
-        'email',
-        'password',
-        'confirmPassword',
+        "firstName",
+        "lastName",
+        "birthdate",
+        "gender",
+        "email",
+        "password",
+        "confirmPassword",
       ];
       let valid = true;
 
       for (const field of required) {
         if (!this.formData[field]) {
-          this.errors[field] = 'This field is required';
+          this.errors[field] = "This field is required";
           valid = false;
         }
       }
@@ -611,13 +615,12 @@ export default {
 
       const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^_-]).{8,}$/;
       if (!passwordRegex.test(this.formData.password)) {
-        this.errors.password =
-          'Password must be 8+ characters with letters, numbers, and symbols';
+        this.errors.password = "Password must be 8+ characters with letters, numbers, and symbols";
         return false;
       }
 
       if (this.formData.password !== this.formData.confirmPassword) {
-        this.errors.confirmPassword = 'Passwords do not match';
+        this.errors.confirmPassword = "Passwords do not match";
         return false;
       }
 
@@ -625,32 +628,31 @@ export default {
     },
     validateStep2() {
       this.errors = {};
-      const required = ['phone', 'city', 'country'];
+      const required = ["phone", "city", "country"];
       let valid = true;
 
       for (const field of required) {
         if (!this.formData[field]) {
-          this.errors[field] = 'This field is required';
+          this.errors[field] = "This field is required";
           valid = false;
         }
       }
 
-      // تحقق من sport و experience لو الدور Trainer
-      if (this.formData.role === 'trainer') {
+      // Validate trainer-specific fields
+      if (this.formData.role === "trainer") {
         if (!this.formData.sport) {
-          this.errors.sport = 'This field is required';
+          this.errors.sport = "This field is required";
           valid = false;
         }
         if (!this.formData.experience) {
-          this.errors.experience = 'This field is required';
+          this.errors.experience = "This field is required";
           valid = false;
         }
         if (this.certifications.length === 0) {
-          this.certificationsError =
-            'Please upload at least one certification file';
+          this.certificationsError = "Please upload at least one certification file";
           valid = false;
         } else {
-          this.certificationsError = '';
+          this.certificationsError = "";
         }
       }
 
@@ -659,62 +661,68 @@ export default {
     validateStep3() {
       this.errors = {};
       if (!this.formData.username) {
-        this.errors.username = 'This field is required';
+        this.errors.username = "This field is required";
         return false;
       }
-      if (this.usernameStatus !== 'available') {
-        this.errors.username = 'Please choose an available username';
+      if (this.usernameStatus !== "available") {
+        this.errors.username = "Please choose an available username";
         return false;
       }
       return true;
     },
     handleProfilePictureUpload(event) {
       const file = event.target.files[0];
-      if (
-        file &&
-        file.type.startsWith('image/') &&
-        file.size <= 5 * 1024 * 1024
-      ) {
+      if (file && file.type.startsWith("image/") && file.size <= 5 * 1024 * 1024) {
         this.profilePicture = file;
         const reader = new FileReader();
         reader.onload = (e) => (this.profilePicturePreview = e.target.result);
         reader.readAsDataURL(file);
       } else {
-        this.errors.profilePicture = 'Please select a valid image (max 5MB)';
-        event.target.value = '';
+        this.errors.profilePicture = "Please select a valid image (max 5MB)";
+        event.target.value = "";
         this.profilePicture = null;
         this.profilePicturePreview = null;
       }
     },
     handleCertificationsUpload(event) {
       this.certifications = Array.from(event.target.files);
-      this.certificationsError = '';
+      this.certificationsError = "";
     },
     removeCertification(index) {
       this.certifications.splice(index, 1);
       const dt = new DataTransfer();
       this.certifications.forEach((file) => dt.items.add(file));
-      document.getElementById('certifications').files = dt.files;
+      document.getElementById("certifications").files = dt.files;
     },
     checkUsernameAvailability() {
       if (this.usernameTimeout) clearTimeout(this.usernameTimeout);
       const username = this.formData.username.trim();
       if (username.length < 3) {
-        this.usernameStatus = '';
-        this.usernameMessage = '';
+        this.usernameStatus = "";
+        this.usernameMessage = "";
         return;
       }
       this.usernameTimeout = setTimeout(() => {
-        const taken = ['admin', 'user', 'test', 'trainer', 'trainee'];
+        const taken = ["admin", "user", "test", "trainer", "trainee"];
         const available = !taken.includes(username.toLowerCase());
-        this.usernameStatus = available ? 'available' : 'taken';
+        this.usernameStatus = available ? "available" : "taken";
         this.usernameMessage = available
-          ? '✓ Username is available'
-          : '✗ Username is already taken';
+          ? "✓ Username is available"
+          : "✗ Username is already taken";
       }, 500);
     },
     handleSubmit() {
       if (!this.validateStep(this.currentStep)) return;
+
+      if (this.formData.role === "trainer") {
+        this.showSuccess = true;
+      } else {
+        window.location.href = "/";
+      }
+    },
+    closeSuccessModal() {
+      this.showSuccess = false;
+      window.location.href = "/login";
     },
   },
 };
@@ -733,6 +741,21 @@ export default {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 </style>
