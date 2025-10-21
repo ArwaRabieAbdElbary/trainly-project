@@ -77,7 +77,7 @@ export default {
             <router-link to="/forgetpassword1">
               <button
                 type="submit"
-                class="cursor-pointer px-10 py-1 rounded-4xl bg-gradient-to-r from-green-500 to-sky-400
+                class="cursor-pointer px-10 py-1 rounded-4xl bg-gradient-to-r from-[#00C853] to-[#00B0FF]
                 text-white hover:opacity-90 transition text-[90%] font-semibold w-[50%] h-11 mb-5"
               >
                 {{ $t('resendEmailButton') }}

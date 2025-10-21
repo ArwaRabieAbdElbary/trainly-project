@@ -20,11 +20,12 @@ export default {
         </p>
         <p class="text-gray-500 mb-10 text-base">Click below to return to the home page.</p>
 
-        <button
-          class="cursor-pointer px-8 py-4 rounded-3xl bg-gradient-to-r from-green-500 to-sky-400 text-white hover:opacity-90 transition text-xl font-semibold w-60 h-15"
+        <router-link
+          to="/"
+          class="cursor-pointer px-8 py-4 rounded-3xl bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white hover:opacity-90 transition text-xl font-semibold w-60 h-15"
         >
           Home Page
-        </button>
+        </router-link>
       </div>
     </div>
   </section>

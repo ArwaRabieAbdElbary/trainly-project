@@ -1,11 +1,11 @@
 <template>
   <div>
     <NavBar
-      v-if="!['payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'trainerclient'].includes($route.name)"
+      v-if="!['payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'trainerclient',].includes($route.name)"
     />
 
     <SideBar
-      v-if="!['landing',,'payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', ].includes($route.name)"
+      v-if="!['landing','payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'aboutus' , 'contactus' , 'sports' ].includes($route.name)"
     />
 
     <router-view />

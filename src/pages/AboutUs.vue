@@ -24,11 +24,11 @@
             {{ $t("aboutus3") }}
           </p>
         </div>
-        <div class="rounded-2xl overflow-hidden">
+        <div class="flex justify-start sm:justify-end">
           <img
             src="@/assets/images/about1.png"
             alt="Fitness trainer"
-            class="max-w-xs sm:max-w-sm w-full transform translate-x-4 sm:translate-x-28"
+            class="max-w-xs sm:max-w-sm w-full"
           />
         </div>
       </div>
@@ -192,11 +192,14 @@
       <p class="text-black mb-8">
         {{ $t("aboutus25") }}
       </p>
-      <button
-        class="px-8 py-3 text-white bg-gradient-to-r from-[#00C853] to-[#00B0FF] rounded-full text-lg font-semibold hover:shadow-xl transition-shadow cursor-pointer"
-      >
-        {{ $t("startnow") }}
-      </button>
+      <div class="flex justify-center">
+        <router-link
+          to="/signup"
+          class="px-8 py-3 bg-gradient-to-r from-[#00C853] to-[#00B0FF] rounded-full text-lg font-semibold text-white hover:shadow-xl transition-shadow cursor-pointer flex justify-center items-center"
+        >
+          {{ $t("startnow") }}
+        </router-link>
+      </div>
     </section>
   </div>
 </template>

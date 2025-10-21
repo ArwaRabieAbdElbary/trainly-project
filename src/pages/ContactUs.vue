@@ -93,7 +93,7 @@
                 </div>
                 <div>
                   <p class="text-sm text-gray-500 mb-1">{{ $t("EmailSupport") }}</p>
-                  <p class="text-gray-800 font-medium">support@Trainly.com</p>
+                  <p class="text-gray-800 font-medium">info@Trainly.com</p>
                 </div>
               </div>
 
@@ -117,7 +117,7 @@
                 </div>
                 <div>
                   <p class="text-sm text-gray-500 mb-1">{{ $t("PhoneSupport") }}</p>
-                  <p class="text-gray-800 font-medium" dir="ltr">+1 (555) 123-4567</p>
+                  <p class="text-gray-800 font-medium" dir="ltr">+1 (800) 123-4567</p>
                 </div>
               </div>
 

@@ -73,7 +73,7 @@ export default {
 
               <button
                 type="submit"
-                class="cursor-pointer px-10 py-1 rounded-4xl bg-gradient-to-r from-green-500 to-sky-400 text-white hover:opacity-90 transition text-lg font-semibold w-[45%] h-12 mb-5"
+                class="cursor-pointer px-10 py-1 rounded-4xl bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white hover:opacity-90 transition text-lg font-semibold w-[45%] h-12 mb-5"
               >
                 {{ $t('submitButton') }}
               </button>
