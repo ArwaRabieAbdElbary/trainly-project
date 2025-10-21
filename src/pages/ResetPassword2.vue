@@ -6,11 +6,10 @@ export default {
 
 
 <template>
-  <section class="flex  justify-center bg-white">
+  <section class="flex justify-center bg-white">
     <div class="flex w-full h-full overflow-hidden">
-      <div
-        class="w-[40%] h-full flex items-center justify-center bg-gray-100"
-      >
+      <!-- الصورة -->
+      <div class="w-[40%] h-full flex items-center justify-center bg-gray-100">
         <img
           src="@/assets/images/pic4.png"
           alt="Payment Illustration"
@@ -18,16 +17,22 @@ export default {
         />
       </div>
 
+      <!-- النصوص -->
       <div class="w-[60%] h-full flex flex-col">
         <div class="flex ml-18">
           <img
             src="@/assets/images/Project LOGO.png"
             alt="Project Logo"
-            class="w-40 h-13 mb-15 mt-7"/>
+            class="w-40 h-13 mb-15 mt-7"
+          />
         </div>
-        <div class="relative p-[4px] rounded-3xl bg-gradient-to-r from-green-500 to-sky-400 shadow-xl w-4/5 h-[60vh] flex mx-auto">
 
-            <div class="bg-white rounded-3xl p-10 text-center w-full h-full overflow-auto pb-1 ">
+        <div
+          class="relative p-[4px] rounded-3xl bg-gradient-to-r from-green-500 to-sky-400 shadow-xl w-4/5 h-[60vh] flex mx-auto"
+        >
+          <div
+            class="bg-white rounded-3xl p-10 text-center w-full h-full overflow-auto pb-1"
+          >
             <div class="flex justify-center">
               <img
                 src="@/assets/images/success icon.png"
@@ -36,19 +41,26 @@ export default {
               />
             </div>
 
-
+            <!-- النصوص المترجمة -->
             <h1 class="text-2xl font-bold text-black-600 mb-7 mt-10">
-              Password was reset successfully
+              {{ $t('passwordResetSuccess') }}
             </h1>
-            <router-link to="login" >  <button type="sumbet" class="cursor-pointer px-10 py-1 rounded-4xl bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white hover:opacity-90 transition text-lg font-semibold w-60 h-12 mb-5 ">
-              Login
-            </button> </router-link>
+
+            <router-link to="/">
+              <button
+                type="submit"
+                class="cursor-pointer px-10 py-1 rounded-4xl bg-gradient-to-r from-green-500 to-sky-400 text-white hover:opacity-90 transition text-lg font-semibold w-60 h-12 mb-5"
+              >
+                {{ $t('login') }}
+              </button>
+            </router-link>
           </div>
         </div>
       </div>
     </div>
   </section>
 </template>
+
 
 
 <style>

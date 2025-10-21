@@ -23,6 +23,7 @@ import LoginPage from "./pages/LoginPage.vue";
 import AboutUs from "./pages/AboutUs.vue";
 import SportS from "./pages/SportS.vue";
 import ContactUs from "./pages/ContactUs.vue";
+import TrainerClient from "./pages/TrainerClient.vue";
 
 const routes = [
   { path: "/", name: "landing", component: LandingPage },
@@ -32,6 +33,7 @@ const routes = [
   { path: "/resetpassword2", name: "resetpassword2", component: ResetPassword2 },
   { path: "/forgetpassword1", name: "forgetpassword1", component: ForgetPassword1 },
   { path: "/forgetpassword2", name: "forgetpassword2", component: ForgetPassword2 },
+  { path: "/trainerclient", name: "trainerclient", component: TrainerClient },
   { path: "/signup", name: "signup", component: Signup },
   { path: "/login", name: "login", component: LoginPage },
   {path: "/aboutus", name: "aboutus", component: AboutUs },

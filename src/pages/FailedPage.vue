@@ -9,27 +9,35 @@ export default {
     <div class="relative p-[4px] rounded-3xl bg-red-600 shadow-xl w-full max-w-2xl">
       <div class="bg-white rounded-3xl p-12 text-center">
         <div class="flex justify-center mb-8">
-          <img src="@/assets/images/credit icon fail.png" alt="Success" class="w-28 h-28" />
+          <img src="@/assets/images/credit icon fail.png" alt="Payment Failed" class="w-28 h-28" />
         </div>
 
-        <h1 class="text-4xl font-bold text-red-600 mb-6">Your Payment Failed!</h1>
-        <p class="text-gray-800 text-lg font-medium text-center">The payment was unsuccessful,</p>
+        <h1 class="text-4xl font-bold text-red-600 mb-6">
+          {{ $t('paymentFailedTitle') }}
+        </h1>
+
+        <p class="text-gray-800 text-lg font-medium text-center">
+          {{ $t('paymentFailedLine1') }}
+        </p>
+
         <p class="text-gray-800 mb-6 text-lg font-medium text-center mt-0">
-          please check your card information and try again
+          {{ $t('paymentFailedLine2') }}
         </p>
 
         <button
           class="cursor-pointer px-8 py-4 rounded-4xl bg-red-600 text-white hover:opacity-90 transition text-xl font-semibold w-60 h-15 mt-4"
         >
-          Try again
+          {{ $t('tryAgain') }}
         </button>
 
-        <router-link to="/" class="block mt-2 text-gray-500 text-base font-medium cursor-pointer hover:underline">Back To Home Page</router-link>
-
+        <p class="cursor-pointer text-gray-500 text-base font-medium mt-3">
+          {{ $t('backToHome') }}
+        </p>
       </div>
     </div>
   </section>
 </template>
+
 
 <style>
 :root {

@@ -30,13 +30,12 @@ export default {
       <!-- العمود اللي فيه اللوجو والفورم -->
       <div class="flex flex-col w-full justify-center lg:w-2/3 relative z-10">
 
-        <!-- اللوجو (فوق الصورة في التابلت / في الجنب في الكبير) -->
+        <!-- اللوجو -->
         <div class="hidden lg:flex ml-13 mb-5">
-
           <img
             src="@/assets/images/Project LOGO.png"
             alt="Project Logo"
-            class="w-40 h-13"
+            class="w-40 h-13 mx-10"
           />
         </div>
 
@@ -50,22 +49,23 @@ export default {
             <div class="flex justify-center">
               <img
                 src="@/assets/images/reset pass icon.png"
-                alt="Success"
+                alt="Reset Password"
                 class="w-17 h-17"
               />
             </div>
 
             <form action="">
               <h1 class="text-2xl font-bold text-black-600 mb-3 mt-5">
-                Forgot your password ?
+                {{ $t('forgotPasswordTitle') }}
               </h1>
+
               <p class="text-gray-900 mb-5 font-normal">
-                Enter your email to reset it!
+                {{ $t('forgotPasswordDesc') }}
               </p>
 
               <input
                 type="email"
-                placeholder="Enter your email"
+                :placeholder="$t('forgotPasswordPlaceholder')"
                 class="border border-gray-300 rounded-2xl px-4 py-3 mb-6 w-[70%] mx-auto focus:outline-none focus:ring-2 focus:ring-green-400"
                 required
               />
@@ -75,11 +75,13 @@ export default {
                 type="submit"
                 class="cursor-pointer px-10 py-1 rounded-4xl bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white hover:opacity-90 transition text-lg font-semibold w-[45%] h-12 mb-5"
               >
-                Submit
+                {{ $t('submitButton') }}
               </button>
             </form>
 
-            <router-link to="login" class="text-gray-600 hover:underline "> Back to login </router-link>
+            <router-link to="/" class="text-gray-600">
+              {{ $t('backToLogin') }}
+            </router-link>
           </div>
         </div>
       </div>

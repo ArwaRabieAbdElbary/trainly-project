@@ -30,12 +30,12 @@ export default {
       <!-- العمود اللي فيه اللوجو والفورم -->
       <div class="flex flex-col w-full justify-center lg:w-[60%] relative z-10">
 
-        <!-- اللوجو (فقط في الكبير) -->
+        <!-- اللوجو -->
         <div class="hidden lg:flex ml-13 mb-5">
           <img
             src="@/assets/images/Project LOGO.png"
             alt="Project Logo"
-            class="w-40 h-13"
+            class="w-40 h-13 mx-10"
           />
         </div>
 
@@ -49,29 +49,29 @@ export default {
             <div class="flex justify-center">
               <img
                 src="@/assets/images/pass reset icon.png"
-                alt="Success"
+                alt="Reset Password"
                 class="w-16 h-16"
               />
             </div>
 
             <form action="">
               <h1 class="text-2xl font-bold text-black-600 mb-3 mt-3">
-                Reset Password
+                {{ $t('resetPasswordTitle') }}
               </h1>
               <p class="text-gray-900 mb-5 font-normal">
-                Enter a new password for your account
+                {{ $t('resetPasswordSubtitle') }}
               </p>
 
               <input
                 type="password"
-                placeholder="Your new password"
+                :placeholder="$t('newPasswordPlaceholder')"
                 class="border border-gray-300 rounded-2xl px-4 py-3 mb-6 w-[80%] mx-auto focus:outline-none focus:ring-2 focus:ring-green-400"
                 required
               /><br />
 
               <input
                 type="password"
-                placeholder="Confirm your new password"
+                :placeholder="$t('confirmPasswordPlaceholder')"
                 class="border border-gray-300 rounded-2xl px-4 py-3 mb-6 w-[80%] mx-auto focus:outline-none focus:ring-2 focus:ring-green-400"
                 required
               />
@@ -81,12 +81,12 @@ export default {
                 class="px-10 py-1 rounded-4xl bg-gradient-to-r from-green-500 to-sky-400 text-white
                 hover:opacity-90 transition font-semibold w-[50%] h-12 mb-5 text-[90%] cursor-pointer"
               >
-                Reset Password
+                {{ $t('resetPasswordButton') }}
               </button>
             </form>
 
-            <router-link to="/" class="text-gray-600 hover:underline">
-              Back to login
+            <router-link to="/" class="text-gray-600">
+              {{ $t('backToLogin') }}
             </router-link>
           </div>
         </div>
@@ -94,6 +94,7 @@ export default {
     </div>
   </section>
 </template>
+
 
 
 
