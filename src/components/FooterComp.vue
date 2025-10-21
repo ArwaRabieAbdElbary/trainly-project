@@ -3,18 +3,20 @@
     <div class="mx-auto w-full max-w-screen-xl py-8">
       <div class="flex justify-around flex-col md:flex-row gap-5 md:gap-0 pl-5 md:pl-0">
         <div>
-          <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">About us</h2>
-          <p class="font-[200] text-[12px] md:text-[15px]">
-            We are dedicated to helping <br />
-            you find the best trainers to <br />
-            meet your fitness goals.
+          <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">{{$t('aboutUs')}}</h2>
+          <p class="font-[100] text-[12px] md:text-[15px]">
+                {{$t('aboutText')}} 
+                <br />
+                {{$t('aboutText2')}}
+                <br />
+                {{$t('aboutText3')}}
           </p>
         </div>
         <div>
-          <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">Contact Us</h2>
+          <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">{{$t('contactUs')}}</h2>
           <ul class="font-[300] text-[12px] md:text-[15px]">
             <li class="mb-2">
-              <span>Email: </span>
+              <span>{{$t('email')}} : </span>
               <a
                 href="https://github.com/themesberg/flowbite"
                 class="hover:underline cursor-pointer"
@@ -22,12 +24,12 @@
               >
             </li>
             <li class="text-[12px] md:text-[15px]">
-              <h6>Phone: <span class="hover:underline cursor-pointer">+1 (800) 123-4567</span></h6>
+              <h6>{{ $t('phone') }} : <span class="hover:underline cursor-pointer">+1 (800) 123-4567</span></h6>
             </li>
           </ul>
         </div>
         <div>
-          <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">Follow Us</h2>
+          <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">{{$t('followUs')}}</h2>
           <div class="flex md:mt-4 items-center mt-0">
             <a href="#" class="hover:text-gray-500">
               <svg

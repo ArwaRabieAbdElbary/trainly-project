@@ -14,13 +14,13 @@ export default {
       document.dir = newLocale === "ar" ? "rtl" : "ltr";
       document.documentElement.lang = newLocale;
 
-      // 🟢 السطر السحري لتحديث الخط مباشرة:
+      // 🟢 تغيير الخط حسب اللغة
       document.body.style.fontFamily =
         newLocale === "ar" ? "'Tajawal', sans-serif" : "'Poppins', sans-serif";
     },
   },
   mounted() {
-    // لما الصفحة تفتح، نضبط الاتجاه حسب اللغة المحفوظة
+    // ضبط الاتجاه حسب اللغة المحفوظة
     document.dir = this.$i18n.locale === "ar" ? "rtl" : "ltr";
   },
 };
@@ -28,60 +28,57 @@ export default {
 
 <template>
   <nav
-    class="flex justify-between items-center px-[25px] md:px-[40px] lg:px-[90px] h-20 bg-white shadow-sm relative"
+    class="flex justify-between items-center px-[50px] md:px-[70px] h-20 bg-white shadow-sm relative"
   >
-    <img src="@/assets/images/Project LOGO.png" alt="Logo" class="w-[110px] h-auto md:w-[12%]" />
+    <!-- 🔹 اللوجو -->
+    <img
+      src="@/assets/images/Project LOGO.png"
+      alt="Logo"
+      class="w-[140px] h-auto"
+    />
 
+    <!-- 🔹 روابط التنقل -->
     <ul
-      class="hidden sm:hidden md:flex lg:flex lg:items-center justify-center md:space-x-10 lg:space-x-16 text-gray-800 font-[500] md:text-[85%] lg:text-[100%] w-[50%]"
+      class="hidden md:flex items-center justify-center md:space-x-10 lg:space-x-16 font-[500] md:text-[85%] lg:text-[100%]"
     >
-      <ul class="flex space-x-18">
-        <li>
-          <router-link to="/" class="btn-primary">
-            {{ $t("home") }}
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/aboutus" class="btn-primary">
-            {{ $t("about") }}
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/sports" class="btn-primary">
-            {{ $t("sports") }}
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/contactus" class="btn-primary">
-            {{ $t("contact") }}
-          </router-link>
-        </li>
-      </ul>
+      <router-link to="/">
+        <li><a href="#" class="btn-primary">{{ $t("home") }}</a></li>
+      </router-link>
+
+      <router-link to="aboutus">
+        <li><a href="#" class="btn-primary">{{ $t("about") }}</a></li>
+      </router-link>      
+
+      <router-link to="sports">
+        <li><a href="#" class="btn-primary">{{ $t("sports") }}</a></li>
+      </router-link>
+
+      <router-link to="contactus">
+        <li><a href="#" class="btn-primary">{{ $t("contact") }}</a></li>
+      </router-link>
     </ul>
 
-    <div class="hidden sm:hidden md:flex lg:flex gap-3 lg:gap-4 items-center">
-      <router-link
-        to="/login"
-        class="px-3 md:px-3.5 lg:px-4 rounded-3xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition md:w-[40%] lg:min-w-[46%] h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer flex justify-center items-center"
+    <!-- 🔹 الأزرار وتبديل اللغة -->
+    <div class="hidden md:flex items-center gap-3">
+      <button
+        class="min-w-[130px] lg:min-w-[150px] px-4 rounded-3xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
       >
         {{ $t("login") }}
-      </router-link>
-
-      <router-link
-        to="/signup"
-        class="px-3 md:px-3.5 lg:px-4 rounded-3xl bg-primary text-white hover:opacity-90 transition md:w-[40%] lg:min-w-[46%] h-10 lg:h-11 text-[12px] lg:text-[17px] cursor-pointer flex justify-center items-center"
+      </button>
+      <button
+        class="min-w-[130px] lg:min-w-[150px] px-4 rounded-3xl bg-primary text-white hover:opacity-90 transition h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
       >
         {{ $t("get_started") }}
-      </router-link>
-
+      </button>
       <img
         src="@/assets/images/language switch(1)(1).png"
         alt="Language"
-        class="w-[35px] h-[35px] md:w-[40px] lg:w-[50px] cursor-pointer transition-transform duration-500 hover:rotate-180"
+        class="w-[40px] cursor-pointer transition-transform duration-500 hover:rotate-180"
         @click="switchLang"
       />
     </div>
 
+    <!-- 🔹 أيقونة الموبايل -->
     <div
       class="flex md:hidden flex-col justify-center items-center cursor-pointer space-y-1"
       @click="isOpen = !isOpen"
@@ -100,33 +97,42 @@ export default {
       ></span>
     </div>
 
+    <!-- 🔹 القائمة المنسدلة للموبايل -->
     <transition name="fade">
       <div
         v-if="isOpen"
         class="absolute top-[80px] left-0 w-full bg-white shadow-md flex flex-col items-center space-y-6 py-6 z-50 md:hidden"
       >
-        <a href="#" class="text-gray-800 font-[500] text-[17px] btn-primary" @click="isOpen = false"
-          >Home</a
+        <a
+          href="#"
+          class="text-gray-800 font-[500] text-[17px] btn-primary"
+          @click="isOpen = false"
+          >{{ $t("home") }}</a
         >
-        <a href="#" class="text-gray-800 font-[500] text-[17px] btn-primary" @click="isOpen = false"
-          >Sports</a
+        <a
+          href="#"
+          class="text-gray-800 font-[500] text-[17px] btn-primary"
+          @click="isOpen = false"
+          >{{ $t("sports") }}</a
         >
-        <a href="#" class="text-gray-800 font-[500] text-[17px] btn-primary" @click="isOpen = false"
-          >About</a
+        <a
+          href="#"
+          class="text-gray-800 font-[500] text-[17px] btn-primary"
+          @click="isOpen = false"
+          >{{ $t("about") }}</a
         >
-        <a href="#" class="text-gray-800 font-[500] text-[17px] btn-primary" @click="isOpen = false"
-          >Contact Us</a
+        <a
+          href="#"
+          class="text-gray-800 font-[500] text-[17px] btn-primary"
+          @click="isOpen = false"
+          >{{ $t("contact") }}</a
         >
+
         <div class="flex flex-col gap-4 w-[80%] items-center">
           <button
-            class="w-[50%] rounded-2xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition h-11 text-[17px] cursor-pointer"
+            class="w-[60%] rounded-2xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition h-11 text-[17px] cursor-pointer"
           >
-            Login
-          </button>
-          <button
-            class="hidden md:block w-full rounded-3xl bg-primary text-white hover:opacity-90 transition h-11 text-[17px]"
-          >
-            Get Started
+            {{ $t("login") }}
           </button>
         </div>
       </div>
