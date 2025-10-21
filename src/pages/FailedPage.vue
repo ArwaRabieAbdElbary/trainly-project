@@ -24,7 +24,8 @@ export default {
           Try again
         </button>
 
-        <p class="cursor-pointer text-gray-500 text-base font-medium mt-3">Back To Home Page</p>
+        <router-link to="/" class="block mt-2 text-gray-500 text-base font-medium cursor-pointer hover:underline">Back To Home Page</router-link>
+
       </div>
     </div>
   </section>

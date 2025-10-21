@@ -5,7 +5,7 @@
       class="max-w-5xl w-full bg-[#E9F4FF] rounded-2xl shadow-sm p-8 sm:p-12 flex flex-col sm:flex-row items-center justify-between mb-12"
     >
       <!-- Left Text -->
-      <div class="sm:w-1/2 text-center sm:text-left">
+      <div class="sm:w-1/2 text-center ">
         <h2 class="text-2xl sm:text-3xl font-semibold mb-2">
           {{ $t("sports1") }}
           <span class="bg-gradient-to-r from-[#00C853] to-[#00B0FF] bg-clip-text text-transparent"

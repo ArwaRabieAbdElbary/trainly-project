@@ -14,18 +14,20 @@
         </h2>
         <h2 class="text-2xl lg:text-4xl font-medium mt-0 md:mt-3 text-gradient">
           {{ $t('findTrainer') }}
-        
+
         </h2>
-        
+
         <p class="text-sm text-center md:text-left lg:text-xl mt-4 mb-2">
           {{ $t('description1') }}<br />
           {{ $t('description2') }}
         </p>
-        <button
-          class="mt-6 px-6 py-1 lg:py-1 cursor-pointer rounded-3xl bg-primary text-white hover:opacity-90 transition text-lg md:text-2xl font-light lg:font-medium md:w-60 md:h-12 w-[40%]"
-        >
-          {{ $t('startJourney') }}
-        </button>
+        <router-link
+  to="/signup"
+  class="mt-6 w-[40%] md:w-60 md:h-12 px-6 py-1 lg:py-1 bg-primary text-white rounded-3xl text-lg md:text-2xl font-light lg:font-medium cursor-pointer hover:opacity-90 transition flex justify-center items-center"
+>
+  {{ $t('startJourney') }}
+</router-link>
+
       </div>
 
       <div class="hidden md:flex relative overflow-hidden md:flex-1 md:mt-[225px] lg:mt-[10px]">
@@ -315,11 +317,13 @@
       <p class="font-[400] text-[14px] md:text-[16px] mb-8 md:text-left text-center">
         Join us today and get in the best shape of your life with the help of professional trainers.
       </p>
-      <button
-        class="mb-10 rounded-3xl bg-primary text-white hover:opacity-90 transition md:text-xl font-medium w-[40%] h-10 md:w-60 md:h-15 cursor-pointer"
-      >
-        Get Started Now
-      </button>
+     <router-link
+  to="/signup"
+  class="mb-10 w-[40%] md:w-60 h-10 md:h-15 rounded-3xl bg-primary text-white hover:opacity-90 transition md:text-xl font-medium cursor-pointer flex justify-center items-center"
+>
+  Get Started Now
+</router-link>
+
     </div>
   </section>
 </template>

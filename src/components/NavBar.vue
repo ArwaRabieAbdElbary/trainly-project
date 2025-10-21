@@ -4,55 +4,76 @@ export default {
   data() {
     return {
       isOpen: false,
-    }
+    };
   },
-methods: {
-  switchLang() {
-    const newLocale = this.$i18n.locale === 'en' ? 'ar' : 'en';
-    this.$i18n.locale = newLocale;
-    localStorage.setItem('lang', newLocale);
-    document.dir = newLocale === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.lang = newLocale;
+  methods: {
+    switchLang() {
+      const newLocale = this.$i18n.locale === "en" ? "ar" : "en";
+      this.$i18n.locale = newLocale;
+      localStorage.setItem("lang", newLocale);
+      document.dir = newLocale === "ar" ? "rtl" : "ltr";
+      document.documentElement.lang = newLocale;
 
-    // 🟢 السطر السحري لتحديث الخط مباشرة:
-    document.body.style.fontFamily = newLocale === 'ar'
-      ? "'Tajawal', sans-serif"
-      : "'Poppins', sans-serif";
-  }
-
-},
+      // 🟢 السطر السحري لتحديث الخط مباشرة:
+      document.body.style.fontFamily =
+        newLocale === "ar" ? "'Tajawal', sans-serif" : "'Poppins', sans-serif";
+    },
+  },
   mounted() {
     // لما الصفحة تفتح، نضبط الاتجاه حسب اللغة المحفوظة
-    document.dir = this.$i18n.locale === 'ar' ? 'rtl' : 'ltr'
-  }
-}
+    document.dir = this.$i18n.locale === "ar" ? "rtl" : "ltr";
+  },
+};
 </script>
 
 <template>
-    <nav class="flex justify-between items-center px-[25px] md:px-[40px] lg:px-[90px] h-20 bg-white shadow-sm relative">
-
+  <nav
+    class="flex justify-between items-center px-[25px] md:px-[40px] lg:px-[90px] h-20 bg-white shadow-sm relative"
+  >
     <img src="@/assets/images/Project LOGO.png" alt="Logo" class="w-[110px] h-auto md:w-[12%]" />
 
     <ul
       class="hidden sm:hidden md:flex lg:flex lg:items-center justify-center md:space-x-10 lg:space-x-16 text-gray-800 font-[500] md:text-[85%] lg:text-[100%] w-[50%]"
     >
-      <li><a href="#" class="btn-primary">{{$t('home')}}</a></li>
-      <li><a href="#" class="btn-primary">{{$t('about')}}</a></li>
-      <li><a href="#" class="btn-primary">{{$t('sports')}}</a></li>
-      <li><a href="#" class="btn-primary">{{$t('contact')}}</a></li>
+      <ul class="flex space-x-18">
+        <li>
+          <router-link to="/" class="btn-primary">
+            {{ $t("home") }}
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/aboutus" class="btn-primary">
+            {{ $t("about") }}
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/sports" class="btn-primary">
+            {{ $t("sports") }}
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/contactus" class="btn-primary">
+            {{ $t("contact") }}
+          </router-link>
+        </li>
+      </ul>
     </ul>
 
     <div class="hidden sm:hidden md:flex lg:flex gap-3 lg:gap-4 items-center">
-      <button
-        class="px-3 md:px-3.5 lg:px-4 rounded-3xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition md:w-[40%] lg:min-w-[46%] h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
+      <router-link
+        to="/login"
+        class="px-3 md:px-3.5 lg:px-4 rounded-3xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition md:w-[40%] lg:min-w-[46%] h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer flex justify-center items-center"
       >
-        {{$t('login')}}
-      </button>
-      <button
-        class="px-3 md:px-3.5 lg:px-4 rounded-3xl bg-primary text-white hover:opacity-90 transition md:w-[40%] lg:min-w-[46%] h-10 lg:h-11 text-[12px] lg:text-[17px] cursor-pointer"
+        {{ $t("login") }}
+      </router-link>
+
+      <router-link
+        to="/signup"
+        class="px-3 md:px-3.5 lg:px-4 rounded-3xl bg-primary text-white hover:opacity-90 transition md:w-[40%] lg:min-w-[46%] h-10 lg:h-11 text-[12px] lg:text-[17px] cursor-pointer flex justify-center items-center"
       >
-        {{$t('get_started')}}
-      </button>
+        {{ $t("get_started") }}
+      </router-link>
+
       <img
         src="@/assets/images/language switch(1)(1).png"
         alt="Language"

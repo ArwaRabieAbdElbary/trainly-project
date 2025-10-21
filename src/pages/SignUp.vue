@@ -231,7 +231,7 @@
 
             <div class="text-sm mb-5">
               Already have an account?
-              <a href="#" class="text-blue-500 underline">Log in</a>
+              <router-link to="login" class="text-blue-500 underline">Log in</router-link>
             </div>
 
             <div class="flex gap-2 mt-4">
@@ -521,7 +521,7 @@
         <!-- OK Button -->
         <button
           @click="closeSuccessModal"
-          class="cursor-po w-full py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+          class="cursor-pointer w-full py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
         >
           Ok
         </button>
@@ -717,16 +717,12 @@ export default {
       if (this.formData.role === "trainer") {
         this.showSuccess = true;
       } else {
-        window.location.href = "/login";
+        window.location.href = "/";
       }
     },
     closeSuccessModal() {
       this.showSuccess = false;
       window.location.href = "/login";
-    },
-    testPopup() {
-      console.log("Test popup clicked!");
-      this.showSuccess = true;
     },
   },
 };
