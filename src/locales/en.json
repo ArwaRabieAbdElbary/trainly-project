@@ -116,6 +116,37 @@
   "sports9": "Join the padel movement with Trainly’s certified padel trainers. Whether you’re learning the basics or sharpening your competitive edge, our experts will help you improve through fun, focused, and dynamic sessions.",
   "tennis": "Tennis",
   "sports10": "Master Every Swing.",
-  "sports11": " With Trainly, improving your tennis game has never been easier. Our professional tennis coaches focus on perfecting your techniques, strategy, and footwork, ensuring you play with confidence and precision.."
+  "sports11": " With Trainly, improving your tennis game has never been easier. Our professional tennis coaches focus on perfecting your techniques, strategy, and footwork, ensuring you play with confidence and precision..",
+
+    "notFoundTitle": "Page Not Found",
+    "notFoundDescription": "The page you are looking for doesn't exist or has been removed.",
+    "notFoundButton": "Go to Home Page",
+
+    "paymentFailedTitle": "Your Payment Failed!",
+  "paymentFailedLine1": "The payment was unsuccessful,",
+  "paymentFailedLine2": "please check your card information and try again",
+  "tryAgain": "Try again",
+  "backToHome": "Back To Home Page",
+
+  "forgotPasswordTitle": "Forgot your password?",
+  "forgotPasswordDesc": "Enter your email to reset it!",
+  "forgotPasswordPlaceholder": "Enter your email",
+  "submitButton": "Submit",
+  "backToLogin": "Back to login",
+
+  "checkEmailTitle": "Check your Email!",
+  "checkEmailMessage": "We have sent an email with password reset information",
+  "checkEmailTo": "to o****e@h*****g.com",
+  "checkSpamMessage": "Don’t forget to check your spam or junk folder",
+  "notReceivedYet": "Didn't receive the email yet?",
+  "resendEmailButton": "Resend Email",
+
+   "resetPasswordTitle": "Reset Password",
+  "resetPasswordSubtitle": "Enter a new password for your account",
+  "newPasswordPlaceholder": "Your new password",
+  "confirmPasswordPlaceholder": "Confirm your new password",
+  "resetPasswordButton": "Reset Password",
+
+   "passwordResetSuccess": "Password was reset successfully"
   
 }

@@ -30,12 +30,12 @@ export default {
       <!-- العمود اللي فيه اللوجو والفورم -->
       <div class="flex flex-col w-full justify-center lg:w-2/3 relative z-10">
 
-        <!-- اللوجو (فقط في الكبير) -->
+        <!-- اللوجو -->
         <div class="hidden lg:flex ml-13 mb-5">
           <img
             src="@/assets/images/Project LOGO.png"
             alt="Project Logo"
-            class="w-40 h-13"
+            class="w-40 h-13 mx-10"
           />
         </div>
 
@@ -49,23 +49,29 @@ export default {
             <div class="flex justify-center">
               <img
                 src="@/assets/images/check email icon.png"
-                alt="Success"
+                alt="Check Email"
                 class="w-15 h-15"
               />
             </div>
 
             <h1 class="text-2xl font-bold text-black-600 mb-3 mt-3">
-              Check your Email!
+              {{ $t('checkEmailTitle') }}
             </h1>
+
             <p class="text-gray-800 mb-1 font-normal">
-              We have sent an email with password reset information
+              {{ $t('checkEmailMessage') }}
             </p>
-            <p class="mb-5 font-normal text-gray-800">to o****e@h*****g.com</p>
-            <p class="mb-3 font-normal text-gray-800">
-              Don’t forget to check your spam or your junk folder
+
+            <p class="mb-5 font-normal text-gray-800">
+              {{ $t('checkEmailTo') }}
             </p>
+
             <p class="mb-3 font-normal text-gray-800">
-              Didn't receive the email yet?
+              {{ $t('checkSpamMessage') }}
+            </p>
+
+            <p class="mb-3 font-normal text-gray-800">
+              {{ $t('notReceivedYet') }}
             </p>
 
             <router-link to="/forgetpassword1">
@@ -74,14 +80,14 @@ export default {
                 class="cursor-pointer px-10 py-1 rounded-4xl bg-gradient-to-r from-green-500 to-sky-400
                 text-white hover:opacity-90 transition text-[90%] font-semibold w-[50%] h-11 mb-5"
               >
-                Resend Email
+                {{ $t('resendEmailButton') }}
               </button>
             </router-link>
 
             <br />
 
             <router-link to="/" class="text-gray-600">
-              Back to login
+              {{ $t('backToLogin') }}
             </router-link>
           </div>
         </div>
