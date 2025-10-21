@@ -7,24 +7,21 @@
       >
         <div>
           <h1 class="text-4xl font-bold mb-4">
-            About
-            <span class="bg-gradient-to-r from-[#00C853] to-[#00B0FF] bg-clip-text text-transparent"
-              >Trainly</span
+            {{ $t("about1") }}
+            <span
+              class="bg-gradient-to-r from-[#00C853] to-[#00B0FF] bg-clip-text text-transparent"
+              >{{ $t("trainly") }}</span
             >
           </h1>
-          <p class="text-lg font-semibold mb-4">Empowering Fitness Through Connection</p>
-          <p class="text-gray-600 mb-4">
-            At Trainly, we believe that fitness is more than a routine, it's a journey.
+          <p class="text-lg font-semibold mb-4">{{ $t("empowering") }}</p>
+          <p class="text-black mb-4">
+            {{ $t("aboutus1") }}
           </p>
-          <p class="text-gray-600 mb-4">
-            Our mission is to make that journey simpler, smarter, and more personal by connecting
-            you with certified trainers across a variety of sports and disciplines, including gym
-            training, tennis, and padel.
+          <p class="text-black mb-4">
+            {{ $t("aboutus2") }}
           </p>
-          <p class="text-gray-600">
-            Whether you're a beginner taking your first step or an athlete aiming to reach new
-            heights, Trainly helps you find the right trainer, build custom plans, and track your
-            progress, all in one place.
+          <p class="text-black">
+            {{ $t("aboutus3") }}
           </p>
         </div>
         <div class="rounded-2xl overflow-hidden">
@@ -50,13 +47,12 @@
           />
         </div>
         <div>
-          <h2 class="text-4xl font-bold mb-6">Our Vision</h2>
-          <p class="text-gray-700 mb-4 text-lg">
-            To make fitness personal, connected, and inspiring.
+          <h2 class="text-4xl font-bold mb-6">{{ $t("ourvision") }}</h2>
+          <p class="text-black mb-4 text-lg">
+            {{ $t("aboutus5") }}
           </p>
-          <p class="text-gray-600">
-            To become the leading platform that bridges the gap between trainers and trainees,
-            offering personalized fitness experiences accessible anytime, anywhere.
+          <p class="text-black">
+            {{ $t("aboutus6") }}
           </p>
         </div>
       </div>
@@ -64,44 +60,44 @@
 
     <!-- Mission Section -->
     <section class="max-w-7xl mx-auto px-6 py-16">
-      <h2 class="text-4xl font-bold text-center mb-12">Our Mission</h2>
+      <h2 class="text-4xl font-bold text-center mb-12">{{ $t("ourmission") }}</h2>
       <div class="grid md:grid-cols-3 gap-8 text-center">
         <!-- For Trainees -->
-        <div class="bg-blue-50 rounded-2xl p-8">
+        <div class="bg-[#D9EEFF] rounded-2xl p-8">
           <img
             src="@/assets/images/about3.png"
             alt="For Trainees"
             class="w-[227] h-[151] rounded-full mx-auto mb-4"
           />
-          <h3 class="text-xl font-bold mb-2 text-cyan-500">For Trainees</h3>
-          <p class="text-gray-600">
-            To help users discover expert trainers that fit their goals and style.
+          <h3 class="text-xl font-bold mb-2 text-[#1351CD]">{{ $t("for trainees") }}</h3>
+          <p class="text-black">
+            {{ $t("aboutus7") }}
           </p>
         </div>
 
         <!-- For Trainers -->
-        <div class="bg-blue-50 rounded-2xl p-8">
+        <div class="bg-[#D9EEFF] rounded-2xl p-8">
           <img
             src="@/assets/images/about4.png"
             alt="For Trainers"
             class="w-[227] h-[151] rounded-full mx-auto mb-4"
           />
-          <h3 class="text-xl font-bold mb-2 text-cyan-500">For Trainers</h3>
-          <p class="text-gray-600">
-            To give trainers a digital space to showcase their expertise and grow their business.
+          <h3 class="text-xl font-bold mb-2 text-[#1351CD]">{{ $t("for trainers") }}</h3>
+          <p class="text-black">
+            {{ $t("aboutus8") }}
           </p>
         </div>
 
         <!-- Overall -->
-        <div class="bg-blue-50 rounded-2xl p-8">
+        <div class="bg-[#D9EEFF] rounded-2xl p-8">
           <img
             src="@/assets/images/about5.png"
             alt="Community"
             class="w-[227] h-[151] rounded-full mx-auto mb-4"
           />
-          <h3 class="text-xl font-bold mb-2 text-cyan-500">Overall</h3>
-          <p class="text-gray-600">
-            To promote a community built on motivation, progress, and trust.
+          <h3 class="text-xl font-bold mb-2 text-[#1351CD]">{{ $t("Overall") }}</h3>
+          <p class="text-black">
+            {{ $t("aboutus9") }}
           </p>
         </div>
       </div>
@@ -109,49 +105,49 @@
 
     <!-- What We Offer -->
     <section class="max-w-7xl mx-auto px-6 py-16">
-      <h2 class="text-4xl font-bold text-center mb-12">What We Offer</h2>
+      <h2 class="text-4xl font-bold text-center mb-12">{{ $t("aboutus10") }}</h2>
       <div class="grid md:grid-cols-4 gap-6">
-        <div class="bg-green-100 rounded-2xl p-6 text-center">
+        <div class="bg-[#B0F9CFF2] rounded-2xl p-6 text-center">
           <img
             src="@/assets/images/about6.png"
             alt="For Trainers"
             class="w-12 h-12 rounded-full mx-auto mb-4"
           />
-          <h3 class="font-bold mb-2">Personalized Training Plans</h3>
-          <p class="text-sm text-gray-700">
-            Custom tailored training plans made by certified trainers.
+          <h3 class="font-bold mb-2">{{ $t("aboutus11") }}</h3>
+          <p class="text-sm text-black">
+            {{ $t("aboutus12") }}
           </p>
         </div>
 
-        <div class="bg-green-100 rounded-2xl p-6 text-center">
+        <div class="bg-[#B0F9CFF2] rounded-2xl p-6 text-center">
           <img
             src="@/assets/images/about7.png"
             alt="For Trainers"
             class="w-12 h-12 rounded-full mx-auto mb-4"
           />
-          <h3 class="font-bold mb-2">Direct Communication</h3>
-          <p class="text-sm text-gray-700">Direct communication through in-app messaging.</p>
+          <h3 class="font-bold mb-2">{{ $t("aboutus14") }}</h3>
+          <p class="text-sm text-black">{{ $t("aboutus15") }}</p>
         </div>
 
-        <div class="bg-green-100 rounded-2xl p-6 text-center">
+        <div class="bg-[#B0F9CFF2] rounded-2xl p-6 text-center">
           <img
             src="@/assets/images/about8.png"
             alt="For Trainers"
             class="w-12 h-12 rounded-full mx-auto mb-4"
           />
-          <h3 class="font-bold mb-2">Multi-sport Support</h3>
-          <p class="text-sm text-gray-700">Multi-sport support for gym, tennis, padel, and more.</p>
+          <h3 class="font-bold mb-2">{{ $t("aboutus16") }}</h3>
+          <p class="text-sm text-black">{{ $t("aboutus17") }}</p>
         </div>
 
-        <div class="bg-green-100 rounded-2xl p-6 text-center">
+        <div class="bg-[#B0F9CFF2] rounded-2xl p-6 text-center">
           <img
             src="@/assets/images/about9.png"
             alt="For Trainers"
             class="w-12 h-12 rounded-full mx-auto mb-4"
           />
-          <h3 class="font-bold mb-2">Secure Platform</h3>
-          <p class="text-sm text-gray-700">
-            Secure platform with verified trainers and safe payments.
+          <h3 class="font-bold mb-2">{{ $t("aboutus18") }}</h3>
+          <p class="text-sm text-black">
+            {{ $t("aboutus19") }}
           </p>
         </div>
       </div>
@@ -160,24 +156,23 @@
     <!-- For Trainees & Trainers -->
     <section class="max-w-7xl mx-auto px-6 py-16">
       <div class="grid md:grid-cols-2 gap-8">
-        <div class="bg-blue-50 rounded-2xl p-12 text-center">
-          <h2 class="text-3xl font-bold mb-6">For Trainees</h2>
-          <p class="text-gray-700 mb-4">
-            Find your perfect trainer, follow your plan, and achieve your goals at your own pace.
+        <div class="bg-[#D9EEFFC2] rounded-2xl p-12 text-center">
+          <h2 class="text-3xl font-bold mb-6">{{ $t("for trainees") }}</h2>
+          <p class="text-black mb-4">
+            {{ $t("aboutus20") }}
           </p>
-          <p class="text-gray-600">
-            Trainly makes your fitness journey organized, flexible, and motivating.
+          <p class="text-black">
+            {{ $t("aboutus21") }}
           </p>
         </div>
 
-        <div class="bg-blue-50 rounded-2xl p-12 text-center">
-          <h2 class="text-3xl font-bold mb-6">For Trainers</h2>
-          <p class="text-gray-700 mb-4">
-            Showcase your expertise, connect with clients, and manage your plans effortlessly.
+        <div class="bg-[#D9EEFFC2] rounded-2xl p-12 text-center">
+          <h2 class="text-3xl font-bold mb-6">{{ $t("for trainers") }}</h2>
+          <p class="text-black mb-4">
+            {{ $t("aboutus22") }}
           </p>
-          <p class="text-gray-600">
-            Trainly helps you grow your personal brand while focusing on what matters most — helping
-            others get stronger.
+          <p class="text-black">
+            {{ $t("aboutus23") }}
           </p>
         </div>
       </div>
@@ -186,21 +181,21 @@
     <!-- Join Community -->
     <section class="max-w-4xl mx-auto px-6 py-16 text-center">
       <h2 class="text-4xl font-bold mb-6">
-        Join the
-        <span class="bg-gradient-to-r from-[#00C853] to-[#00B0FF] bg-clip-text text-transparent"
-          >Trainly</span
-        >
-        Community
+        {{ $t("jointhe") }}
+
+        {{ $t("Community") }}
+        <span class="bg-gradient-to-r from-[#00C853] to-[#00B0FF] bg-clip-text text-transparent">{{
+          $t("trainly")
+        }}</span>
       </h2>
-      <p class="text-gray-700 mb-2">Together, we're redefining how people train.</p>
-      <p class="text-gray-600 mb-8">
-        Start your journey with Trainly today — where every goal has a plan, and every plan has a
-        trainer.
+      <p class="text-black mb-2">{{ $t("aboutus24") }}</p>
+      <p class="text-black mb-8">
+        {{ $t("aboutus25") }}
       </p>
       <button
         class="px-8 py-3 text-white bg-gradient-to-r from-[#00C853] to-[#00B0FF] rounded-full text-lg font-semibold hover:shadow-xl transition-shadow cursor-pointer"
       >
-        Get Started Now
+        {{ $t("startnow") }}
       </button>
     </section>
   </div>

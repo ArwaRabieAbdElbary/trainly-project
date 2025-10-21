@@ -7,16 +7,14 @@
       <!-- Left Text -->
       <div class="sm:w-1/2 text-center sm:text-left">
         <h2 class="text-2xl sm:text-3xl font-semibold mb-2">
-          Explore Sports on
+          {{ $t("sports1") }}
           <span class="bg-gradient-to-r from-[#00C853] to-[#00B0FF] bg-clip-text text-transparent"
-            >Trainly</span
+            >{{ $t("trainly") }}</span
           >
         </h2>
-        <p class="text-black font-semibold mb-4">Train Smarter. Play Better.</p>
+        <p class="text-black font-semibold mb-4">{{ $t("sports2") }}</p>
         <p class="text-black text-sm sm:text-base leading-relaxed font-medium">
-          Whether you're looking to build strength, improve your technique, or master one more
-          sport, Trainly connects you with certified professionals ready to guide you every step of
-          the way.
+         {{ $t("sports3") }}
         </p>
       </div>
 
@@ -39,13 +37,10 @@
         class="w-full sm:w-1/2 object-cover"
       />
       <div class="p-8 flex flex-col justify-center">
-        <h3 class="text-xl font-bold mb-2">GYM & Fitness</h3>
-        <p class="text-black font-semibold mb-3">Build Strength. Boost Confidence.</p>
+        <h3 class="text-xl font-bold mb-2">{{ $t("gym") }}</h3>
+        <p class="text-black font-semibold mb-3">{{ $t("sports5") }}</p>
         <p class="text-black font-medium text-sm leading-relaxed">
-          At Trainly, we help you take your gym training to the next level with expert guidance and
-          personalized workout plans. Whether your goal is to gain muscle, lose weight, or improve
-          endurance, our certified trainers are here to design the right program for you.
-        </p>
+         {{ $t("sports6") }}</p>
       </div>
     </div>
 
@@ -54,12 +49,10 @@
       class="max-w-5xl w-full bg-white rounded-xl overflow-hidden shadow-md flex flex-col sm:flex-row mb-12 border border-gray-200"
     >
       <div class="p-8 flex flex-col justify-center sm:w-1/2">
-        <h3 class="text-xl font-bold mb-2">Padel</h3>
-        <p class="text-black font-semibold mb-3">Play Smart. Play Fast.</p>
+        <h3 class="text-xl font-bold mb-2">{{ $t("padel") }}</h3>
+        <p class="text-black font-semibold mb-3">{{ $t("sports8") }}</p>
         <p class="text-black font-medium text-sm leading-relaxed">
-          Join the padel movement with Trainly’s certified padel trainers. Whether you’re learning
-          the basics or sharpening your competitive edge, our experts will help you improve through
-          fun, focused, and dynamic sessions.
+         {{ $t("sports9") }}
         </p>
       </div>
       <img src="@/assets/images/sport2.png" alt="Padel" class="w-full sm:w-1/2 object-cover" />
@@ -71,12 +64,10 @@
     >
       <img src="@/assets/images/sport3.png" alt="Tennis" class="w-full sm:w-1/2 object-cover" />
       <div class="p-8 flex flex-col justify-center">
-        <h3 class="text-xl font-bold mb-2">Tennis</h3>
-        <p class="text-black font-semibold mb-3">Master Every Swing.</p>
+        <h3 class="text-xl font-bold mb-2">{{ $t("tennis") }}</h3>
+        <p class="text-black font-semibold mb-3">{{ $t("sports10") }}</p>
         <p class="text-black font-medium text-sm leading-relaxed">
-          With Trainly, improving your tennis game has never been easier. Our professional tennis
-          coaches focus on perfecting your techniques, strategy, and footwork, ensuring you play
-          with confidence and precision.
+          {{ $t("sports11") }}
         </p>
       </div>
     </div>

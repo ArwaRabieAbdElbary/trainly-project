@@ -6,11 +6,10 @@
         class="bg-gradient-to-r from-green-200 to-green-100 rounded-3xl p-8 mb-12 flex flex-col md:flex-row items-center justify-between"
       >
         <div class="mb-6 md:mb-0">
-          <h1 class="text-3xl font-bold text-gray-800 mb-2">Contact Us</h1>
-          <p class="text-black font-semibold mb-2">We're Here to Help</p>
+          <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ $t("contactus") }}</h1>
+          <p class="text-black font-semibold mb-2">{{ $t("contactus1") }}</p>
           <p class="text-black font-medium text-sm max-w-md">
-            Whether you have a question, need support, or want to share feedback our team is always
-            ready to assist you
+            {{ $t("contactus2") }}
           </p>
         </div>
         <img src="@/assets/images/contactus.png" alt="Contact Us" />
@@ -18,39 +17,41 @@
       <div class="grid grid-cols-1 lg:grid-cols-[65%_35%] gap-8 mb-16 items-start">
         <!-- Contact Form -->
         <div class="bg-white rounded-[32px] shadow-md p-8 sm:p-12">
-          <h2 class="text-xl font-bold text-gray-800 mb-2">Send us a message</h2>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">{{ $t("sendamessage") }}</h2>
           <p class="text-gray-400 text-sm mb-6">
-            Fill out this form below and we'll get back to you soon
+            {{ $t("contactus3") }}
           </p>
 
           <form @submit.prevent="submitForm">
             <div class="mb-5">
-              <label class="block text-gray-700 text-sm font-medium mb-2">Name</label>
+              <label class="block text-gray-700 text-sm font-medium mb-2">{{ $t("name") }}</label>
               <input
                 type="text"
                 v-model="formData.name"
-                placeholder="Your full name"
+                :placeholder="$t('contactus18')"
                 required
                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
               />
             </div>
 
             <div class="mb-5">
-              <label class="block text-gray-700 text-sm font-medium mb-2">Email</label>
+              <label class="block text-gray-700 text-sm font-medium mb-2">{{ $t("email") }}</label>
               <input
                 type="email"
                 required
                 v-model="formData.email"
-                placeholder="Your email@domain.com"
+                :placeholder="$t('email')"
                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
               />
             </div>
 
             <div class="mb-6">
-              <label class="block text-gray-700 text-sm font-medium mb-2">Message</label>
+              <label class="block text-gray-700 text-sm font-medium mb-2">{{
+                $t("message")
+              }}</label>
               <textarea
                 v-model="formData.message"
-                placeholder="How can we help you?"
+                :placeholder="$t('contactus17')"
                 rows="5"
                 required
                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent resize-none"
@@ -61,7 +62,7 @@
               type="submit"
               class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 cursor-pointer"
             >
-              Send Message
+              {{ $t("sendmessage") }}
             </button>
           </form>
         </div>
@@ -69,7 +70,7 @@
         <!-- Contact Information -->
         <div class="space-y-6">
           <div class="bg-white rounded-2xl shadow-sm p-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-6">Contact Information</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-6">{{ $t("ContactInformation") }}</h2>
 
             <div class="space-y-6">
               <div class="flex items-start">
@@ -91,7 +92,7 @@
                   </svg>
                 </div>
                 <div>
-                  <p class="text-sm text-gray-500 mb-1">Email Support</p>
+                  <p class="text-sm text-gray-500 mb-1">{{ $t("EmailSupport") }}</p>
                   <p class="text-gray-800 font-medium">support@Trainly.com</p>
                 </div>
               </div>
@@ -115,8 +116,8 @@
                   </svg>
                 </div>
                 <div>
-                  <p class="text-sm text-gray-500 mb-1">Phone Support</p>
-                  <p class="text-gray-800 font-medium">+1 (555) 123-4567</p>
+                  <p class="text-sm text-gray-500 mb-1">{{ $t("PhoneSupport") }}</p>
+                  <p class="text-gray-800 font-medium" dir="ltr">+1 (555) 123-4567</p>
                 </div>
               </div>
 
@@ -139,9 +140,9 @@
                   </svg>
                 </div>
                 <div>
-                  <p class="text-sm text-gray-500 mb-1">Working Hours</p>
-                  <p class="text-gray-800 font-medium">Mon - Fri: 9AM - 6PM EST</p>
-                  <p class="text-gray-600 text-sm">Sat - Sun: 10AM - 4PM EST</p>
+                  <p class="text-sm text-gray-500 mb-1">{{ $t("WorkingHours") }}</p>
+                  <p class="text-gray-800 font-medium">{{ $t("contactus12") }}</p>
+                  <p class="text-gray-600 text-sm">{{ $t("contactus13") }}</p>
                 </div>
               </div>
             </div>
@@ -157,10 +158,10 @@
                   clip-rule="evenodd"
                 />
               </svg>
-              <h3 class="font-bold text-gray-800">Fast Response</h3>
+              <h3 class="font-bold text-gray-800">{{ $t("contactus14") }}</h3>
             </div>
             <p class="text-gray-700 text-sm">
-              We typically respond to all inquiries within 24 hours during business days.
+              {{ $t("contactus15") }}
             </p>
           </div>
         </div>
@@ -168,7 +169,7 @@
 
       <!-- Team Section -->
       <div class="bg-white rounded-2xl shadow-sm p-8">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Meet Our Team</h2>
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">{{ $t("contactus16") }}</h2>
 
         <div class="flex flex-wrap justify-center gap-8 md:gap-12">
           <div v-for="member in teamMembers" :key="member.name" class="flex flex-col items-center">
