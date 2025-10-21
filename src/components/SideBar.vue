@@ -7,7 +7,7 @@ export default {
   
     
 
-<nav class="fixed top-0 z-50 w-full   bg-all">
+<nav class=" top-0 z-50 w-full  " >
   <div class="px-3 py-3 lg:px-5 lg:pl-3">
     <div class="flex items-center justify-between">
       <div class="flex items-center justify-start rtl:justify-end">
@@ -18,7 +18,6 @@ export default {
             </svg>
          </button>
         <a href="https://flowbite.com" class="flex ms-2 md:me-24">
-          <img src="@/assets/images/Project LOGO.png" class="h-8 w-25 me-3" alt="FlowBite Logo" />
         </a>
       </div>
       <div class="flex items-center">
@@ -26,9 +25,7 @@ export default {
             <div class="hidden md:block ">
               <img src="@/assets/images/mingcute_notification-line.png" alt="" class="w-7 h-7">
             </div >
-            <div class="hidden md:block ">
-              <img src="@/assets/images/language switch(1)(1).png" alt="" class="w-8 h-7">
-            </div>
+          
             
             <div>
               <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
@@ -44,13 +41,17 @@ export default {
 
 <aside
       id="default-sidebar"
-      class="fixed top-0 left-0 z-40 w-65 h-screen transition-transform -translate-x-full sm:translate-x-0 mt-13"
+      class="fixed top-0 left-0 z-40 w-65 h-screen transition-transform -translate-x-full sm:translate-x-0  rounded-lg "
       aria-label="Sidebar"
     >
-      <div class="h-full px-3 py-4 overflow-y-auto bg-all">
+      <div class="h-full px-3 py-4 overflow-y-auto bg-all rounded-lg">
         
-        <ul class="space-y-4 font-light text-[14px] mt-5">
-          <li>
+        <ul class="space-y-4 font-light text-[14px] mx-5">
+             <li class="mb-11 mt-1 mx-2">
+                      <img src="@/assets/images/Project LOGO.png" class="h-8 w-25 me-3" alt="FlowBite Logo" />
+
+            </li>
+            <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-blue-200 " >
                 <img src="@/assets/images/bx_home.png" alt="" class="w-5 h-5">
               
@@ -118,6 +119,9 @@ export default {
 <style>
 .bg-all{
     background: #D9EEFF;
+}
+.bg-nav{
+    background: #b8dbf8;
 }
 .bg-hov{
   background: #83D3F799;
