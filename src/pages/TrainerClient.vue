@@ -5,11 +5,11 @@ export default {
 </script>
 
 <template>
-  <div class="p-4 sm:ml-64">
-    <div class="p-4">
+  <div class="">
+    <div class="p-0">
       <div class="grid grid-cols-1 gap-4 mb-4">
         <div
-          class="flex flex-col items-left justify-center h-23 rounded-sm bg-white"
+          class="flex flex-col items-left  h-23 rounded-sm bg-white"
         >
           <h1 class="text-2xl">Clients</h1>
 
