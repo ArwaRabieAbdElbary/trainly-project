@@ -1,6 +1,6 @@
 const savedLocale = localStorage.getItem('lang') || 'en';
 document.documentElement.lang = savedLocale;
-document.dir = savedLocale === 'ar' ? 'rtl' : 'ltr';git 
+document.dir = savedLocale === 'ar' ? 'rtl' : 'ltr';
 
 // بعد كده تبدأي الاستيرادات
 import { createApp } from "vue";
