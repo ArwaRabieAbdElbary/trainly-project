@@ -5,7 +5,8 @@ document.dir = savedLocale === 'ar' ? 'rtl' : 'ltr';
 
 // بعد كده تبدأي الاستيرادات
 import { createApp } from "vue";
-import App from "./App.vue";
+import App from "./App.vue"
+import './Firebase/firebaseConfig.js';
 import { createRouter, createWebHistory } from "vue-router";
 import i18n from "./i18n"; // ✅ ملف اللغة
 import "../src/style.css";
