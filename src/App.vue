@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavBar
-      v-if="!['payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'trainerclient','trainer','trainerreviews'].includes($route.name)"
+      v-if="!['payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'trainerclient','trainer','trainerreviews','trainersettings'].includes($route.name)"
     />
 
     <SideBar
@@ -11,7 +11,7 @@
     <router-view />
 
     <FooterComp
-      v-if="!['payment', 'failed', 'error', 'login', 'signup', 'trainerclient' , 'trainer' , 'trainerreviews'].includes($route.name)"
+      v-if="!['payment', 'failed', 'error', 'login', 'signup', 'trainerclient' , 'trainer' , 'trainerreviews','trainersettings'].includes($route.name)"
     />
   </div>
 </template>
