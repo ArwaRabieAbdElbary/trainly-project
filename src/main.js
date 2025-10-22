@@ -64,6 +64,11 @@ const routes = [
         name: "trainerclient",
         component: TrainerClient,
       },
+      {
+        path: "settings",
+        name: "trainersettings",
+        component: TrainerSettings,
+      },
     ],
   },
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
@@ -79,6 +84,7 @@ const router = createRouter({
 // ----------------------------
 import { auth } from "./Firebase/firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
+import TrainerSettings from "./pages/trainer/TrainerSettings.vue";
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
