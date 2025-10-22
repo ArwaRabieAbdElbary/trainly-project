@@ -1,4 +1,3 @@
-// ⬆️ حفظ اللغة من Local Storage وتحديد اتجاه الصفحة
 const savedLocale = localStorage.getItem('lang') || 'en';
 document.documentElement.lang = savedLocale;
 document.dir = savedLocale === 'ar' ? 'rtl' : 'ltr';
@@ -30,6 +29,8 @@ import AboutUs from "./pages/AboutUs.vue";
 import SportS from "./pages/SportS.vue";
 import ContactUs from "./pages/ContactUs.vue";
 import TrainerClient from "./pages/TrainerClient.vue";
+import TrainerReviews from "./pages/trainer/TrainerReviews.vue";
+import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
 
 // ----------------------------
 // ✅ إعداد المسارات (Routes)
@@ -45,9 +46,26 @@ const routes = [
   { path: "/trainerclient", name: "trainerclient", component: TrainerClient },
   { path: "/signup", name: "signup", component: Signup },
   { path: "/login", name: "login", component: LoginPage },
-  { path: "/aboutus", name: "aboutus", component: AboutUs },
-  { path: "/sports", name: "sports", component: SportS },
-  { path: "/contactus", name: "contactus", component: ContactUs },
+  {path: "/aboutus", name: "aboutus", component: AboutUs },
+  {path: "/sports", name: "sports", component: SportS },
+  {path: "/contactus", name: "contactus", component: ContactUs },
+  {
+    path:"/trainer" ,
+    name:"trainer",
+    component:TrainerDashboardLayout ,
+    children: [
+      {
+        path: "reviews",
+        name: "trainerreviews",
+        component: TrainerReviews,
+      },
+      {
+        path: "clients",
+        name: "trainerclient",
+        component: TrainerClient,
+      },
+    ],
+  },
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
 ];
 
