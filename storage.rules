@@ -1,12 +1,27 @@
 rules_version = '2';
-
-// Craft rules based on data in your Firestore database
-// allow write: if firestore.get(
-//    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
 service firebase.storage {
   match /b/{bucket}/o {
-    match /{allPaths=**} {
-      allow read, write: if false;
+    // profilePictures/{uid}/...
+    match /profilePictures/{userId}/{allPaths=**} {
+      // قراءة عامة ممكنة لو عايز الصور متاحة للعامة
+      allow read: if true;
+
+      // فقط المستخدم نفسه يستطيع رفع/تعديل ملفاته الشخصية
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // certifications/{uid}/...
+    match /certifications/{userId}/{allPaths=**} {
+      // قراءة: ممكن تقصرها على صاحِب الحساب أو الادمن فقط
+      allow read: if request.auth != null && request.auth.uid == userId;
+      // كتابة: فقط صاحب الحساب يقدر يرفع شهاداته
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // باقي الملفات العامة (تعديل حسب احتياجك)
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
     }
   }
 }
