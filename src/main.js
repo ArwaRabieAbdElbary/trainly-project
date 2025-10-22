@@ -71,6 +71,18 @@ const routes = [
       },
     ],
   },
+    {
+    path:"/trainee" ,
+    name:"trainee",
+    component:TraineeDashboardLayout ,
+    children: [
+      {
+        path: "settings",
+        name: "traineesettings",
+        component: TraineeSettings,
+      },
+    ],
+  },
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
 ];
 
@@ -85,6 +97,8 @@ const router = createRouter({
 import { auth } from "./Firebase/firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
 import TrainerSettings from "./pages/trainer/TrainerSettings.vue";
+import TraineeDashboardLayout from "./pages/trainee/TraineeDashboardLayout.vue";
+import TraineeSettings from "./pages/trainee/TraineeSettings.vue";
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
