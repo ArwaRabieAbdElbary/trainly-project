@@ -47,7 +47,7 @@ export default {
 
       <router-link to="aboutus">
         <li><a href="#" class="btn-primary">{{ $t("about") }}</a></li>
-      </router-link>      
+      </router-link>
 
       <router-link to="sports">
         <li><a href="#" class="btn-primary">{{ $t("sports") }}</a></li>
@@ -60,15 +60,18 @@ export default {
 
     <!-- 🔹 الأزرار وتبديل اللغة -->
     <div class="hidden md:flex items-center gap-3">
-      <router-link to="login">
-        <button
+      <router-link>
+      <button
+        @click="$router.push('/login')"
         class="min-w-[130px] lg:min-w-[150px] px-4 rounded-3xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
       >
         {{ $t("login") }}
       </button>
       </router-link>
+
       <router-link to="signup">
       <button
+        @click="$router.push('/signup')"
         class="min-w-[130px] lg:min-w-[150px] px-4 rounded-3xl bg-primary text-white hover:opacity-90 transition h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
       >
         {{ $t("get_started") }}

@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-white">
     <!-- Hero Section - About Trainly -->
-    <section class="max-w-6xl mx-auto py-16">
+    <section class="max-w-6xl mx-auto py-11">
       <div
         class="grid md:grid-cols-2 gap-5 items-center border-2 border-[#0D8BF2] rounded-3xl p-6 bg-gradient-to-br from-cyan-50 to-white"
       >

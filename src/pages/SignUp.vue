@@ -722,7 +722,7 @@ export default {
     },
     closeSuccessModal() {
       this.showSuccess = false;
-      window.location.href = "/login";
+      window.location.href = "/";
     },
   },
 };

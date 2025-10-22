@@ -1,11 +1,11 @@
-// ⬆️ ضيفي ده في أول سطرين في main.js (قبل أي import)
 const savedLocale = localStorage.getItem('lang') || 'en';
 document.documentElement.lang = savedLocale;
-document.dir = savedLocale === 'ar' ? 'rtl' : 'ltr';
+document.dir = savedLocale === 'ar' ? 'rtl' : 'ltr';git 
 
 // بعد كده تبدأي الاستيرادات
 import { createApp } from "vue";
-import App from "./App.vue";
+import App from "./App.vue"
+import './Firebase/firebaseConfig.js';
 import { createRouter, createWebHistory } from "vue-router";
 import i18n from "./i18n"; // ✅ ملف اللغة
 import "../src/style.css";
@@ -24,6 +24,8 @@ import AboutUs from "./pages/AboutUs.vue";
 import SportS from "./pages/SportS.vue";
 import ContactUs from "./pages/ContactUs.vue";
 import TrainerClient from "./pages/TrainerClient.vue";
+import TrainerReviews from "./pages/trainer/TrainerReviews.vue";
+import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
 
 const routes = [
   { path: "/", name: "landing", component: LandingPage },
@@ -39,6 +41,23 @@ const routes = [
   {path: "/aboutus", name: "aboutus", component: AboutUs },
   {path: "/sports", name: "sports", component: SportS },
   {path: "/contactus", name: "contactus", component: ContactUs },
+  {
+    path:"/trainer" , 
+    name:"trainer",
+    component:TrainerDashboardLayout , 
+    children: [
+      {
+        path: "reviews",
+        name: "trainerreviews",
+        component: TrainerReviews,
+      },
+      {
+        path: "clients",
+        name: "trainerclient",
+        component: TrainerClient,
+      },
+    ],
+  },
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
 ];
 

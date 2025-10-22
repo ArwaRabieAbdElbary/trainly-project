@@ -72,6 +72,7 @@ export default {
               <br />
 
               <button
+                @click="$router.push('/forgetpassword2')"
                 type="submit"
                 class="cursor-pointer px-10 py-1 rounded-4xl bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white hover:opacity-90 transition text-lg font-semibold w-[45%] h-12 mb-5"
               >
@@ -79,7 +80,7 @@ export default {
               </button>
             </form>
 
-            <router-link to="/" class="text-gray-600">
+            <router-link to="/login" class="text-gray-600">
               {{ $t('backToLogin') }}
             </router-link>
           </div>
