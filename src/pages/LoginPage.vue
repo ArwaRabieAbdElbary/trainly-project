@@ -96,7 +96,7 @@
 <script>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-import { auth, provider } from "../Firebase/firebaseConfig.js";
+import { auth, provider, db } from "../Firebase/firebaseConfig.js";
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -105,6 +105,7 @@ import {
   fetchSignInMethodsForEmail,
   signOut,
 } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 export default {
   name: "LoginPage",
@@ -113,6 +114,9 @@ export default {
     const email = ref("");
     const password = ref("");
     const passwordVisible = ref(false);
+
+    // Loading & errors
+    const isLoading = ref(false);
 
     // 🔔 Toast message reactive variables
     const toastMessage = ref("");
@@ -128,68 +132,129 @@ export default {
 
     // ✅ Login with Email and Password
     const handleLogin = async () => {
+      if (isLoading.value) return;
+      isLoading.value = true;
+
       try {
-        await signOut(auth);
+        // Sign out any existing session (optional but your original code had it)
+        await signOut(auth).catch(() => { /* ignore if no session */ });
 
         const userCredential = await signInWithEmailAndPassword(
           auth,
           email.value,
           password.value
         );
-        console.log("✅ Logged in with Email:", userCredential.user);
+        const user = userCredential.user;
+        console.log("✅ Logged in with Email:", user);
+
+        // Fetch user doc from Firestore
+        const userDocRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userDocRef);
+
+        if (!userSnap.exists()) {
+          // No profile in Firestore
+          showPopup("❌ No profile found for this account. Please sign up first.");
+          await signOut(auth);
+          isLoading.value = false;
+          return;
+        }
+
+        const userData = userSnap.data();
+
+        // Check account status
+        if (userData.status === "pending") {
+          showPopup("⚠️ Your account is under review. You will be notified when approved.");
+          await signOut(auth);
+          isLoading.value = false;
+          return;
+        }
+
+        // Success — redirect to landing (temporary)
         showPopup("✅ Logged in successfully!");
         router.push("/");
-      } catch (error) {
-        console.error("❌ Login error:", error.code);
 
+      } catch (error) {
+        console.error("❌ Login error:", error.code, error.message);
+
+        // Specific error handling
         if (error.code === "auth/user-not-found") {
           showPopup("❌ No account found with this email.");
-        }
-        else if (error.code === "auth/wrong-password") {
+        } else if (error.code === "auth/wrong-password") {
           showPopup("⚠️ Incorrect password. Please try again.");
-        }
-        else if (
-          error.code === "auth/invalid-credential" ||
-          error.code === "auth/invalid-login-credentials"
-        ) {
-          showPopup("❌ Wrong email or password.");
-        }
-        else if (error.code === "auth/account-exists-with-different-credential") {
-          showPopup("⚠️ This email is linked with Google. Please use Google login.");
+        } else if (error.code === "auth/account-exists-with-different-credential") {
+          showPopup("⚠️ This email is linked with Google. Trying to link accounts...");
 
-          const methods = await fetchSignInMethodsForEmail(auth, email.value);
-          if (methods.includes("google.com")) {
-            try {
+          // Try to link with Google (if possible)
+          try {
+            const methods = await fetchSignInMethodsForEmail(auth, email.value);
+            if (methods.includes("google.com")) {
               const googleResult = await signInWithPopup(auth, provider);
               const googleUser = googleResult.user;
               const credential = EmailAuthProvider.credential(email.value, password.value);
               await linkWithCredential(googleUser, credential);
               showPopup("✅ Accounts linked successfully!");
-              router.push("/");
-            } catch (linkError) {
-              console.error("❌ Linking error:", linkError.message);
-              showPopup("❌ Failed to link accounts. Try Google login.");
+              // After linking, fetch Firestore doc and redirect
+              const userDocRef = doc(db, "users", googleUser.uid);
+              const userSnap = await getDoc(userDocRef);
+              if (userSnap.exists() && userSnap.data().status !== "pending") {
+                router.push("/");
+              } else {
+                showPopup("❌ Profile missing or pending after linking. Contact support.");
+                await signOut(auth);
+              }
+            } else {
+              showPopup("❌ This email is associated with another sign-in method.");
             }
+          } catch (linkError) {
+            console.error("❌ Linking error:", linkError);
+            showPopup("❌ Failed to link accounts. Try signing in with Google.");
           }
+        } else if (error.code === "auth/invalid-credential" || error.code === "auth/invalid-login-credentials") {
+          showPopup("❌ Wrong email or password.");
+        } else {
+          showPopup(`❌ ${error.message || "Login failed."}`);
         }
-        else {
-          showPopup(`❌ ${error.message}`);
-        }
+      } finally {
+        isLoading.value = false;
       }
     };
 
     // ✅ Login with Google
     const handleGoogleLogin = async () => {
+      if (isLoading.value) return;
+      isLoading.value = true;
+
       try {
-        provider.setCustomParameters({ prompt: 'select_account' }); // ✅ force account chooser
+        provider.setCustomParameters({ prompt: "select_account" }); // force account chooser
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
         console.log("✅ Logged in with Google:", user);
+
+        // Fetch user doc
+        const userDocRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userDocRef);
+
+        if (!userSnap.exists()) {
+          // If no profile, we prefer to ask user to sign up (or create minimal profile automatically)
+          showPopup("❌ No profile found for this Google account. Please sign up first.");
+          await signOut(auth);
+          isLoading.value = false;
+          return;
+        }
+
+        const userData = userSnap.data();
+        if (userData.status === "pending") {
+          showPopup("⚠️ Your account is under review. You will be notified when approved.");
+          await signOut(auth);
+          isLoading.value = false;
+          return;
+        }
+
         showPopup("✅ Logged in with Google!");
         router.push("/");
+
       } catch (error) {
         console.error("❌ Google login error:", error.code, error.message);
-
         if (error.code === "auth/popup-closed-by-user") {
           showPopup("⚠️ Popup closed before login completed.");
         } else if (error.code === "auth/credential-already-in-use") {
@@ -197,10 +262,12 @@ export default {
         } else {
           showPopup("❌ Google login failed.");
         }
+      } finally {
+        isLoading.value = false;
       }
     };
 
-    // // ✅ Logout function
+    // // ✅ Logout function — uncomment when you want to enable logout
     // const handleLogout = async () => {
     //   try {
     //     await signOut(auth);
@@ -226,7 +293,8 @@ export default {
       password,
       handleLogin,
       handleGoogleLogin,
-      // handleLogout,
+      // handleLogout, // uncomment to enable logout
+      isLoading,
       passwordVisible,
       togglePasswordVisibility,
       passwordFieldType,

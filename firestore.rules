@@ -1,18 +1,39 @@
-rules_version='2'
-
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      // This rule allows anyone with your database reference to view, edit,
-      // and delete all data in your database. It is useful for getting
-      // started, but it is configured to expire after 30 days because it
-      // leaves your app open to attackers. At that time, all client
-      // requests to your database will be denied.
-      //
-      // Make sure to write security rules for your app before that time, or
-      // else all client requests to your database will be denied until you
-      // update your rules.
-      allow read, write: if request.time < timestamp.date(2025, 11, 14);
+    // users collection: user can read/write only their own document
+    match /users/{userId} {
+      // قراءة ملف المستخدم مسموح للمستخدم نفسه فقط
+      allow read: if request.auth != null && request.auth.uid == userId;
+
+      // إنشاء ملف مستخدم: فقط إذا auth.uid == userId ومنع client من وضع role = "admin"
+      allow create: if request.auth != null
+                    && request.auth.uid == userId
+                    && request.resource.data.role != "admin";
+
+      // تحديث: فقط المالك يمكنه تعديل بياناته
+      allow update: if request.auth != null && request.auth.uid == userId;
+
+      // حذف: عادة نمنع الحذف من العميل، يمكن السماح للـ admin (server-side) لاحقًا
+      allow delete: if false;
+    }
+
+    // usernames collection: تستخدم لحجز usernames atomically
+    match /usernames/{username} {
+      // القراءة مسموح (اختياري)
+      allow read: if true;
+
+      // الإنشاء مسموح فقط للمستخدم الموّثق ولابد أن uid في ال doc يطابق auth.uid
+      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
+
+      // لا تسمح بالتعديل أو الحذف من الطرف العميل
+      allow update, delete: if false;
+    }
+
+    // مثال لمجموعات عامة أخرى (عدل حسب حاجتك)
+    match /publicCollection/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null;
     }
   }
 }

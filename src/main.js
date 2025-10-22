@@ -1,16 +1,21 @@
-// ⬆️ ضيفي ده في أول سطرين في main.js (قبل أي import)
+// ⬆️ حفظ اللغة من Local Storage وتحديد اتجاه الصفحة
 const savedLocale = localStorage.getItem('lang') || 'en';
 document.documentElement.lang = savedLocale;
 document.dir = savedLocale === 'ar' ? 'rtl' : 'ltr';
 
-// بعد كده تبدأي الاستيرادات
+// ----------------------------
+// ✅ الاستيرادات الأساسية
+// ----------------------------
 import { createApp } from "vue";
-import App from "./App.vue"
-import './Firebase/firebaseConfig.js';
+import App from "./App.vue";
+import "./Firebase/firebaseConfig.js"; // ✅ بيشغّل تهيئة Firebase مرة واحدة
 import { createRouter, createWebHistory } from "vue-router";
-import i18n from "./i18n"; // ✅ ملف اللغة
+import i18n from "./i18n"; // ✅ ملف اللغات
 import "../src/style.css";
 
+// ----------------------------
+// ✅ استيراد صفحات الموقع
+// ----------------------------
 import LandingPage from "./pages/LandingPage.vue";
 import PaymentPage from "./pages/PaymentPage.vue";
 import FailedPage from "./pages/FailedPage.vue";
@@ -26,6 +31,9 @@ import SportS from "./pages/SportS.vue";
 import ContactUs from "./pages/ContactUs.vue";
 import TrainerClient from "./pages/TrainerClient.vue";
 
+// ----------------------------
+// ✅ إعداد المسارات (Routes)
+// ----------------------------
 const routes = [
   { path: "/", name: "landing", component: LandingPage },
   { path: "/payment", name: "payment", component: PaymentPage },
@@ -37,9 +45,9 @@ const routes = [
   { path: "/trainerclient", name: "trainerclient", component: TrainerClient },
   { path: "/signup", name: "signup", component: Signup },
   { path: "/login", name: "login", component: LoginPage },
-  {path: "/aboutus", name: "aboutus", component: AboutUs },
-  {path: "/sports", name: "sports", component: SportS },
-  {path: "/contactus", name: "contactus", component: ContactUs },
+  { path: "/aboutus", name: "aboutus", component: AboutUs },
+  { path: "/sports", name: "sports", component: SportS },
+  { path: "/contactus", name: "contactus", component: ContactUs },
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
 ];
 
@@ -48,5 +56,25 @@ const router = createRouter({
   routes,
 });
 
-// ✅ تفعيل التطبيق
-createApp(App).use(router).use(i18n).mount("#app");
+// ----------------------------
+// ✅ متابعة حالة المستخدم من Firebase Authentication
+// ----------------------------
+import { auth } from "./Firebase/firebaseConfig.js";
+import { onAuthStateChanged } from "firebase/auth";
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("🔐 المستخدم مسجل الدخول:", user.email);
+    // ممكن هنا لاحقًا نجيب بياناته من Firestore ونخزنها في store أو localStorage
+  } else {
+    console.log("🚪 لا يوجد مستخدم مسجل حاليًا");
+  }
+});
+
+// ----------------------------
+// ✅ إنشاء التطبيق وربطه بكل شيء
+// ----------------------------
+createApp(App)
+  .use(router)
+  .use(i18n)
+  .mount("#app");
