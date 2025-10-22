@@ -16,6 +16,14 @@
 
         <h2 class="text-xl font-semibold mb-5">Create Your Account</h2>
 
+        <!-- Error Message -->
+        <div
+          v-if="errors.general"
+          class="mb-4 p-3 bg-red-50 border border-red-300 rounded-md text-red-700 text-sm"
+        >
+          {{ errors.general }}
+        </div>
+
         <!-- Step Indicator -->
         <div class="flex justify-center items-center mb-4">
           <div v-for="step in 3" :key="step" class="flex items-center">
@@ -152,6 +160,7 @@
                   v-model="formData.birthdate"
                   class="w-full p-2 border rounded-md shadow-sm text-sm"
                   :class="errors.birthdate ? 'border-red-500' : 'border-gray-300'"
+                  :max="maxBirthdate"
                 />
                 <p v-if="errors.birthdate" class="text-red-500 text-xs mt-1">
                   {{ errors.birthdate }}
@@ -165,7 +174,6 @@
                   class="cursor-pointer w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm"
                   :class="errors.gender ? 'border-red-500' : 'border-gray-300'"
                 >
-                  >
                   <option value="" disabled selected>Select</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -231,14 +239,15 @@
 
             <div class="text-sm mb-5">
               Already have an account?
-              <router-link to="login" class="text-blue-500 underline">Log in</router-link>
+              <router-link to="/login" class="text-blue-500 underline">Log in</router-link>
             </div>
 
             <div class="flex gap-2 mt-4">
               <button
                 type="button"
                 @click="nextStep"
-                class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
+                :disabled="isLoading"
+                class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next
               </button>
@@ -305,7 +314,7 @@
                 <select
                   id="sport"
                   v-model="formData.sport"
-                  class="w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm"
+                  class="w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm cursor-pointer"
                   :class="errors.sport ? 'border-red-500' : 'border-gray-300'"
                 >
                   <option value="" disabled selected>Select your sport</option>
@@ -326,6 +335,7 @@
                   v-model="formData.experience"
                   min="0"
                   max="50"
+                  placeholder="Enter years"
                   class="w-full p-2 border border-gray-300 rounded-md shadow-sm text-sm"
                   :class="errors.experience ? 'border-red-500' : 'border-gray-300'"
                 />
@@ -339,7 +349,6 @@
                 <label
                   for="certifications"
                   class="inline-block px-3 py-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white text-sm rounded-md cursor-pointer transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
-                  :class="certificationsError ? 'border-red-500 text-red-500' : ''"
                 >
                   Choose Files
                 </label>
@@ -348,9 +357,10 @@
                   id="certifications"
                   @change="handleCertificationsUpload"
                   multiple
+                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                   class="hidden"
                 />
-                <div v-if="certificationsError" class="text-red-500 text-sm mt-1">
+                <div v-if="certificationsError" class="text-red-500 text-xs mt-1">
                   {{ certificationsError }}
                 </div>
                 <div class="mt-2">
@@ -359,11 +369,11 @@
                     :key="index"
                     class="flex items-center justify-between p-2 bg-gray-100 rounded-md text-sm mb-1"
                   >
-                    <span class="flex-1">{{ file.name }}</span>
+                    <span class="flex-1 truncate">{{ file.name }}</span>
                     <button
                       type="button"
                       @click="removeCertification(index)"
-                      class="text-red-500 text-lg"
+                      class="text-red-500 text-lg ml-2 hover:text-red-700"
                     >
                       ×
                     </button>
@@ -376,14 +386,16 @@
               <button
                 type="button"
                 @click="prevStep"
-                class="cursor-pointer flex-1 p-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
+                :disabled="isLoading"
+                class="cursor-pointer flex-1 p-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Previous
               </button>
               <button
                 type="button"
                 @click="nextStep"
-                class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
+                :disabled="isLoading"
+                class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next
               </button>
@@ -396,14 +408,14 @@
             <div class="text-center mb-6">
               <div class="mb-4">
                 <div
-                  class="w-30 h-30 rounded-full border-2 border-gray-300 mx-auto mb-4 overflow-hidden cursor-pointer transition-all duration-300 hover:border-green-500"
+                  class="w-32 h-32 rounded-full border-2 border-gray-300 mx-auto mb-4 overflow-hidden cursor-pointer transition-all duration-300 hover:border-green-500"
                   @click="$refs.profilePicture.click()"
                 >
                   <div
                     v-if="!profilePicturePreview"
                     class="w-full h-full flex flex-col items-center justify-center bg-gray-100 text-gray-500"
                   >
-                    <span class="text-xl">👤</span>
+                    <span class="text-5xl">👤</span>
                   </div>
                   <img
                     v-else
@@ -426,6 +438,9 @@
                   accept="image/*"
                   class="hidden"
                 />
+                <p v-if="errors.profilePicture" class="text-red-500 text-xs mt-2">
+                  {{ errors.profilePicture }}
+                </p>
               </div>
             </div>
 
@@ -467,70 +482,103 @@
               <button
                 type="button"
                 @click="prevStep"
-                class="cursor-pointer flex-1 p-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
+                :disabled="isLoading"
+                class="cursor-pointer flex-1 p-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Previous
               </button>
               <button
-                type="button"
-                @click="handleSubmit"
-                class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5"
+                type="submit"
+                :disabled="isLoading"
+                class="cursor-pointer flex-1 p-2 bg-gradient-to-r from-[#00C853] to-[#00B0FF] text-white rounded-md transition-all duration-300 hover:opacity-90 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create Account
+                {{ isLoading ? 'Creating...' : 'Create Account' }}
               </button>
             </div>
           </div>
         </form>
       </div>
     </div>
-
-    <!-- Success Popup -->
+<!-- Success Popup -->
+<div
+  v-if="showSuccess"
+  class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 animate-fade-in"
+>
+  <div
+    class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl animate-scale-in border-4 border-blue-400"
+  >
+    <!-- Green Heart Icon -->
     <div
-      v-if="showSuccess"
-      class="fixed inset-0 flex items-center justify-center z-50 bg-blur animate-fade-in"
-      style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh"
+      class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6"
     >
-      <div
-        class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl animate-scale-in border-4 border-blue-400"
-      >
-        <!-- Green Heart Icon -->
-        <div
-          class="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6"
-        >
-          <svg class="w-14 h-14 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fill-rule="evenodd"
-              d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </div>
-
-        <h2 class="text-2xl font-bold text-green-600 mb-4">Thank you for signing up! 🎉</h2>
-
-        <p class="text-gray-700 mb-2 leading-relaxed">
-          Your information is currently being reviewed by our admin team.
-        </p>
-        <p class="text-gray-700 mb-2 leading-relaxed">
-          If your details are valid, your account will be activated within 48 hours.
-        </p>
-        <p class="text-gray-600 mb-6 leading-relaxed">
-          You'll receive an email once your account is approved.
-        </p>
-
-        <!-- OK Button -->
-        <button
-          @click="closeSuccessModal"
-          class="cursor-pointer w-full py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
-        >
-          Ok
-        </button>
-      </div>
+      <svg class="w-14 h-14 text-white" fill="currentColor" viewBox="0 0 20 20">
+        <path
+          fill-rule="evenodd"
+          d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+          clip-rule="evenodd"
+        />
+      </svg>
     </div>
+
+    <h2 class="text-2xl font-bold text-green-600 mb-4">
+      Thank you for signing up! 🎉
+    </h2>
+
+    <!-- Message changes depending on role -->
+    <template v-if="formData.role === 'trainer'">
+      <p class="text-gray-700 mb-2 leading-relaxed">
+        Your information is currently being reviewed by our admin team.
+      </p>
+      <p class="text-gray-700 mb-2 leading-relaxed">
+        If your details are valid, your account will be activated within 48 hours.
+      </p>
+      <p class="text-gray-600 mb-6 leading-relaxed">
+        You'll receive an email once your account is approved.
+      </p>
+    </template>
+
+    <template v-else>
+      <p class="text-gray-700 mb-2 leading-relaxed">
+        Your account has been created successfully!
+      </p>
+      <p class="text-gray-700 mb-2 leading-relaxed">
+        You can now log in and start exploring your profile.
+      </p>
+      <p class="text-gray-600 mb-6 leading-relaxed">
+        Welcome to Trainly! 🚀
+      </p>
+    </template>
+
+    <!-- OK Button -->
+    <button
+      @click="closeSuccessModal"
+      class="cursor-pointer w-full py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105"
+    >
+      Ok
+    </button>
+  </div>
+</div>
   </div>
 </template>
 
 <script>
+import { auth, db, storage } from "../Firebase/firebaseConfig.js";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  deleteUser
+} from "firebase/auth";
+import {
+  doc,
+  collection,
+  query,
+  where,
+  getDocs,
+  serverTimestamp,
+  runTransaction
+} from "firebase/firestore";
+import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+
 export default {
   name: "RegistrationForm",
   data() {
@@ -538,6 +586,7 @@ export default {
       currentStep: 1,
       totalSteps: 3,
       showSuccess: false,
+      isLoading: false,
       formData: {
         role: "trainee",
         firstName: "",
@@ -564,6 +613,14 @@ export default {
       usernameTimeout: null,
     };
   },
+  computed: {
+    maxBirthdate() {
+      // Set max date to 13 years ago (minimum age requirement)
+      const date = new Date();
+      date.setFullYear(date.getFullYear() - 13);
+      return date.toISOString().split('T')[0];
+    }
+  },
   methods: {
     nextStep() {
       if (!this.validateStep(this.currentStep)) {
@@ -572,12 +629,13 @@ export default {
 
       if (this.currentStep < this.totalSteps) {
         this.currentStep++;
-      } else {
-        this.handleSubmit();
       }
     },
     prevStep() {
-      if (this.currentStep > 1) this.currentStep--;
+      if (this.currentStep > 1) {
+        this.currentStep--;
+        this.errors.general = "";
+      }
     },
     validateStep(step) {
       this.errors = {};
@@ -613,6 +671,22 @@ export default {
 
       if (!valid) return false;
 
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(this.formData.email)) {
+        this.errors.email = "Please enter a valid email address";
+        return false;
+      }
+
+      // Validate age (minimum 13 years old)
+      const birthDate = new Date(this.formData.birthdate);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      if (age < 13) {
+        this.errors.birthdate = "You must be at least 13 years old";
+        return false;
+      }
+
       const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&^_-]).{8,}$/;
       if (!passwordRegex.test(this.formData.password)) {
         this.errors.password = "Password must be 8+ characters with letters, numbers, and symbols";
@@ -638,6 +712,13 @@ export default {
         }
       }
 
+      // Validate phone format (basic)
+      const phoneRegex = /^[\d\s\-+()]{10,}$/;
+      if (this.formData.phone && !phoneRegex.test(this.formData.phone)) {
+        this.errors.phone = "Please enter a valid phone number";
+        valid = false;
+      }
+
       // Validate trainer-specific fields
       if (this.formData.role === "trainer") {
         if (!this.formData.sport) {
@@ -646,6 +727,10 @@ export default {
         }
         if (!this.formData.experience) {
           this.errors.experience = "This field is required";
+          valid = false;
+        }
+        if (parseInt(this.formData.experience) < 0 || parseInt(this.formData.experience) > 50) {
+          this.errors.experience = "Experience must be between 0 and 50 years";
           valid = false;
         }
         if (this.certifications.length === 0) {
@@ -660,8 +745,8 @@ export default {
     },
     validateStep3() {
       this.errors = {};
-      if (!this.formData.username) {
-        this.errors.username = "This field is required";
+      if (!this.formData.username || this.formData.username.trim().length < 3) {
+        this.errors.username = "Username must be at least 3 characters";
         return false;
       }
       if (this.usernameStatus !== "available") {
@@ -672,59 +757,257 @@ export default {
     },
     handleProfilePictureUpload(event) {
       const file = event.target.files[0];
-      if (file && file.type.startsWith("image/") && file.size <= 5 * 1024 * 1024) {
+      if (file) {
+        if (!file.type.startsWith("image/")) {
+          this.errors.profilePicture = "Please select a valid image file";
+          event.target.value = "";
+          this.profilePicture = null;
+          this.profilePicturePreview = null;
+          return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+          this.errors.profilePicture = "Image size must be less than 5MB";
+          event.target.value = "";
+          this.profilePicture = null;
+          this.profilePicturePreview = null;
+          return;
+        }
         this.profilePicture = file;
+        this.errors.profilePicture = "";
         const reader = new FileReader();
         reader.onload = (e) => (this.profilePicturePreview = e.target.result);
         reader.readAsDataURL(file);
-      } else {
-        this.errors.profilePicture = "Please select a valid image (max 5MB)";
-        event.target.value = "";
-        this.profilePicture = null;
-        this.profilePicturePreview = null;
       }
     },
     handleCertificationsUpload(event) {
-      this.certifications = Array.from(event.target.files);
+      const files = Array.from(event.target.files);
+      const validFiles = [];
+
+      for (const file of files) {
+        // Validate file size (max 10MB per file)
+        if (file.size > 10 * 1024 * 1024) {
+          this.certificationsError = `File ${file.name} exceeds 10MB limit`;
+          event.target.value = "";
+          return;
+        }
+        validFiles.push(file);
+      }
+
+      this.certifications = validFiles;
       this.certificationsError = "";
     },
     removeCertification(index) {
       this.certifications.splice(index, 1);
-      const dt = new DataTransfer();
-      this.certifications.forEach((file) => dt.items.add(file));
-      document.getElementById("certifications").files = dt.files;
+      if (this.certifications.length === 0) {
+        const input = document.getElementById("certifications");
+        if (input) input.value = "";
+      }
     },
     checkUsernameAvailability() {
       if (this.usernameTimeout) clearTimeout(this.usernameTimeout);
+
       const username = this.formData.username.trim();
+
+      // Clear status if username is too short
       if (username.length < 3) {
         this.usernameStatus = "";
         this.usernameMessage = "";
         return;
       }
-      this.usernameTimeout = setTimeout(() => {
-        const taken = ["admin", "user", "test", "trainer", "trainee"];
-        const available = !taken.includes(username.toLowerCase());
-        this.usernameStatus = available ? "available" : "taken";
-        this.usernameMessage = available
-          ? "✓ Username is available"
-          : "✗ Username is already taken";
+
+      // Validate username format
+      const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+      if (!usernameRegex.test(username)) {
+        this.usernameStatus = "invalid";
+        this.usernameMessage = "Username can only contain letters, numbers, and underscores";
+        return;
+      }
+
+      this.usernameStatus = "checking";
+      this.usernameMessage = "Checking availability...";
+
+      this.usernameTimeout = setTimeout(async () => {
+        try {
+          const usernamesRef = collection(db, "usernames");
+          const q = query(usernamesRef, where("__name__", "==", username));
+          const querySnapshot = await getDocs(q);
+          const available = querySnapshot.empty;
+
+          this.usernameStatus = available ? "available" : "taken";
+          this.usernameMessage = available
+            ? "✓ Username is available"
+            : "✗ Username is already taken";
+        } catch (err) {
+          console.error("Username check error:", err);
+          this.usernameStatus = "error";
+          this.usernameMessage = "Error checking username";
+        }
       }, 500);
     },
-    handleSubmit() {
+    async handleSubmit() {
+      // Validate final step
       if (!this.validateStep(this.currentStep)) return;
 
-      if (this.formData.role === "trainer") {
+      // Prevent double submit
+      if (this.isLoading) return;
+      this.isLoading = true;
+      this.errors.general = "";
+
+      let authUser = null;
+
+      try {
+        // Validate username
+        const usernameTrim = this.formData.username.trim();
+        if (!usernameTrim || usernameTrim.length < 3) {
+          this.errors.username = "Username is required and must be at least 3 characters";
+          this.currentStep = 3;
+          this.isLoading = false;
+          return;
+        }
+
+        // Prevent admin role creation from client
+        if (this.formData.role === "admin") {
+          this.errors.general = "Invalid role selection";
+          this.isLoading = false;
+          return;
+        }
+
+        // Create user in Firebase Authentication
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          this.formData.email,
+          this.formData.password
+        );
+        authUser = userCredential.user;
+
+        // Upload profile picture
+        let profilePicUrl = null;
+        if (this.profilePicture) {
+          const picRef = storageRef(
+            storage,
+            `profilePictures/${authUser.uid}/${Date.now()}_${this.profilePicture.name}`
+          );
+          await uploadBytes(picRef, this.profilePicture, {
+            contentType: this.profilePicture.type
+          });
+          profilePicUrl = await getDownloadURL(picRef);
+        }
+
+        // Upload certifications for trainers
+        const certificationsUrls = [];
+        if (this.formData.role === "trainer" && this.certifications.length > 0) {
+          for (const file of this.certifications) {
+            const certRef = storageRef(
+              storage,
+              `certifications/${authUser.uid}/${Date.now()}_${file.name}`
+            );
+            await uploadBytes(certRef, file, {
+              contentType: file.type
+            });
+            const url = await getDownloadURL(certRef);
+            certificationsUrls.push(url);
+          }
+        }
+
+        // Atomic transaction to reserve username and create user document
+        const usernameDocRef = doc(db, "usernames", usernameTrim);
+        const userDocRef = doc(db, "users", authUser.uid);
+
+        await runTransaction(db, async (transaction) => {
+          const usernameSnap = await transaction.get(usernameDocRef);
+
+          if (usernameSnap.exists()) {
+            throw new Error("USERNAME_TAKEN");
+          }
+
+          // Reserve username
+          transaction.set(usernameDocRef, {
+            uid: authUser.uid,
+            createdAt: serverTimestamp(),
+          });
+
+          // Create user document
+          transaction.set(userDocRef, {
+            uid: authUser.uid,
+            role: this.formData.role,
+            firstName: this.formData.firstName.trim(),
+            lastName: this.formData.lastName.trim(),
+            birthdate: this.formData.birthdate,
+            gender: this.formData.gender,
+            email: this.formData.email.toLowerCase().trim(),
+            phone: this.formData.phone.trim(),
+            city: this.formData.city.trim(),
+            country: this.formData.country.trim(),
+            username: usernameTrim,
+            sport: this.formData.sport || null,
+            experience: this.formData.experience ? parseInt(this.formData.experience) : null,
+            profilePicture: profilePicUrl || null,
+            certifications: certificationsUrls,
+            status: this.formData.role === "trainer" ? "pending" : "active",
+            createdAt: serverTimestamp(),
+          });
+        });
+
+        // Update auth profile
+        await updateProfile(authUser, {
+          displayName: usernameTrim,
+          photoURL: profilePicUrl || null,
+        });
+
+        // Show success modal
         this.showSuccess = true;
-      } else {
-        window.location.href = "/";
+
+      } catch (error) {
+        console.error("Sign up error:", error);
+
+        // Clean up auth user if transaction failed
+        if (authUser) {
+          try {
+            await deleteUser(authUser);
+          } catch (delErr) {
+            console.warn("Failed to delete auth user after error:", delErr);
+          }
+        }
+
+        // Handle specific errors
+        if (error.message === "USERNAME_TAKEN") {
+          this.errors.username = "Username is already taken";
+          this.usernameStatus = "taken";
+          this.currentStep = 3;
+        } else if (error.code === "auth/email-already-in-use") {
+          this.errors.general = "This email is already registered";
+          this.currentStep = 1;
+        } else if (error.code === "auth/invalid-email") {
+          this.errors.general = "Invalid email address";
+          this.currentStep = 1;
+        } else if (error.code === "auth/weak-password") {
+          this.errors.general = "Password is too weak. Use at least 8 characters";
+          this.currentStep = 1;
+        } else if (error.code === "auth/network-request-failed") {
+          this.errors.general = "Network error. Please check your connection";
+        } else {
+          this.errors.general = error.message || "Failed to create account. Please try again";
+        }
+      } finally {
+        this.isLoading = false;
       }
     },
     closeSuccessModal() {
       this.showSuccess = false;
-      window.location.href = "/";
+      // Redirect based on role
+      if (this.formData.role === "trainer") {
+        this.$router.push("/");
+      } else {
+        this.$router.push("/login");
+      }
     },
   },
+  beforeUnmount() {
+    // Clear timeout on component destruction
+    if (this.usernameTimeout) {
+      clearTimeout(this.usernameTimeout);
+    }
+  }
 };
 </script>
 
@@ -758,4 +1041,20 @@ export default {
     transform: scale(1);
   }
 }
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 </style>
