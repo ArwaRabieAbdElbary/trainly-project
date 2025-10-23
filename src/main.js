@@ -31,6 +31,8 @@ import ContactUs from "./pages/ContactUs.vue";
 import TrainerClient from "./pages/TrainerClient.vue";
 import TrainerReviews from "./pages/trainer/TrainerReviews.vue";
 import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
+import TrainerCustomerservice from "./pages/trainer/TrainerCustomerservice.vue";
+import TraineeCustomerservice from "./pages/trainee/TraineeCustomerservice.vue";
 import TrainerPlans from "./pages/trainer/TrainerPlans.vue";
 
 // ----------------------------
@@ -67,6 +69,11 @@ const routes = [
         component: TrainerClient,
       },
       {
+        path: "customerservice",
+        name: "trainercustomerservice",
+        component: TrainerCustomerservice,
+      },
+      {
         path: "settings",
         name: "trainersettings",
         component: TrainerSettings,
@@ -88,6 +95,11 @@ const routes = [
         name: "traineesettings",
         component: TraineeSettings,
       },
+      {
+        path: "customerservice",
+        name: "traineecustomerservice",
+        component: TraineeCustomerservice,
+      }
     ],
   },
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
