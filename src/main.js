@@ -10,6 +10,8 @@ import App from "./App.vue";
 import "./Firebase/firebaseConfig.js"; // ✅ بيشغّل تهيئة Firebase مرة واحدة
 import { createRouter, createWebHistory } from "vue-router";
 import i18n from "./i18n"; // ✅ ملف اللغات
+import Toast from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import "../src/style.css";
 
 // ----------------------------
@@ -134,4 +136,14 @@ onAuthStateChanged(auth, (user) => {
 createApp(App)
   .use(router)
   .use(i18n)
-  .mount("#app");
+  .use(Toast, {
+  position: "top-center",
+  timeout: 2000,        
+  closeOnClick: true,    
+  pauseOnHover: true,    
+  draggable: true,       
+  showCloseButtonOnHover: false,
+  hideProgressBar: false,
+  theme: "auto",         
+})
+.mount("#app");

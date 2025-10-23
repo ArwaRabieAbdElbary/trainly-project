@@ -1,112 +1,185 @@
 <template>
-<div class="p-4 ">
-   <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-      <div class="grid grid-cols-3 gap-4 mb-4">
-         <div class="flex items-center justify-center h-24 rounded-sm bg-gray-50 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center h-24 rounded-sm bg-gray-50 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center h-24 rounded-sm bg-gray-50 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
+     <div class="shadow-lg rounded-2xl p-4 border border-gray-200 bg-white">
+    <div class="flex">
+      <div class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
+        <img src="../../assets/images/security.png" alt="" class="w-5 h-5" />
       </div>
-      <div class="flex items-center justify-center h-48 mb-4 rounded-sm bg-gray-50 dark:bg-gray-800">
-         <p class="text-2xl text-gray-400 dark:text-gray-500">
-            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+
+      <div>
+        <h2 class="text-xl font-[500] mb-1">Security</h2>
+        <p class="mb-6 font-[400] text-[13px] text-gray-500">
+          Manage your password and security settings
+        </p>
+      </div>
+    </div>
+
+    <form class="max-w-[75%] ps-[50px]" @submit.prevent="onSubmit">
+      <!-- Current password -->
+      <div class="mb-5">
+        <label class="block mb-2 text-sm font-medium text-gray-900">Current Password</label>
+        <div class="relative">
+          <input
+            :type="showCurrent ? 'text' : 'password'"
+            v-model="form.current"
+            class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+            required
+          />
+          <button type="button" @click="toggle('current')" class="absolute inset-y-0 right-2 flex items-center justify-center px-2">
+            <svg v-if="!showCurrent" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 
+                4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
             </svg>
-         </p>
-      </div>
-      <div class="grid grid-cols-2 gap-4 mb-4">
-         <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-      </div>
-      <div class="flex items-center justify-center h-48 mb-4 rounded-sm bg-gray-50 dark:bg-gray-800">
-         <p class="text-2xl text-gray-400 dark:text-gray-500">
-            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 
+                0-8.268-2.943-9.542-7a9.965 9.965 0 012.223-3.583M3 3l18 18" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.88 9.88a3 3 0 104.24 4.24" />
             </svg>
-         </p>
+          </button>
+        </div>
       </div>
-      <div class="grid grid-cols-2 gap-4">
-         <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
-         <div class="flex items-center justify-center rounded-sm bg-gray-50 h-28 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
-               <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-               </svg>
-            </p>
-         </div>
+
+      <!-- New password -->
+      <div class="mb-5">
+        <label class="block mb-2 text-sm font-medium text-gray-900">New Password</label>
+        <div class="relative">
+          <input
+            :type="showNew ? 'text' : 'password'"
+            v-model="form.new"
+            class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+            required minlength="8"
+          />
+          <button type="button" @click="toggle('new')" class="absolute inset-y-0 right-2 flex items-center justify-center px-2">
+            <svg v-if="!showNew" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 
+                0 8.268 2.943 9.542 7-1.274 4.057-5.065 
+                7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13.875 18.825A10.05 10.05 0 0112 
+                19c-4.477 0-8.268-2.943-9.542-7a9.965 
+                9.965 0 012.223-3.583M3 3l18 18" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.88 9.88a3 3 0 104.24 4.24" />
+            </svg>
+          </button>
+        </div>
       </div>
-   </div>
-</div>
+
+      <!-- Repeat password -->
+      <div class="mb-5">
+        <label class="block mb-2 text-sm font-medium text-gray-900">Repeat Password</label>
+        <div class="relative">
+          <input
+            :type="showRepeat ? 'text' : 'password'"
+            v-model="form.repeat"
+            class="shadow-xs bg-gray-50 border border-gray-300 text-sm rounded-lg 
+                   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+            required minlength="8"
+          />
+          <button type="button" @click="toggle('repeat')" class="absolute inset-y-0 right-2 flex items-center justify-center px-2">
+            <svg v-if="!showRepeat" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 
+                5c4.477 0 8.268 2.943 9.542 7-1.274 
+                4.057-5.065 7-9.542 7-4.477 
+                0-8.268-2.943-9.542-7z" />
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13.875 18.825A10.05 10.05 0 0112 
+                19c-4.477 0-8.268-2.943-9.542-7a9.965 
+                9.965 0 012.223-3.583M3 3l18 18" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.88 9.88a3 3 0 104.24 4.24" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 
+               focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+      >
+        Update Password
+      </button>
+
+      <p v-if="message" class="text-sm mt-3 text-center" :class="messageColor">{{ message }}</p>
+    </form>
+  </div>
+
+
+
+
+
 
 </template>
 
 <script>
-    export default {
-        name:"TrainerSettings",
-    }
+import { getAuth, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
+import { toast } from "vue3-toastify";
+
+export default {
+  name: "TrainerSettings",
+  data() {
+    return {
+      showCurrent: false,
+      showNew: false,
+      showRepeat: false,
+      form: { current: "", new: "", repeat: "" },
+    };
+  },
+  methods: {
+    toggle(field) {
+      if (field === "current") this.showCurrent = !this.showCurrent;
+      else if (field === "new") this.showNew = !this.showNew;
+      else if (field === "repeat") this.showRepeat = !this.showRepeat;
+    },
+
+    async onSubmit() {
+      if (this.form.new !== this.form.repeat) {
+        toast.error("New password and confirmation do not match!");
+        return;
+      }
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        toast.error("No user is signed in!");
+        return;
+      }
+
+      try {
+        // إعادة التوثيق
+        const credential = EmailAuthProvider.credential(user.email, this.form.current);
+        await reauthenticateWithCredential(user, credential);
+
+        // تحديث الباسورد
+        await updatePassword(user, this.form.new);
+
+        toast.success("Password updated successfully✅");
+        this.form.current = this.form.new = this.form.repeat = "";
+      } catch (error) {
+        console.error(error);
+        toast.error(error.message);
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
