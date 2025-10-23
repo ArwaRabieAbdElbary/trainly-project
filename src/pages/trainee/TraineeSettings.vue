@@ -5,6 +5,7 @@
       Manage your account settings and preferences here.
     </p>
   </div>
+  
 
   <form
     @submit.prevent="handleSubmit"
