@@ -1,6 +1,6 @@
-const savedLocale = localStorage.getItem('lang') || 'en';
+const savedLocale = localStorage.getItem("lang") || "en";
 document.documentElement.lang = savedLocale;
-document.dir = savedLocale === 'ar' ? 'rtl' : 'ltr';
+document.dir = savedLocale === "ar" ? "rtl" : "ltr";
 
 // ----------------------------
 // ✅ الاستيرادات الأساسية
@@ -31,6 +31,8 @@ import ContactUs from "./pages/ContactUs.vue";
 import TrainerClient from "./pages/TrainerClient.vue";
 import TrainerReviews from "./pages/trainer/TrainerReviews.vue";
 import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
+import TrainerProfile from "./pages/trainer/TrainerProfile.vue";
+import SearchPage from "./pages/SearchPage.vue";
 
 // ----------------------------
 // ✅ إعداد المسارات (Routes)
@@ -46,13 +48,14 @@ const routes = [
   { path: "/trainerclient", name: "trainerclient", component: TrainerClient },
   { path: "/signup", name: "signup", component: Signup },
   { path: "/login", name: "login", component: LoginPage },
-  {path: "/aboutus", name: "aboutus", component: AboutUs },
-  {path: "/sports", name: "sports", component: SportS },
-  {path: "/contactus", name: "contactus", component: ContactUs },
+  { path: "/aboutus", name: "aboutus", component: AboutUs },
+  { path: "/sports", name: "sports", component: SportS },
+  { path: "/contactus", name: "contactus", component: ContactUs },
+  {path: "/search", name: "search", component: SearchPage },
   {
-    path:"/trainer" ,
-    name:"trainer",
-    component:TrainerDashboardLayout ,
+    path: "/trainer",
+    name: "trainer",
+    component: TrainerDashboardLayout,
     children: [
       {
         path: "reviews",
@@ -63,6 +66,11 @@ const routes = [
         path: "clients",
         name: "trainerclient",
         component: TrainerClient,
+      },
+      {
+        path: "profile",
+        name: "trainerprofile",
+        component: TrainerProfile,
       },
     ],
   },
@@ -92,7 +100,4 @@ onAuthStateChanged(auth, (user) => {
 // ----------------------------
 // ✅ إنشاء التطبيق وربطه بكل شيء
 // ----------------------------
-createApp(App)
-  .use(router)
-  .use(i18n)
-  .mount("#app");
+createApp(App).use(router).use(i18n).mount("#app");
