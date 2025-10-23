@@ -24,7 +24,7 @@
       <!-- ✅ زرار Login بستايل منفصل -->
       <button
         @click="$router.push('/login')"
-        class="min-w-[130px] lg:min-w-[150px] px-4 rounded-3xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
+        class="min-w-[130px] lg:min-w-[150px] px-4 rounded-3xl border-1 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--third)] transition h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
       >
         {{ $t("login") }}
       </button>
@@ -181,6 +181,12 @@ export default {
 
 .nav-link:hover::after {
   width: 100%;
+}
+.gradient-border {
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(to right, var(--primary), var(--secondry)) border-box;
 }
 /* ✨ تأثير الموبايل */
 .fade-enter-active,
