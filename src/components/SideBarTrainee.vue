@@ -1,6 +1,6 @@
  <script>
 export default {
-  name: "SideBar",
+  name: "SideBarTrainee",
 };
 </script>
 <template>
@@ -48,23 +48,17 @@ export default {
         
         <ul class="space-y-4 font-light text-[14px] mx-5">
              <li class="mb-11 mt-3 mx-2">
-                      <img src="@/assets/images/Project LOGO.png" class="h-8 w-25 me-3" alt="Logo" />
-
+                <img src="@/assets/images/Project LOGO.png" class="h-8 w-25 me-3" alt="Logo" />
             </li>
+
             <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-blue-200 " >
-                <img src="@/assets/images/bx_home.png" alt="" class="w-5 h-5">
-              
-              <span class="ms-3">Home</span>
-            </a>
-          </li>
-           <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
-                <img src="@/assets/images/grommet-icons_plan.png" alt="" class="w-5 h-5">
+                <img src="@/assets/images/fluent_people-24-filled.png" alt="" class="w-5 h-5">
               
-              <span class="ms-3">My Plans</span>
+              <span class="ms-3">My Trainers</span>
             </a>
           </li>
+
            <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
                 <img src="@/assets/images/wpf_message-outline.png" alt="" class="w-5 h-5">
@@ -72,13 +66,7 @@ export default {
               <span class="ms-3">Inbox</span>
             </a>
           </li>
-          <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
-                <img src="@/assets/images/fluent_people-24-filled.png" alt="" class="w-5 h-5">
-              
-              <span class="ms-3">Clients</span>
-            </a>
-          </li>
+
           <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
                 <img src="@/assets/images/carbon_star-review.png" alt="" class="w-5 h-5">
@@ -87,11 +75,11 @@ export default {
             </a>
           </li>
            <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
+            <router-link to="/trainee/settings" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
                 <img src="@/assets/images/mdi_settings-outline.png" alt="" class="w-5 h-5">
               
               <span class="ms-3">Settings</span>
-            </a>
+            </router-link>
           </li>
           <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >

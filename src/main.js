@@ -69,6 +69,28 @@ const routes = [
         path: "customerservice",
         name: "trainercustomerservice",
         component: TrainerCustomerservice,
+      },
+      {
+        path: "settings",
+        name: "trainersettings",
+        component: TrainerSettings,
+      },
+    ],
+  },
+    {
+    path:"/trainee" ,
+    name:"trainee",
+    component:TraineeDashboardLayout ,
+    children: [
+      {
+        path: "settings",
+        name: "traineesettings",
+        component: TraineeSettings,
+      },
+      {
+        path: "customerservice",
+        name: "traineecustomerservice",
+        component: TraineeCustomerservice,
       }
     ],
   },
@@ -85,6 +107,9 @@ const router = createRouter({
 // ----------------------------
 import { auth } from "./Firebase/firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
+import TrainerSettings from "./pages/trainer/TrainerSettings.vue";
+import TraineeDashboardLayout from "./pages/trainee/TraineeDashboardLayout.vue";
+import TraineeSettings from "./pages/trainee/TraineeSettings.vue";
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
