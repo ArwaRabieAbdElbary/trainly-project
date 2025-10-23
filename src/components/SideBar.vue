@@ -1,8 +1,3 @@
-<script>
-export default {
-  name: "SideBar",
-};
-</script>
 <template>
   <nav class="top-0 z-50 w-full">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -47,7 +42,7 @@ export default {
               >
                 <img
                   class="w-8 h-8 rounded-full"
-                  src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                  :src="trainerImage || 'https://flowbite.com/docs/images/people/profile-picture-5.jpg'"
                   alt="user photo"
                 />
               </button>
@@ -148,6 +143,38 @@ export default {
     </div>
   </aside>
 </template>
+
+<script>
+import { onMounted, ref } from "vue";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+
+export default {
+  name: "SideBar",
+  setup() {
+    const trainerImage = ref("https://firebasestorage.googleapis.com/v0/b/trainly-4f7a8.firebasestorage.app/o/profilePictures%2Fm3xVWfpgocTOqXD0geFHc0Cv2ry1%2F1761174190146_WhatsApp_Image_2025-04-08_at_21.25.02_35451a2b-removebg-preview.png?alt=media&token=5a441c1a-ac1f-434e-8e20-d477d7446e64");
+    const uid = "m3xVWfpgocTOqXD0geFHc0Cv2ry1";
+
+    const fetchTrainerImage = async () => {
+      const db = getFirestore();
+      const docRef = doc(db, "users", uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        trainerImage.value = docSnap.data().profilePicture || "";
+      }
+    };
+
+    onMounted(() => {
+      fetchTrainerImage();
+    });
+
+    return {
+      trainerImage,
+    };
+  },
+};
+</script>
+
 <style>
 .bg-all {
   background: #d9eeff;
