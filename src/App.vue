@@ -1,9 +1,7 @@
 <template>
   <div>
     <NavBar
-
-      v-if="!['payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'trainerclient','trainer','trainerreviews','trainercustomerservice','trainersettings' , 'traineesettings' , 'trainee'].includes($route.name)"
-
+      v-if="!['payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'trainerclient','trainer','trainerreviews','trainersettings' , 'traineesettings' , 'trainee' ,'trainerplans','trainercustomerservice','traineecustomerservice'].includes($route.name)"
     />
 
     <SideBar
@@ -11,13 +9,13 @@
     />
 
     <SideBarTrainee
-       v-if="!['landing', 'payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'aboutus' , 'sports' , 'contactus' , 'trainerclient' , 'trainerreviews' ,'trainersettings' , 'trainer' ].includes($route.name)"
+       v-if="!['landing', 'payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'aboutus' , 'sports' , 'contactus' , 'trainerclient' , 'trainerreviews' ,'trainersettings' , 'trainer' , 'trainerplans'].includes($route.name)"
     />
 
     <router-view />
 
     <FooterComp
-      v-if="!['payment', 'failed', 'error', 'login', 'signup', 'trainerclient' , 'trainer' , 'trainerreviews','trainercustomerservice','trainersettings' , 'traineesettings' , 'trainer' , 'trainee','traineecustomerservice'].includes($route.name)"
+      v-if="!['payment', 'failed', 'error', 'login', 'signup', 'trainerclient' , 'trainer' , 'trainerreviews','trainersettings' , 'traineesettings' , 'trainer' , 'trainee' ,'trainerplans','traineecustomerservice','trainercustomerservice'].includes($route.name)"
     />
   </div>
 </template>

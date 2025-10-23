@@ -32,6 +32,8 @@ import TrainerClient from "./pages/TrainerClient.vue";
 import TrainerReviews from "./pages/trainer/TrainerReviews.vue";
 import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
 import TrainerCustomerservice from "./pages/trainer/TrainerCustomerservice.vue";
+import TraineeCustomerservice from "./pages/trainee/TraineeCustomerservice.vue";
+import TrainerPlans from "./pages/trainer/TrainerPlans.vue";
 
 // ----------------------------
 // ✅ إعداد المسارات (Routes)
@@ -45,6 +47,7 @@ const routes = [
   { path: "/forgetpassword1", name: "forgetpassword1", component: ForgetPassword1 },
   { path: "/forgetpassword2", name: "forgetpassword2", component: ForgetPassword2 },
   { path: "/trainerclient", name: "trainerclient", component: TrainerClient },
+  { path: "/trainerplans", name: "trainerplans", component: TrainerPlans },
   { path: "/signup", name: "signup", component: Signup },
   { path: "/login", name: "login", component: LoginPage },
   {path: "/aboutus", name: "aboutus", component: AboutUs },
@@ -74,6 +77,11 @@ const routes = [
         path: "settings",
         name: "trainersettings",
         component: TrainerSettings,
+      },
+      {
+        path: "plans",
+        name: "trainerplans",
+        component: TrainerPlans,
       },
     ],
   },
