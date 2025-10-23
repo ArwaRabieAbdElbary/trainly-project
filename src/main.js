@@ -31,7 +31,7 @@ import ContactUs from "./pages/ContactUs.vue";
 import TrainerClient from "./pages/TrainerClient.vue";
 import TrainerReviews from "./pages/trainer/TrainerReviews.vue";
 import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
-import TrainerProfile from "./pages/trainer/TrainerProfile.vue";
+import TrainerProfile from "./pages/TrainerProfile.vue";
 import SearchPage from "./pages/SearchPage.vue";
 
 // ----------------------------
@@ -51,7 +51,8 @@ const routes = [
   { path: "/aboutus", name: "aboutus", component: AboutUs },
   { path: "/sports", name: "sports", component: SportS },
   { path: "/contactus", name: "contactus", component: ContactUs },
-  {path: "/search", name: "search", component: SearchPage },
+  { path: "/search", name: "search", component: SearchPage },
+  { path: "/trainerprofile", name: "trainerprofile", component: TrainerProfile },
   {
     path: "/trainer",
     name: "trainer",
@@ -67,13 +68,15 @@ const routes = [
         name: "trainerclient",
         component: TrainerClient,
       },
-      {
-        path: "profile",
-        name: "trainerprofile",
-        component: TrainerProfile,
-      },
     ],
   },
+  {
+    path: "/trainee",
+    name: "trainee",
+    component: TraineeDashboardLayout,
+    children: [],
+  },
+
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
 ];
 
@@ -87,6 +90,9 @@ const router = createRouter({
 // ----------------------------
 import { auth } from "./Firebase/firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
+import TrainerSettings from "./pages/trainer/TrainerSettings.vue";
+import TraineeDashboardLayout from "./pages/trainee/TraineeDashboardLayout.vue";
+import TraineeSettings from "./pages/trainee/TraineeSettings.vue";
 
 onAuthStateChanged(auth, (user) => {
   if (user) {

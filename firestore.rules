@@ -1,39 +1,10 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // users collection: user can read/write only their own document
-    match /users/{userId} {
-      // قراءة ملف المستخدم مسموح للمستخدم نفسه فقط
-      allow read: if request.auth != null && request.auth.uid == userId;
-
-      // إنشاء ملف مستخدم: فقط إذا auth.uid == userId ومنع client من وضع role = "admin"
-      allow create: if request.auth != null
-                    && request.auth.uid == userId
-                    && request.resource.data.role != "admin";
-
-      // تحديث: فقط المالك يمكنه تعديل بياناته
-      allow update: if request.auth != null && request.auth.uid == userId;
-
-      // حذف: عادة نمنع الحذف من العميل، يمكن السماح للـ admin (server-side) لاحقًا
-      allow delete: if false;
-    }
-
-    // usernames collection: تستخدم لحجز usernames atomically
-    match /usernames/{username} {
-      // القراءة مسموح (اختياري)
-      allow read: if true;
-
-      // الإنشاء مسموح فقط للمستخدم الموّثق ولابد أن uid في ال doc يطابق auth.uid
-      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
-
-      // لا تسمح بالتعديل أو الحذف من الطرف العميل
-      allow update, delete: if false;
-    }
-
-    // مثال لمجموعات عامة أخرى (عدل حسب حاجتك)
-    match /publicCollection/{docId} {
-      allow read: if true;
-      allow write: if request.auth != null;
+    
+    // السماح الكامل مؤقتًا أثناء التطوير
+    match /{document=**} {
+      allow read, write: if true;
     }
   }
 }

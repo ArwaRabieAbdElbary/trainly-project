@@ -17,7 +17,7 @@
         <p class="text-gray-600 italic mb-3">{{ review.comment }}</p>
         <p class="text-sm text-gray-400">Trainer ID: </p>
         <p class="text-sm text-gray-400">
-          
+
         </p>
       </div>
     </div>
@@ -53,7 +53,7 @@ import { collection, getDocs } from 'firebase/firestore';
             }
 
         },
-        
+
     }
 </script>
 

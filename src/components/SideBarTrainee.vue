@@ -1,11 +1,11 @@
  <script>
 export default {
-  name: "SideBar",
+  name: "SideBarTrainee",
 };
 </script>
 <template>
-
-
+  
+    
 
 <nav class=" top-0 z-50 w-full"  >
   <div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -25,14 +25,14 @@ export default {
             <div class="hidden md:block ">
               <img src="@/assets/images/mingcute_notification-line.png" alt="" class="w-7 h-7">
             </div >
-
-
+          
+            
             <div>
               <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                 <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
               </button>
             </div>
-
+            
           </div>
         </div>
     </div>
@@ -45,65 +45,53 @@ export default {
       aria-label="Sidebar"
     >
       <div class="h-full px-3 py-4 overflow-y-auto bg-all rounded-tr-4xl">
-
+        
         <ul class="space-y-4 font-light text-[14px] mx-5">
              <li class="mb-11 mt-3 mx-2">
-                      <img src="@/assets/images/Project LOGO.png" class="h-8 w-25 me-3" alt="Logo" />
-
+                <img src="@/assets/images/Project LOGO.png" class="h-8 w-25 me-3" alt="Logo" />
             </li>
+
             <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-blue-200 " >
-                <img src="@/assets/images/bx_home.png" alt="" class="w-5 h-5">
-
-              <span class="ms-3">Home</span>
-            </a>
-          </li>
-           <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
-                <img src="@/assets/images/grommet-icons_plan.png" alt="" class="w-5 h-5">
-
-              <span class="ms-3">My Plans</span>
+                <img src="@/assets/images/fluent_people-24-filled.png" alt="" class="w-5 h-5">
+              
+              <span class="ms-3">My Trainers</span>
             </a>
           </li>
+
            <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
                 <img src="@/assets/images/wpf_message-outline.png" alt="" class="w-5 h-5">
-
+              
               <span class="ms-3">Inbox</span>
             </a>
           </li>
-          <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
-                <img src="@/assets/images/fluent_people-24-filled.png" alt="" class="w-5 h-5">
 
-              <span class="ms-3">Clients</span>
-            </a>
-          </li>
           <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
                 <img src="@/assets/images/carbon_star-review.png" alt="" class="w-5 h-5">
-
+              
               <span class="ms-3">Reviews</span>
             </a>
           </li>
            <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
+            <router-link to="/trainee/settings" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
                 <img src="@/assets/images/mdi_settings-outline.png" alt="" class="w-5 h-5">
-
+              
               <span class="ms-3">Settings</span>
-            </a>
+            </router-link>
           </li>
           <li>
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200" >
                 <img src="@/assets/images/mdi_customer-service.png" alt="" class="w-6 h-6">
-
+              
               <span class="ms-3">Customer Service</span>
             </a>
           </li>
           <li >
             <a href="#" class="flex items-center p-2 text-red-600 rounded-lg hover:bg-blue-200" >
                 <img src="@/assets/images/logout.png" alt="" class="w-5 h-5">
-
+              
               <span class="ms-3">Log out</span>
             </a>
           </li>
@@ -114,7 +102,7 @@ export default {
 
 
 
-
+    
     </template>
 <style>
 .bg-all{

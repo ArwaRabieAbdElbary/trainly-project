@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen">
+  <div class="min-h-screen flex items-center justify-center">
     <!-- Loading State -->
     <div v-if="loading" class="min-h-screen flex items-center justify-center">
       <div class="text-xl text-gray-600">Loading...</div>
@@ -20,7 +20,7 @@
             <div class="flex items-center gap-2">
               <h1 class="text-2xl font-semibold text-gray-900">{{ trainer.name }}</h1>
 
-              <!-- علامة التوثيق -->
+              <!-- verifcation sign-->
               <svg
                 v-if="trainer.verified"
                 xmlns="http://www.w3.org/2000/svg"

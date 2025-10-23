@@ -1,27 +1,10 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    // profilePictures/{uid}/...
-    match /profilePictures/{userId}/{allPaths=**} {
-      // قراءة عامة ممكنة لو عايز الصور متاحة للعامة
-      allow read: if true;
-
-      // فقط المستخدم نفسه يستطيع رفع/تعديل ملفاته الشخصية
-      allow write: if request.auth != null && request.auth.uid == userId;
-    }
-
-    // certifications/{uid}/...
-    match /certifications/{userId}/{allPaths=**} {
-      // قراءة: ممكن تقصرها على صاحِب الحساب أو الادمن فقط
-      allow read: if request.auth != null && request.auth.uid == userId;
-      // كتابة: فقط صاحب الحساب يقدر يرفع شهاداته
-      allow write: if request.auth != null && request.auth.uid == userId;
-    }
-
-    // باقي الملفات العامة (تعديل حسب احتياجك)
-    match /public/{allPaths=**} {
-      allow read: if true;
-      allow write: if request.auth != null;
+    
+    // السماح الكامل مؤقتًا أثناء التطوير
+    match /{allPaths=**} {
+      allow read, write: if true;
     }
   }
 }
