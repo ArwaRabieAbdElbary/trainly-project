@@ -1,5 +1,25 @@
 <template>
-  <div class="mb-10">
+
+<!-- Welcome Header -->
+<div class="relative mb-10 mx-auto max-w-5xl bg-gradient-to-r from-[#D9EEFF] to-[#AEE2FF] rounded-2xl shadow-md p-6 flex items-center justify-between overflow-hidden">
+  <div class="absolute top-0 right-0 w-40 h-40 bg-white/20 rounded-full blur-2xl"></div>
+
+  <div class="flex items-center gap-5 relative z-10">
+    <div class="bg-white shadow-sm p-3 rounded-full">
+      <img src="../../assets/images/hand.png" alt="User icon" class="w-10 h-10" />
+    </div>
+    <div>
+      <h2 class="text-2xl font-semibold text-gray-800">
+        Welcome back, <span class="text-blue-600">{{ userData.name }}</span>!
+      </h2>
+      <p class="text-sm text-gray-600 mt-1">Ready to crush your fitness goals today? 💪</p>
+    </div>
+  </div>
+</div>
+
+  <section class="max-w-5xl mx-auto flex flex-col gap-12">
+
+      <div class="">
     <h2 class="text-[24px] font-medium text-gray-900">Settings</h2>
     <p class="mt-2 text-[16px] text-gray-500">
       Manage your account settings and preferences here.
@@ -176,8 +196,8 @@
     </div>
   </form>
 
-  
-  <div class="shadow-lg rounded-2xl p-4 border border-gray-200 bg-white">
+    <!-- ========= Security Section ========= -->
+   <div class=" w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7">
     <div class="flex">
       <div class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
         <img src="../../assets/images/security.png" alt="" class="w-5 h-5" />
@@ -191,7 +211,7 @@
       </div>
     </div>
 
-    <form class="max-w-[75%] ps-[50px]" @submit.prevent="onSubmit">
+    <form class="max-w-[95%] ps-[50px]" @submit.prevent="onSubmit">
       <!-- Current password -->
       <div class="mb-5">
         <label class="block mb-2 text-sm font-medium text-gray-900">Current Password</label>
@@ -199,11 +219,12 @@
           <input
             :type="showCurrent ? 'text' : 'password'"
             v-model="form.current"
-            class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+            class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-xl 
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
             required
           />
-          <button type="button" @click="toggle('current')" class="absolute inset-y-0 right-2 flex items-center justify-center px-2">
+          <button type="button" @click="toggle('current')" class="absolute inset-y-0 right-2 flex items-center justify-center px-2 text-gray-500
+">
             <svg v-if="!showCurrent" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -229,11 +250,11 @@
           <input
             :type="showNew ? 'text' : 'password'"
             v-model="form.new"
-            class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+            class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg 
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
             required minlength="8"
           />
-          <button type="button" @click="toggle('new')" class="absolute inset-y-0 right-2 flex items-center justify-center px-2">
+          <button type="button" @click="toggle('new')" class="absolute inset-y-0 right-2 flex items-center justify-center px-2 text-gray-500">
             <svg v-if="!showNew" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -256,16 +277,16 @@
 
       <!-- Repeat password -->
       <div class="mb-5">
-        <label class="block mb-2 text-sm font-medium text-gray-900">Repeat Password</label>
+        <label class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
         <div class="relative">
           <input
             :type="showRepeat ? 'text' : 'password'"
             v-model="form.repeat"
-            class="shadow-xs bg-gray-50 border border-gray-300 text-sm rounded-lg 
+            class="shadow-xs border border-gray-300 text-sm rounded-lg 
                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
             required minlength="8"
           />
-          <button type="button" @click="toggle('repeat')" class="absolute inset-y-0 right-2 flex items-center justify-center px-2">
+          <button type="button" @click="toggle('repeat')" class="absolute inset-y-0 right-2 flex items-center justify-center px-2 text-gray-500">
             <svg v-if="!showRepeat" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -289,7 +310,7 @@
 
       <button
         type="submit"
-        class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 
+        class="text-white mt-5 bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 
                focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
         Update Password
@@ -300,18 +321,18 @@
   </div>
 
 
+  </section>
+
+
+
+
 </template>
 
 <script>
+import { getAuth, updatePassword, reauthenticateWithCredential, EmailAuthProvider, onAuthStateChanged } from "firebase/auth";
 import { db, storage } from "@/Firebase/firebaseConfig.js";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import {
-  getAuth,
-  updatePassword,
-  reauthenticateWithCredential,
-  EmailAuthProvider,
-} from "firebase/auth";
 import { toast } from "vue3-toastify";
 
 export default {
@@ -335,14 +356,28 @@ export default {
       showNew: false,
       showRepeat: false,
       form: { current: "", new: "", repeat: "" },
+      userData: {}
     };
   },
 
-  async mounted() {
-    await this.fetchUserData();
-  },
-
   methods: {
+    getUserData() {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.userData = {
+            name: user.displayName || "User",
+            uid: user.uid,
+            email: user.email,
+            photo: user.photoURL 
+          };
+        }
+      });
+    },
+
+ 
+
+
     // 🟢 جلب بيانات المستخدم
     async fetchUserData() {
       try {
@@ -423,14 +458,11 @@ export default {
       }
 
       try {
-        const credential = EmailAuthProvider.credential(
-          user.email,
-          this.form.current
-        );
+        const credential = EmailAuthProvider.credential(user.email, this.form.current);
         await reauthenticateWithCredential(user, credential);
         await updatePassword(user, this.form.new);
 
-        toast.success("Password updated successfully ✅");
+        toast.success("Password updated successfully");
         this.form.current = this.form.new = this.form.repeat = "";
       } catch (error) {
         console.error(error);
@@ -438,8 +470,13 @@ export default {
       }
     },
   },
+
+  mounted() {
+    this.getUserData();
+    this.fetchUserData();
+  },
+
 };
+
 </script>
-
-
 <style scoped></style>

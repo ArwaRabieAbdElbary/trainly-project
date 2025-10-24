@@ -148,7 +148,7 @@ export default {
     </div>
   </aside>
 </template>
-<style>
+<style scoped>
 .bg-all {
   background: #d9eeff;
 }
@@ -159,7 +159,7 @@ export default {
   background: #83d3f799;
 }
 .router-link-active {
-  background-color: #83d3f7 !important; /* نفس اللون اللي قلت عليه بس أغمق شوية */
+  background: #61b7df99 !important;
   color: #000;
   font-weight: 600;
 }
