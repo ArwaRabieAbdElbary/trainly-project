@@ -1,16 +1,22 @@
 <template>
 
-    <!-- Welcome Header -->
-    <div class="bg-white p-6 rounded-2xl shadow-sm mb-8 flex items-center justify-between">
-        <div class="flex items-center gap-4">
-            <img src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="profile"
-                class="w-[122px] h-[122px] rounded-full" />
-            <div>
-                <h2 class="text-xl font-semibold text-gray-800">Welcome back, [Name]!</h2>
-                <p class="text-sm text-gray-500">Ready to crush your fitness goals today?</p>
-            </div>
-        </div>
+  <!-- Welcome Header -->
+<div class="bg-white p-6 rounded-2xl shadow-sm mb-8 flex items-center justify-between">
+  <div class="flex items-center gap-4">
+    <img
+      :src="trainee.profilePicture || 'https://via.placeholder.com/122'"
+      alt="profile"
+      class="w-[122px] h-[122px] rounded-full object-cover"
+    />
+    <div>
+      <h2 class="text-xl font-semibold text-gray-800">
+        Welcome back, {{ trainee.firstName }} {{ trainee.lastName }}!
+      </h2>
+      <p class="text-sm text-gray-500">Need help? We're here for you.</p>
     </div>
+  </div>
+</div>
+
 
     <!-- Customer Service Section -->
     <section>
@@ -100,17 +106,17 @@
 
             <div class="w-full">
                 <div class="p-4 bg-[#FCFBFB] rounded-2xl shadow-md mb-2 w-full">
-                    <h4 class="font-medium text-gray-800">How do I create a new training plan?</h4>
+                    <h4 class="font-medium text-gray-800">How do I book a session with my trainer?</h4>
                     <p class="text-sm text-gray-500 mt-1">
-                        Go to My Plans and click ‘Create New Plan’. Fill in the details and you’re all set!
-                    </p>
+                        Navigate to "My Trainers" section, select your trainer, and click on "Book Session". Choose your
+                        preferred time slot and confirm your booking. </p>
                 </div>
 
                 <div class="p-4 bg-[#FCFBFB] rounded-2xl shadow-md mb-2">
-                    <h4 class="font-medium text-gray-800">How do billing and payments work?</h4>
+                    <h4 class="font-medium text-gray-800">How do I contact my trainer directly?</h4>
                     <p class="text-sm text-gray-500 mt-1">
-                        Payments are processed automatically. You can manage billing in Settings.
-                    </p>
+                        Use the "Inbox" section to send direct messages to your trainer. They typically respond within
+                        24 hours during business days. </p>
                 </div>
 
                 <div class="p-4 bg-[#FCFBFB] rounded-2xl shadow-md mb-2">
@@ -145,65 +151,107 @@
 
 <script>
 import emailjs from "emailjs-com";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "@/Firebase/firebaseConfig"; 
 
 export default {
-    name: "TraineeCustomerService",
+  name: "TraineeCustomerService",
 
-    data() {
-        return {
-            showPopup: false,
-            form: { name: "", email: "", message: "" },
-            errors: { name: "", email: "", message: "" },
-        };
+  data() {
+    return {
+      showPopup: false,
+      form: { name: "", email: "", message: "" },
+      errors: { name: "", email: "", message: "" },
+      trainee: {
+        firstName: "",
+        lastName: "",
+        profilePicture: "https://via.placeholder.com/122",
+      },
+    };
+  },
+
+  methods: {
+    async fetchTraineeData(uid) {
+      try {
+        const traineeRef = doc(db, "users", uid);
+        const traineeSnap = await getDoc(traineeRef);
+
+        if (traineeSnap.exists()) {
+          const data = traineeSnap.data();
+
+          if (data.role === "trainee") {
+            this.trainee = data;
+
+            this.form.name = `${data.firstName} ${data.lastName}`;
+            this.form.email = data.email;
+          } else {
+            console.warn("User is not a trainee.");
+          }
+        } else {
+          console.warn("Trainee not found in Firestore.");
+        }
+      } catch (error) {
+        console.error("Error fetching trainee data:", error);
+      }
     },
-    methods: {
-        async sendReport() {
-            this.errors = { name: "", email: "", message: "" };
-            let valid = true;
 
-            if (!this.form.name.trim()) {
-                this.errors.name = "Please enter your name.";
-                valid = false;
-            }
+    async sendReport() {
+      this.errors = { name: "", email: "", message: "" };
+      let valid = true;
 
-            if (!this.form.email.trim()) {
-                this.errors.email = "Please enter your email.";
-                valid = false;
-            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.form.email)) {
-                this.errors.email = "Please enter a valid email.";
-                valid = false;
-            }
+      if (!this.form.name.trim()) {
+        this.errors.name = "Please enter your name.";
+        valid = false;
+      }
+      if (!this.form.email.trim()) {
+        this.errors.email = "Please enter your email.";
+        valid = false;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.form.email)) {
+        this.errors.email = "Please enter a valid email.";
+        valid = false;
+      }
+      if (!this.form.message.trim()) {
+        this.errors.message = "Please enter your message.";
+        valid = false;
+      }
 
-            if (!this.form.message.trim()) {
-                this.errors.message = "Please enter your message.";
-                valid = false;
-            }
+      if (!valid) return;
 
-            if (!valid) return;
+      try {
+        await emailjs.send(
+          "service_wm84ejo", // your EmailJS service ID
+          "template_cgk08e7", // your EmailJS template ID
+          {
+            name: this.form.name,
+            email: this.form.email,
+            message: this.form.message,
+          },
+          "37n0HAmFRsDDfRgJT" // your EmailJS public key
+        );
 
-            try {
-                await emailjs.send(
-                    "service_wm84ejo",
-                    "template_cgk08e7",
-                    {
-                        name: this.form?.name || "",
-                        email: this.form?.email || "",
-                        message: this.form?.message || "",
-                    },
-                    "37n0HAmFRsDDfRgJT"
-                );
-
-
-                this.showPopup = true;
-                this.form = { name: "", email: "", message: "" };
-            } catch (error) {
-                console.error("EmailJS Error:", error);
-                alert("Something went wrong. Please try again later.");
-            }
-        },
+        this.showPopup = true;
+        this.form.message = "";
+      } catch (error) {
+        console.error("EmailJS Error:", error);
+        alert("Something went wrong. Please try again later.");
+      }
     },
+  },
+
+  mounted() {
+    // Detect logged-in trainee and load their Firestore data
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.fetchTraineeData(user.uid);
+      } else {
+        console.warn("No trainee logged in.");
+      }
+    });
+  },
 };
 </script>
+
 
 
 <style scoped>
