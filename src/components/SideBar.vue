@@ -1,15 +1,9 @@
 <template>
-  <nav class="top-0 z-50 w-full">
-    <div class="px-3 py-3 lg:px-5 lg:pl-3">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center justify-start rtl:justify-end">
-          <button
-            data-drawer-target="logo-sidebar"
-            data-drawer-toggle="logo-sidebar"
-            aria-controls="logo-sidebar"
-            type="button"
-            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-20"
-          >
+<nav class=" top-0 z-50 w-full"  >
+  <div class="px-3 py-3 lg:px-5 lg:pl-3">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center justify-start rtl:justify-end">
+        <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-20">
             <span class="sr-only">Open sidebar</span>
             <svg
               class="w-6 h-6"
@@ -29,9 +23,10 @@
 
         <div class="flex items-center">
           <div class="flex items-center ms-3 gap-[40px]">
-            <div class="hidden md:block">
-              <img src="@/assets/images/mingcute_notification-line.png" alt="" class="w-7 h-7" />
-            </div>
+            <div class="hidden md:block ">
+              <img src="@/assets/images/mingcute_notification-line.png" alt="" class="w-7 h-7">
+            </div >
+
 
             <div>
               <button
@@ -47,6 +42,7 @@
                 />
               </button>
             </div>
+
           </div>
         </div>
       </div>
@@ -126,7 +122,7 @@
 
         <li>
           <router-link
-            to="/trainer/customer-service"
+            to="/trainer/customerservice"
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
             <img src="@/assets/images/mdi_customer-service.png" alt="" class="w-6 h-6" />
@@ -231,9 +227,9 @@ export default {
 };
 </script>
 
-<style>
-.bg-all {
-  background: #d9eeff;
+<style scoped>
+.bg-all{
+    background: #D9EEFF;
 }
 .bg-nav {
   background: #b8dbf8;
@@ -242,7 +238,7 @@ export default {
   background: #83d3f799;
 }
 .router-link-active {
-  background-color: #83d3f7 !important;
+  background-color: #83d3f7 ;
   color: #000;
   font-weight: 600;
 }

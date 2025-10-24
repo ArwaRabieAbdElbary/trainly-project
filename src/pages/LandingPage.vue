@@ -16,7 +16,7 @@
           {{ $t("findTrainer") }}
         </h2>
 
-        <p class="text-sm text-start md:text-end lg:text-xl mt-4 mb-2">
+        <p class="text-sm text-center md:text-left lg:text-xl mt-4 mb-2">
           {{ $t("description1") }}<br />
           {{ $t("description2") }}
         </p>
@@ -62,7 +62,7 @@
         class="flex-1 px-[10px] pt-10 flex flex-col items-center relative z-10 mt-0 lg:mt-10 mx-auto"
       >
         <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mt-1 md:mt-10">
-          {{ $t("whyChoose") }} <span class="text-gradient">{{ $t("trainly") }}</span> {{ $t("questionMark") }}
+          {{ $t("whyChoose") }} <span class="text-gradient">{{ $t("trainly") }}</span> ؟
         </h1>
         <p class="text-sm text-center lg:text-xl mt-4 mb-7">
           {{ $t("whyChooseDesc1") }} <br />
@@ -156,6 +156,7 @@
     <div
       class="flex flex-wrap justify-center md:justify-evenly items-center gap-5 text-center mx-auto"
     >
+      <!-- Feature Card 1 -->
       <div class="features-card">
         <div class="flex flex-col items-center pb-10">
           <img
@@ -173,6 +174,8 @@
           </p>
         </div>
       </div>
+
+      <!-- Feature Card 2 -->
       <div class="features-card">
         <div class="flex flex-col items-center pb-10">
           <img
@@ -190,6 +193,8 @@
           </p>
         </div>
       </div>
+
+      <!-- Feature Card 3 -->
       <div class="features-card">
         <div class="flex flex-col items-center pb-10">
           <img
@@ -210,93 +215,84 @@
     </div>
   </section>
 
-  <section class="relative md:pt-[90px] lg:pt-[70px]">
-    <div class="hidden lg:block absolute top-[-100px] left-0 w-full z-10">
-      <img src="@/assets/images/Rectangle1.png" alt="curve" class="w-full block" />
-    </div>
+  <!-- How It Works Section -->
+  <section
+    class="bg-[#8CDAFE99] w-full h-[550px] md:h-[772px] lg:h-[795px] md:pt-[20px] lg:pt-[100px]"
+  >
+    <h2 class="text-[30px] lg:text-[45px] font-[600] text-center mb-17 pt-10 md:pt-0">
+      {{ $t("howItWorks") }}
+    </h2>
 
-    <div
-      class="bg-[#8CDAFE99] w-full h-[550px] md:h-[772px] lg:h-[795px] md:pt-[20px] lg:pt-[100px]"
-    >
-      <h2 class="text-[30px] lg:text-[45px] font-[600] text-center mb-17 pt-10 md:pt-0">
-        {{ $t("howItWorks") }}
-      </h2>
+    <div class="relative flex flex-col items-center w-full mx-auto">
+      <div
+        class="absolute top-[-40px] bottom-[-40px] w-[4px] bg-gradient-to-b from-[#00C853F2] to-[#0D8BF2] h-[437px] md:h-[680px] lg:h-[600px]"
+      ></div>
 
-      <div class="relative flex flex-col items-center w-full mx-auto">
-        <div
-          class="absolute top-[-40px] bottom-[-40px] w-[4px] bg-gradient-to-b from-[#00C853F2] to-[#0D8BF2] h-[437px] md:h-[680px] lg:h-[600px]"
-        ></div>
-
-        <div class="relative flex items-center md:mb-17 w-full px-[5%] md:px-[10%]">
-          <div class="w-1/2 text-end md:pe-12 pe-7">
-            <h3 class="text-md md:text-xl font-semibold">{{ $t("step1Title") }}</h3>
-            <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
-              {{ $t("step1Desc") }} <br>
-              {{ $t('step1Desc2') }}
-            </p>
-          </div>
-
-          <div class="img-box">
-            <img src="@/assets/images/user.png" alt="icon" />
-          </div>
-
-          <div class="w-1/2"></div>
+      <!-- Step 1 -->
+      <div class="relative flex items-center md:mb-17 w-full px-[5%] md:px-[10%]">
+        <div class="w-1/2 text-end md:pe-12 pe-7">
+          <h3 class="text-md md:text-xl font-semibold">{{ $t("step1Title") }}</h3>
+          <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
+            {{ $t("step1Desc") }} <br />
+            {{ $t("step1Desc2") }}
+          </p>
         </div>
-
-        <div class="relative flex items-center md:mb-17 mb-2 w-full px-[5%] md:px-[10%]">
-          <div class="w-1/2"></div>
-
-          <div class="img-box">
-            <img src="@/assets/images/search.png" alt="icon" />
-          </div>
-
-          <div class="w-1/2 ps-7 md:ps-12">
-            <h3 class="text-md md:text-xl font-semibold">{{ $t("step2Title") }}</h3>
-            <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
-              {{ $t("step2Desc") }} <br>
-              {{ $t("step2Desc2") }}
-
-            </p>
-          </div>
+        <div class="img-box">
+          <img src="@/assets/images/user.png" alt="icon" />
         </div>
+        <div class="w-1/2"></div>
+      </div>
 
-        <div class="relative flex items-center md:mb-17 mb-2 w-full px-[5%] md:px-[10%]">
-          <div class="w-1/2 text-end md:pe-12 pe-7">
-            <h3 class="text-md md:text-xl font-semibold">{{ $t("step3Title") }}</h3>
-            <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
-              {{ $t("step3Desc") }}
-              <br>
-              {{ $t("step3Desc2") }}
-            </p>
-          </div>
-
-          <div class="img-box">
-            <img src="@/assets/images/vector-step3.png" alt="icon" />
-          </div>
-
-          <div class="w-1/2"></div>
+      <!-- Step 2 -->
+      <div class="relative flex items-center md:mb-17 w-full px-[5%] md:px-[10%]">
+        <div class="w-1/2"></div>
+        <div class="img-box">
+          <img src="@/assets/images/search.png" alt="icon" />
         </div>
+        <div class="w-1/2 ps-7 md:ps-12">
+          <h3 class="text-md md:text-xl font-semibold">{{ $t("step2Title") }}</h3>
+          <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
+            {{ $t("step2Desc") }} <br />
+            {{ $t("step2Desc2") }}
+          </p>
+        </div>
+      </div>
 
-        <div class="relative flex items-center w-full px-[3%] md:px-[10%]">
-          <div class="w-1/2"></div>
+      <!-- Step 3 -->
+      <div class="relative flex items-center md:mb-17 mb-2 w-full px-[5%] md:px-[10%]">
+        <div class="w-1/2 text-end md:pe-12 pe-7">
+          <h3 class="text-md md:text-xl font-semibold">{{ $t("step3Title") }}</h3>
+          <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
+            {{ $t("step3Desc") }}
+            <br />
+            {{ $t("step3Desc2") }}
+          </p>
+        </div>
+        <div class="img-box">
+          <img src="@/assets/images/vector-step3.png" alt="icon" />
+        </div>
+        <div class="w-1/2"></div>
+      </div>
 
-          <div class="img-box">
-            <img src="@/assets/images/cup.png" alt="icon" />
-          </div>
-
-          <div class="w-1/2 ps-8 md:ps-12">
-            <h3 class="text-md md:text-xl font-semibold">{{ $t("step4Title") }}</h3>
-            <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
-              {{ $t("step4Desc") }}
-              <br>
-              {{ $t("step4Desc2") }}
-            </p>
-          </div>
+      <!-- Step 4 -->
+      <div class="relative flex items-center md:mb-17 w-full px-[5%] md:px-[10%]">
+        <div class="w-1/2"></div>
+        <div class="img-box">
+          <img src="@/assets/images/cup.png" alt="icon" />
+        </div>
+        <div class="w-1/2 ps-8 md:ps-12">
+          <h3 class="text-md md:text-xl font-semibold">{{ $t("step4Title") }}</h3>
+          <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
+            {{ $t("step4Desc") }}
+            <br />
+            {{ $t("step4Desc2") }}
+          </p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Call to Action Section -->
   <section>
     <div class="flex flex-col justify-center items-center mt-20">
       <h5 class="font-[600] text-[20px] md:text-[30px] mb-3">
@@ -305,13 +301,12 @@
       <p class="font-[400] text-[14px] md:text-[16px] mb-8 md:text-left text-center">
         {{ $t("readyDesc") }}
       </p>
-     <router-link
-  to="/signup"
-  class="mb-10 w-[40%] md:w-60 h-10 md:h-15 rounded-3xl bg-primary text-white hover:opacity-90 transition md:text-xl font-medium cursor-pointer flex justify-center items-center"
->
-  {{ $t("getStarted") }}
-</router-link>
-
+      <router-link
+        to="/signup"
+        class="mb-10 w-[40%] md:w-60 h-10 md:h-15 rounded-3xl bg-primary text-white hover:opacity-90 transition md:text-xl font-medium cursor-pointer flex justify-center items-center"
+      >
+        {{ $t("getStarted") }}
+      </router-link>
     </div>
   </section>
 </template>
