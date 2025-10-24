@@ -1,32 +1,29 @@
 <template>
-  <div class="mb-10">
+  <section class="max-w-5xl mx-auto  flex flex-col gap-12">
+    <div class="">
     <h2 class="text-[24px] font-medium text-gray-900">Settings</h2>
     <p class="mt-2 text-[16px] text-gray-500">
       Manage your account settings and preferences here.
     </p>
   </div>
-
-  <form
-    class="max-w-5xl p-15 border border-gray-200 rounded-3xl shadow-xl bg-white flex flex-col items-center"
-    @submit.prevent="updateTrainer"
-  >
-    <div class="w-full">
+    <!-- ========= Personal Info Section ========= -->
+    <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7">
       <div class="flex items-center gap-3 mb-6">
-        <img src="@/assets/images/page-1.png" alt="icon" class="w-6 h-6 " />
+        <div class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
+        <img src="../../assets/images/page-1.png" alt="" class="w-5 h-5" />
+      </div>
         <div>
-          <h2 class="text-lg font-medium text-gray-900">
-            Personal Information
-          </h2>
+          <h2 class="text-lg font-medium text-gray-900">Personal Information</h2>
           <p class="text-sm text-gray-500">Update your personal details</p>
         </div>
       </div>
 
-      <div class="space-y-10 mx-15">
+      <form class="space-y-10 mx-15" @submit.prevent="updateTrainer">
         <!-- Profile Photo -->
         <div class="flex flex-col items-center mb-10">
           <label
             for="profilePhoto"
-            class="w-23 h-23 flex flex-col items-center justify-center rounded-full border-2 border-dashed border-gray-300 cursor-pointer hover:border-indigo-500 transition relative"
+            class="w-23 h-23 flex flex-col items-center justify-center rounded-full border-2 border-dashed border-gray-300 cursor-pointer hover:border-blue-500 transition relative"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -53,44 +50,40 @@
           <span class="text-sm text-gray-500">Upload your photo</span>
         </div>
 
-        <!-- Personal Info -->
+        <!-- Inputs -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <label for="first-name" class="block text-sm font-medium text-gray-900">First Name</label>
+            <label class="block text-sm font-medium text-gray-900">First Name</label>
             <input
-              id="first-name"
-              type="text"
               v-model="formData.firstName"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label for="last-name" class="block text-sm font-medium text-gray-900">Last Name</label>
-            <input
-              id="last-name"
               type="text"
-              v-model="formData.lastName"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
           </div>
 
           <div>
-            <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
+            <label class="block text-sm font-medium text-gray-900">Last Name</label>
             <input
-              id="email"
-              type="email"
-              v-model="formData.email"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              v-model="formData.lastName"
+              type="text"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
           </div>
 
           <div>
-            <label for="gender" class="block text-sm font-medium text-gray-900">Gender</label>
+            <label class="block text-sm font-medium text-gray-900">Email</label>
+            <input
+              v-model="formData.email"
+              type="email"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-900">Gender</label>
             <select
-              id="gender"
               v-model="formData.gender"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
               <option value="">Select</option>
               <option value="male">Male</option>
@@ -102,111 +95,247 @@
         <!-- City / Country / Birthday -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <div>
-            <label for="city" class="block text-sm font-medium text-gray-900">City</label>
+            <label class="block text-sm font-medium text-gray-900">City</label>
             <input
-              id="city"
-              type="text"
               v-model="formData.city"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label for="country" class="block text-sm font-medium text-gray-900">Country</label>
-            <input
-              id="country"
               type="text"
-              v-model="formData.country"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
           </div>
 
           <div>
-            <label for="birthday" class="block text-sm font-medium text-gray-900">Birthday</label>
-            <div class="mt-2 flex items-center border border-gray-300 rounded-xl px-3 py-2 focus-within:ring-2 focus-within:ring-indigo-500 bg-gray-50">
-              <input
-                id="birthday"
-                type="date"
-                v-model="formData.birthdate"
-                class="flex-1 bg-transparent focus:outline-none text-gray-700 cursor-pointer"
-              />
-            </div>
+            <label class="block text-sm font-medium text-gray-900">Country</label>
+            <input
+              v-model="formData.country"
+              type="text"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-900">Birthday</label>
+            <input
+              v-model="formData.birthdate"
+              type="date"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50"
+            />
           </div>
         </div>
 
         <!-- Experience -->
         <div>
-          <label for="years-exp" class="block text-sm font-medium text-gray-900">Years of Experience</label>
+          <label class="block text-sm font-medium text-gray-900">Years of Experience</label>
           <input
-            id="years-exp"
-            type="number"
             v-model="formData.experience"
-            class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            type="number"
+            class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
         </div>
 
         <!-- Upload Certificate -->
-        <h2 class="text-sm font-medium text-gray-900 mt-8">Upload Certificate</h2>
-        <div class="flex text-center border-2 border-dashed border-gray-300 p-5 rounded-xl hover:border-indigo-400 transition mt-3">
-          <div class="flex-1">
-            <input
-              id="certificate"
-              type="file"
-              class="hidden"
-              @change="newCertificate = $event.target.files[0]"
-            />
-            <label
-              for="certificate"
-              class="cursor-pointer inline-block bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-500 transition text-sm"
-            >
-              Upload
-            </label>
-            <p class="text-xs text-gray-500 mt-2">PDF, JPG up to 10MB</p>
-
-            <!-- عرض كل الشهادات -->
-            <div v-if="formData.certifications && formData.certifications.length">
-              <a
-                v-for="(cert, index) in formData.certifications"
-                :key="index"
-                :href="cert"
-                target="_blank"
-                class="text-blue-500 mt-2 inline-block ml-4"
+        <div>
+          <h2 class="text-sm font-medium text-gray-900 mt-8">Upload Certificate</h2>
+          <div
+            class="flex text-center border-2 border-dashed border-gray-300 p-5 rounded-xl hover:border-blue-400 transition mt-3"
+          >
+            <div class="flex-1">
+              <input
+                id="certificate"
+                type="file"
+                class="hidden"
+                @change="newCertificate = $event.target.files[0]"
+              />
+              <label
+                for="certificate"
+                class="cursor-pointer inline-block bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-500 transition text-sm"
               >
-                View Certificate {{ index + 1 }}
-              </a>
+                Upload
+              </label>
+              <p class="text-xs text-gray-500 mt-2">PDF, JPG up to 10MB</p>
+
+              <div v-if="formData.certifications && formData.certifications.length">
+                <a
+                  v-for="(cert, index) in formData.certifications"
+                  :key="index"
+                  :href="cert"
+                  target="_blank"
+                  class="text-blue-500 mt-2 inline-block ml-4"
+                >
+                  View Certificate {{ index + 1 }}
+                </a>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Buttons -->
+        <div class="mt-10 flex-wrap md:flex justify-between items-center w-full">
+          <button
+            type="button"
+            class="border-2 border-red-500 text-red-500 font-medium text-sm py-2 px-6 rounded-lg hover:bg-red-50 transition "
+          >
+            Delete Account
+          </button>
+          <button
+            type="submit"
+            class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 
+               focus:outline-none focus:ring-blue-300 font-medium text-sm py-2 px-6 rounded-lg  transition "
+          >
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ========= Security Section ========= -->
+   <div class="shadow-lg rounded-2xl p-4 border border-gray-200 bg-white">
+    <div class="flex">
+      <div class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
+        <img src="../../assets/images/security.png" alt="" class="w-5 h-5" />
+      </div>
+
+      <div>
+        <h2 class="text-xl font-[500] mb-1">Security</h2>
+        <p class="mb-6 font-[400] text-[13px] text-gray-500">
+          Manage your password and security settings
+        </p>
       </div>
     </div>
 
-    <!-- Buttons -->
-    <div class="mt-10 flex-wrap md:flex justify-between items-center w-full">
-      <button
-        type="button"
-        class="border-2 border-red-500 text-red-500 font-medium text-sm py-2 px-6 rounded-lg hover:bg-red-50 transition mx-15"
-      >
-        Delete Account
-      </button>
+    <form class="max-w-[75%] ps-[50px]" @submit.prevent="onSubmit">
+      <!-- Current password -->
+      <div class="mb-5">
+        <label class="block mb-2 text-sm font-medium text-gray-900">Current Password</label>
+        <div class="relative">
+          <input
+            :type="showCurrent ? 'text' : 'password'"
+            v-model="form.current"
+            class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+            required
+          />
+          <button type="button" @click="toggle('current')" class="absolute inset-y-0 right-2 flex items-center justify-center px-2">
+            <svg v-if="!showCurrent" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 
+                4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 
+                0-8.268-2.943-9.542-7a9.965 9.965 0 012.223-3.583M3 3l18 18" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.88 9.88a3 3 0 104.24 4.24" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- New password -->
+      <div class="mb-5">
+        <label class="block mb-2 text-sm font-medium text-gray-900">New Password</label>
+        <div class="relative">
+          <input
+            :type="showNew ? 'text' : 'password'"
+            v-model="form.new"
+            class="shadow-xs bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+                   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+            required minlength="8"
+          />
+          <button type="button" @click="toggle('new')" class="absolute inset-y-0 right-2 flex items-center justify-center px-2">
+            <svg v-if="!showNew" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 
+                0 8.268 2.943 9.542 7-1.274 4.057-5.065 
+                7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13.875 18.825A10.05 10.05 0 0112 
+                19c-4.477 0-8.268-2.943-9.542-7a9.965 
+                9.965 0 012.223-3.583M3 3l18 18" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.88 9.88a3 3 0 104.24 4.24" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Repeat password -->
+      <div class="mb-5">
+        <label class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
+        <div class="relative">
+          <input
+            :type="showRepeat ? 'text' : 'password'"
+            v-model="form.repeat"
+            class="shadow-xs bg-gray-50 border border-gray-300 text-sm rounded-lg 
+                   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+            required minlength="8"
+          />
+          <button type="button" @click="toggle('repeat')" class="absolute inset-y-0 right-2 flex items-center justify-center px-2">
+            <svg v-if="!showRepeat" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 
+                5c4.477 0 8.268 2.943 9.542 7-1.274 
+                4.057-5.065 7-9.542 7-4.477 
+                0-8.268-2.943-9.542-7z" />
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13.875 18.825A10.05 10.05 0 0112 
+                19c-4.477 0-8.268-2.943-9.542-7a9.965 
+                9.965 0 012.223-3.583M3 3l18 18" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.88 9.88a3 3 0 104.24 4.24" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
       <button
         type="submit"
-        class="bg-indigo-600 text-white font-medium text-sm py-2 px-6 rounded-lg hover:bg-indigo-500 transition mx-15"
+        class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 
+               focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
-        Save Changes
+        Update Password
       </button>
-    </div>
-  </form>
+
+      <p v-if="message" class="text-sm mt-3 text-center" :class="messageColor">{{ message }}</p>
+    </form>
+  </div>
+  </section>
 </template>
+
+
 
 <script>
 import { db, storage } from "@/Firebase/firebaseConfig.js";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
+import {
+  getAuth,
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+} from "firebase/auth";
+import { toast } from "vue3-toastify";
 
 export default {
   name: "TrainerSettings",
+
   data() {
     return {
+      userId: "L1yCynH48ePK4w9Vy6FtYXJPcgF2",
       formData: {
         firstName: "",
         lastName: "",
@@ -226,35 +355,106 @@ export default {
       },
       newProfilePhoto: null,
       newCertificate: null,
+
+      // بيانات الباسورد
+      form: { current: "", new: "", repeat: "" },
+      showCurrent: false,
+      showNew: false,
+      showRepeat: false,
     };
   },
+
   async mounted() {
-    const docRef = doc(db, "users", "L1yCynH48ePK4w9Vy6FtYXJPcgF2");
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      this.formData = docSnap.data();
-    }
+    await this.fetchTrainerData();
   },
+
   methods: {
+    // 🟢 جلب بيانات المدرب
+    async fetchTrainerData() {
+      try {
+        const docRef = doc(db, "users", this.userId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          this.formData = docSnap.data();
+        }
+      } catch (error) {
+        console.error("Error fetching trainer data:", error);
+      }
+    },
+
+    // 🟢 رفع الملفات (صورة أو شهادة)
     async uploadFile(file, type) {
       if (!file) return null;
-      const fileRef = storageRef(storage, `users/${type}-${Date.now()}-${file.name}`);
+      const fileRef = storageRef(
+        storage,
+        `users/${type}-${Date.now()}-${file.name}`
+      );
       await uploadBytes(fileRef, file);
       return await getDownloadURL(fileRef);
     },
+
+    // 🟢 تحديث بيانات المدرب
     async updateTrainer() {
-      if (this.newProfilePhoto) {
-        this.formData.profilePicture = await this.uploadFile(this.newProfilePhoto, "profilePhoto");
+      try {
+        if (this.newProfilePhoto) {
+          this.formData.profilePicture = await this.uploadFile(
+            this.newProfilePhoto,
+            "profilePhoto"
+          );
+        }
+
+        if (this.newCertificate) {
+          const url = await this.uploadFile(this.newCertificate, "certificate");
+          if (!this.formData.certifications) this.formData.certifications = [];
+          this.formData.certifications.push(url);
+        }
+
+        const docRef = doc(db, "users", this.userId);
+        await updateDoc(docRef, this.formData);
+
+        toast.success("Data updated successfully");
+      } catch (error) {
+        console.error("Error updating trainer data:", error);
+        toast.error("Failed to update data!");
       }
-      if (this.newCertificate) {
-        const url = await this.uploadFile(this.newCertificate, "certificate");
-        if (!this.formData.certifications) this.formData.certifications = [];
-        this.formData.certifications.push(url);
+    },
+
+    // 🟢 إظهار أو إخفاء الباسورد
+    toggle(field) {
+      if (field === "current") this.showCurrent = !this.showCurrent;
+      else if (field === "new") this.showNew = !this.showNew;
+      else if (field === "repeat") this.showRepeat = !this.showRepeat;
+    },
+
+    // 🟢 تحديث كلمة السر
+    async onSubmit() {
+      if (this.form.new !== this.form.repeat) {
+        toast.error("New password and confirmation do not match!");
+        return;
       }
 
-      const docRef = doc(db, "users", "L1yCynH48ePK4w9Vy6FtYXJPcgF2");
-      await updateDoc(docRef, this.formData);
-      alert("✅ Data updated successfully!");
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        toast.error("No user is signed in!");
+        return;
+      }
+
+      try {
+        const credential = EmailAuthProvider.credential(
+          user.email,
+          this.form.current
+        );
+        await reauthenticateWithCredential(user, credential);
+        await updatePassword(user, this.form.new);
+
+        toast.success("Password updated successfully");
+        this.form.current = this.form.new = this.form.repeat = "";
+      } catch (error) {
+        console.error(error);
+        toast.error(error.message);
+      }
     },
   },
 };

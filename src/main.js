@@ -10,6 +10,8 @@ import App from "./App.vue";
 import "./Firebase/firebaseConfig.js"; // ✅ بيشغّل تهيئة Firebase مرة واحدة
 import { createRouter, createWebHistory } from "vue-router";
 import i18n from "./i18n"; // ✅ ملف اللغات
+import Toast from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import "../src/style.css";
 
 // ----------------------------
@@ -31,6 +33,9 @@ import ContactUs from "./pages/ContactUs.vue";
 import TrainerClient from "./pages/trainer/TrainerClient.vue";
 import TrainerReviews from "./pages/trainer/TrainerReviews.vue";
 import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
+import TrainerCustomerservice from "./pages/trainer/TrainerCustomerservice.vue";
+import TraineeCustomerservice from "./pages/trainee/TraineeCustomerservice.vue";
+import TrainerPlans from "./pages/trainer/TrainerPlans.vue";
 
 // ----------------------------
 // ✅ إعداد المسارات (Routes)
@@ -44,6 +49,7 @@ const routes = [
   { path: "/forgetpassword1", name: "forgetpassword1", component: ForgetPassword1 },
   { path: "/forgetpassword2", name: "forgetpassword2", component: ForgetPassword2 },
   { path: "/trainerclient", name: "trainerclient", component: TrainerClient },
+  { path: "/trainerplans", name: "trainerplans", component: TrainerPlans },
   { path: "/signup", name: "signup", component: Signup },
   { path: "/login", name: "login", component: LoginPage },
   {path: "/aboutus", name: "aboutus", component: AboutUs },
@@ -65,9 +71,19 @@ const routes = [
         component: TrainerClient,
       },
       {
+        path: "customerservice",
+        name: "trainercustomerservice",
+        component: TrainerCustomerservice,
+      },
+      {
         path: "settings",
         name: "trainersettings",
         component: TrainerSettings,
+      },
+      {
+        path: "plans",
+        name: "trainerplans",
+        component: TrainerPlans,
       },
     ],
   },
@@ -81,6 +97,11 @@ const routes = [
         name: "traineesettings",
         component: TraineeSettings,
       },
+      {
+        path: "customerservice",
+        name: "traineecustomerservice",
+        component: TraineeCustomerservice,
+      }
     ],
   },
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
@@ -115,4 +136,14 @@ onAuthStateChanged(auth, (user) => {
 createApp(App)
   .use(router)
   .use(i18n)
-  .mount("#app");
+  .use(Toast, {
+  position: "top-center",
+  timeout: 2000,        
+  closeOnClick: true,    
+  pauseOnHover: true,    
+  draggable: true,       
+  showCloseButtonOnHover: false,
+  hideProgressBar: false,
+  theme: "auto",         
+})
+.mount("#app");

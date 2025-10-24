@@ -1,31 +1,3 @@
-<script>
-export default {
-  name: "NavBar",
-  data() {
-    return {
-      isOpen: false,
-    };
-  },
-  methods: {
-    switchLang() {
-      const newLocale = this.$i18n.locale === "en" ? "ar" : "en";
-      this.$i18n.locale = newLocale;
-      localStorage.setItem("lang", newLocale);
-      document.dir = newLocale === "ar" ? "rtl" : "ltr";
-      document.documentElement.lang = newLocale;
-
-      // 🟢 تغيير الخط حسب اللغة
-      document.body.style.fontFamily =
-        newLocale === "ar" ? "'Tajawal', sans-serif" : "'Poppins', sans-serif";
-    },
-  },
-  mounted() {
-    // ضبط الاتجاه حسب اللغة المحفوظة
-    document.dir = this.$i18n.locale === "ar" ? "rtl" : "ltr";
-  },
-};
-</script>
-
 <template>
   <nav
     class="flex justify-between items-center px-[50px] md:px-[70px] h-20 bg-white shadow-sm relative"
@@ -41,42 +13,31 @@ export default {
     <ul
       class="hidden md:flex items-center justify-center md:space-x-10 lg:space-x-16 font-[500] md:text-[85%] lg:text-[100%]"
     >
-      <router-link to="/">
-        <li><a href="#" class="btn-primary">{{ $t("home") }}</a></li>
-      </router-link>
-
-      <router-link to="aboutus">
-        <li><a href="#" class="btn-primary">{{ $t("about") }}</a></li>
-      </router-link>
-
-      <router-link to="sports">
-        <li><a href="#" class="btn-primary">{{ $t("sports") }}</a></li>
-      </router-link>
-
-      <router-link to="contactus">
-        <li><a href="#" class="btn-primary">{{ $t("contact") }}</a></li>
-      </router-link>
+      <router-link to="/" class="nav-link">{{ $t("home") }}</router-link>
+      <router-link to="/aboutus" class="nav-link">{{ $t("about") }}</router-link>
+      <router-link to="/sports" class="nav-link">{{ $t("sports") }}</router-link>
+      <router-link to="/contactus" class="nav-link">{{ $t("contact") }}</router-link>
     </ul>
 
     <!-- 🔹 الأزرار وتبديل اللغة -->
     <div class="hidden md:flex items-center gap-3">
+      <!-- ✅ زرار Login بستايل منفصل -->
       <router-link>
       <button
         @click="$router.push('/login')"
-        class="min-w-[130px] lg:min-w-[150px] px-4 rounded-3xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
+        class="min-w-[130px] lg:min-w-[150px] px-4 rounded-3xl border-1 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--third)] transition h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
       >
         {{ $t("login") }}
       </button>
-      </router-link>
-
-      <router-link to="signup">
+</router-link>
+      <!-- ✅ زرار Get Started -->
       <button
         @click="$router.push('/signup')"
         class="min-w-[130px] lg:min-w-[150px] px-4 rounded-3xl bg-primary text-white hover:opacity-90 transition h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
       >
         {{ $t("get_started") }}
       </button>
-      </router-link>
+
       <img
         src="@/assets/images/language switch(1)(1).png"
         alt="Language"
@@ -110,29 +71,29 @@ export default {
         v-if="isOpen"
         class="absolute top-[80px] left-0 w-full bg-white shadow-md flex flex-col items-center space-y-6 py-6 z-50 md:hidden"
       >
-        <a
-          href="#"
-          class="text-gray-800 font-[500] text-[17px] btn-primary"
+        <router-link
+          to="/"
+          class="nav-link"
           @click="isOpen = false"
-          >{{ $t("home") }}</a
+          >{{ $t("home") }}</router-link
         >
-        <a
-          href="#"
-          class="text-gray-800 font-[500] text-[17px] btn-primary"
+        <router-link
+          to="/sports"
+          class="nav-link"
           @click="isOpen = false"
-          >{{ $t("sports") }}</a
+          >{{ $t("sports") }}</router-link
         >
-        <a
-          href="#"
-          class="text-gray-800 font-[500] text-[17px] btn-primary"
+        <router-link
+          to="/aboutus"
+          class="nav-link"
           @click="isOpen = false"
-          >{{ $t("about") }}</a
+          >{{ $t("about") }}</router-link
         >
-        <a
-          href="#"
-          class="text-gray-800 font-[500] text-[17px] btn-primary"
+        <router-link
+          to="/contactus"
+          class="nav-link"
           @click="isOpen = false"
-          >{{ $t("contact") }}</a
+          >{{ $t("contact") }}</router-link
         >
 
         <div class="flex flex-col gap-4 w-[80%] items-center">
@@ -147,13 +108,88 @@ export default {
   </nav>
 </template>
 
+<script>
+export default {
+  name: "NavBar",
+  data() {
+    return {
+      isOpen: false,
+    };
+  },
+  methods: {
+    switchLang() {
+      const newLocale = this.$i18n.locale === "en" ? "ar" : "en";
+      this.$i18n.locale = newLocale;
+      localStorage.setItem("lang", newLocale);
+      document.dir = newLocale === "ar" ? "rtl" : "ltr";
+      document.documentElement.lang = newLocale;
+      document.body.style.fontFamily =
+        newLocale === "ar" ? "'Tajawal', sans-serif" : "'Poppins', sans-serif";
+    },
+  },
+  mounted() {
+    document.dir = this.$i18n.locale === "ar" ? "rtl" : "ltr";
+  },
+};
+</script>
+
 <style scoped>
-.text-primary {
+/* 🌈 ألوان اللينكات */
+.nav-link {
+  position: relative;
+  color: #333;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
   color: var(--primary);
 }
-.bg-primary {
+
+/* 🌈 لما تكون الصفحة مفتوحة */
+.router-link-exact-active.nav-link {
   background: linear-gradient(to right, var(--primary), var(--secondry));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
 }
+
+/* ✨ خط تحت اللينك لما يكون active */
+.router-link-exact-active.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, var(--primary), var(--secondry));
+  border-radius: 2px;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(to right, var(--primary), var(--secondry));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+.gradient-border {
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(to right, var(--primary), var(--secondry)) border-box;
+}
+/* ✨ تأثير الموبايل */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
