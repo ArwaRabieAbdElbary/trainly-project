@@ -36,7 +36,7 @@ import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
 import TrainerProfile from "./pages/TrainerProfile.vue";
 import SearchPage from "./pages/SearchPage.vue";
 import TrainerPlans from "./pages/trainer/TrainerPlans.vue";
-
+import HomePage from "./pages/HomePage.vue";
 
 // ----------------------------
 // ✅ إعداد المسارات (Routes)
@@ -57,6 +57,7 @@ const routes = [
   { path: "/sports", name: "sports", component: SportS },
   { path: "/contactus", name: "contactus", component: ContactUs },
   { path: "/search", name: "search", component: SearchPage },
+  {path: "/home", name: "home", component: HomePage },
   { path: "/trainerprofile", name: "trainerprofile", component: TrainerProfile },
   {
     path: "/trainer",

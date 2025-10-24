@@ -5,11 +5,11 @@
     />
 
     <SideBar
-      v-if="!['landing', 'payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'aboutus' , 'sports' , 'contactus' , 'traineesettings','trainee'].includes($route.name)"
+      v-if="!['landing', 'payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'aboutus' , 'sports' , 'contactus' , 'traineesettings','trainee','home', 'search','trainerprofile'].includes($route.name)"
     />
 
     <SideBarTrainee
-       v-if="!['landing', 'payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'aboutus' , 'sports' , 'contactus' , 'trainerclient' , 'trainerreviews' ,'trainersettings' , 'trainer' ].includes($route.name)"
+       v-if="!['landing', 'payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'aboutus' , 'sports' , 'contactus' , 'trainerclient' , 'trainerreviews' ,'trainersettings' , 'trainer','home' ].includes($route.name)"
     />
 
     <router-view />
