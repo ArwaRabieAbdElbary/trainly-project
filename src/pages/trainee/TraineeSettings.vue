@@ -1,4 +1,14 @@
 <template>
+
+  <!-- Welcome Header -->
+  <div class="mb-8 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <div>
+                <h2 class="text-xl font-semibold text-gray-800">Welcome back, [{{ userData.name }}]!</h2>
+                <p class="text-sm text-gray-500">Ready to crush your fitness goals today?</p>
+            </div>
+        </div>
+  </div>
   <div class="shadow-lg rounded-2xl p-4 border border-gray-200 bg-white">
     <div class="flex">
       <div class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
@@ -78,7 +88,7 @@
 
       <!-- Repeat password -->
       <div class="mb-5">
-        <label class="block mb-2 text-sm font-medium text-gray-900">Repeat Password</label>
+        <label class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
         <div class="relative">
           <input
             :type="showRepeat ? 'text' : 'password'"
@@ -123,7 +133,7 @@
 </template>
 
 <script>
-import { getAuth, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
+import { getAuth, updatePassword, reauthenticateWithCredential, EmailAuthProvider, onAuthStateChanged } from "firebase/auth";
 import { toast } from "vue3-toastify";
 
 export default {
@@ -134,9 +144,25 @@ export default {
       showNew: false,
       showRepeat: false,
       form: { current: "", new: "", repeat: "" },
+      userData: {}
     };
   },
+
   methods: {
+    getUserData() {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.userData = {
+            name: user.displayName || "User",
+            uid: user.uid,
+            email: user.email,
+            photo: user.photoURL 
+          };
+        }
+      });
+    },
+
     toggle(field) {
       if (field === "current") this.showCurrent = !this.showCurrent;
       else if (field === "new") this.showNew = !this.showNew;
@@ -158,14 +184,11 @@ export default {
       }
 
       try {
-        // إعادة التوثيق
         const credential = EmailAuthProvider.credential(user.email, this.form.current);
         await reauthenticateWithCredential(user, credential);
-
-        // تحديث الباسورد
         await updatePassword(user, this.form.new);
 
-        toast.success("Password updated successfully✅");
+        toast.success("Password updated successfully ✅");
         this.form.current = this.form.new = this.form.repeat = "";
       } catch (error) {
         console.error(error);
@@ -173,5 +196,10 @@ export default {
       }
     },
   },
+
+  mounted() {
+    this.getUserData();
+  },
 };
 </script>
+<style scoped></style>
