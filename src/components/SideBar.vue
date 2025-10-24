@@ -25,8 +25,8 @@
               ></path>
             </svg>
           </button>
-          <a href="https://flowbite.com" class="flex ms-2 md:me-24"> </a>
         </div>
+
         <div class="flex items-center">
           <div class="flex items-center ms-3 gap-[40px]">
             <div class="hidden md:block">
@@ -42,7 +42,7 @@
               >
                 <img
                   class="w-8 h-8 rounded-full"
-                  :src="trainerImage || 'https://flowbite.com/docs/images/people/profile-picture-5.jpg'"
+                  :src="trainerImage || 'https://media1.tenor.com/m/IfbOs_yh89AAAAAC/loading-buffering.gif'"
                   alt="user photo"
                 />
               </button>
@@ -63,10 +63,11 @@
         <li class="mb-11 mt-3 mx-2">
           <img src="@/assets/images/Project LOGO.png" class="h-8 w-25 me-3" alt="Logo" />
         </li>
+
         <li>
           <router-link
             to="/trainer/home"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
             <img src="@/assets/images/bx_home.png" alt="" class="w-5 h-5" />
             <span class="ms-3">Home</span>
@@ -76,69 +77,82 @@
         <li>
           <router-link
             to="/trainer/plans"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
             <img src="@/assets/images/grommet-icons_plan.png" alt="" class="w-5 h-5" />
             <span class="ms-3">My Plans</span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/trainer/inbox"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
             <img src="@/assets/images/wpf_message-outline.png" alt="" class="w-5 h-5" />
             <span class="ms-3">Inbox</span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/trainer/clients"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
             <img src="@/assets/images/fluent_people-24-filled.png" alt="" class="w-5 h-5" />
             <span class="ms-3">Clients</span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/trainer/reviews"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
             <img src="@/assets/images/carbon_star-review.png" alt="" class="w-5 h-5" />
             <span class="ms-3">Reviews</span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/trainer/settings"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
             <img src="@/assets/images/mdi_settings-outline.png" alt="" class="w-5 h-5" />
-
             <span class="ms-3">Settings</span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/trainer/customer-service"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
             <img src="@/assets/images/mdi_customer-service.png" alt="" class="w-6 h-6" />
-
             <span class="ms-3">Customer Service</span>
           </router-link>
         </li>
-        <li>
-          <router-link
-            to="/trainer/logout"
-            class="flex items-center p-2 text-red-600 rounded-lg hover:bg-blue-200"
-          >
-            <img src="@/assets/images/logout.png" alt="" class="w-5 h-5" />
 
-            <span class="ms-3">Log out</span>
-          </router-link>
-        </li>
+        <!-- ✅ Log Out Button -->
+    <li>
+      <button
+        @click="handleLogout"
+        class="flex items-center p-2 text-red-600 rounded-lg hover:bg-blue-200 w-full transition duration-300 cursor-pointer"
+      >
+        <img src="@/assets/images/logout.png" alt="logout icon" class="w-5 h-5" />
+        <span class="ms-3 font-medium">Log out</span>
+      </button>
+    </li>
+
+    <!-- ✅ Confirmation Modal with Teleport -->
+<Teleport to="body">
+  <ConfirmLogoutModal
+    v-model="showLogoutModal"
+    @confirm="confirmLogout"
+    @cancel="cancelLogout"
+  />
+</Teleport>
       </ul>
     </div>
   </aside>
@@ -147,29 +161,71 @@
 <script>
 import { onMounted, ref } from "vue";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { useRouter } from "vue-router";
+import ConfirmLogoutModal from "../components/ConfirmLogoutModal.vue";
 
 export default {
   name: "SideBar",
+  components: {
+    ConfirmLogoutModal,
+  },
   setup() {
-    const trainerImage = ref("https://firebasestorage.googleapis.com/v0/b/trainly-4f7a8.firebasestorage.app/o/profilePictures%2Fm3xVWfpgocTOqXD0geFHc0Cv2ry1%2F1761174190146_WhatsApp_Image_2025-04-08_at_21.25.02_35451a2b-removebg-preview.png?alt=media&token=5a441c1a-ac1f-434e-8e20-d477d7446e64");
-    const uid = "m3xVWfpgocTOqXD0geFHc0Cv2ry1";
+    const trainerImage = ref("");
+    const showLogoutModal = ref(false);
+    const db = getFirestore();
+    const auth = getAuth();
+    const router = useRouter();
 
-    const fetchTrainerImage = async () => {
-      const db = getFirestore();
-      const docRef = doc(db, "users", uid);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        trainerImage.value = docSnap.data().profilePicture || "";
+    const fetchTrainerImage = async (uid) => {
+      try {
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          trainerImage.value =
+            docSnap.data().profilePicture ||
+            "https://media1.tenor.com/m/IfbOs_yh89AAAAAC/loading-buffering.gif";
+        }
+      } catch (error) {
+        console.error("Error fetching trainer data:", error);
       }
     };
 
+    const handleLogout = () => {
+      // فتح الـ Modal بدلاً من الـ Logout مباشرة
+      showLogoutModal.value = true;
+    };
+
+    const confirmLogout = async () => {
+      try {
+        await signOut(auth);
+        router.push("/");
+      } catch (error) {
+        console.error("Error logging out:", error);
+      }
+    };
+
+    const cancelLogout = () => {
+      // لو عايز تعمل حاجة لما المستخدم يلغي
+      console.log("Logout cancelled");
+    };
+
     onMounted(() => {
-      fetchTrainerImage();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          fetchTrainerImage(user.uid);
+        } else {
+          console.log("No user signed in.");
+        }
+      });
     });
 
     return {
       trainerImage,
+      handleLogout,
+      showLogoutModal,
+      confirmLogout,
+      cancelLogout,
     };
   },
 };
@@ -186,7 +242,7 @@ export default {
   background: #83d3f799;
 }
 .router-link-active {
-  background-color: #83d3f7 !important; /* نفس اللون اللي قلت عليه بس أغمق شوية */
+  background-color: #83d3f7 !important;
   color: #000;
   font-weight: 600;
 }

@@ -10,7 +10,7 @@
           </div>
           <button
             @click="showCreateModal = true"
-            class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2 shadow-md hover:shadow-lg"
+            class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2 shadow-md hover:shadow-lg cursor-pointer"
           >
             <span class="text-xl">+</span>
             Create New Plan
@@ -33,8 +33,8 @@
             class="px-6 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer"
           >
             <option value="All">All Plans</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Closed">Closed</option>
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
           </select>
         </div>
       </div>
@@ -74,7 +74,7 @@
               <td class="p-5 text-gray-600">{{ plan.clientsCount || 0 }}</td>
               <td class="p-5">
                 <span
-                  :class="plan.status === 'In Progress'
+                  :class="plan.status === 'Active'
                     ? 'text-green-600 bg-green-50'
                     : 'text-red-600 bg-red-50'"
                   class="px-3 py-1 rounded-full text-sm font-medium"
@@ -111,12 +111,6 @@
             </div>
             <h2 class="text-xl font-bold text-gray-800">Create a New Plan</h2>
           </div>
-          <button
-            @click="showCreateModal = false"
-            class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors"
-          >
-            🗑️
-          </button>
         </div>
 
         <!-- Modal Body -->
@@ -137,9 +131,8 @@
                 v-model="newPlan.status"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">Active</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Closed">Closed</option>
+                <option value="Active">Active</option>
+                <option value="Pending">Pending</option>
               </select>
             </div>
           </div>
@@ -160,7 +153,8 @@
                 v-model="newPlan.duration"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">3 Weeks</option>
+                <option value="" disabled>Select duration</option>
+                <option value="3 weeks">3 weeks</option>
                 <option value="6 weeks">6 weeks</option>
                 <option value="8 weeks">8 weeks</option>
                 <option value="12 weeks">12 weeks</option>
@@ -216,7 +210,7 @@
     <!-- Manage Plan Modal -->
     <div
       v-if="showManageModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 p-4"
       @click.self="showManageModal = false"
     >
       <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl animate-fadeIn">
@@ -228,12 +222,6 @@
             </div>
             <h2 class="text-xl font-bold text-gray-800">Plan Details</h2>
           </div>
-          <button
-            @click="showManageModal = false"
-            class="text-red-500 hover:bg-red-50 p-2 rounded-lg transition-colors"
-          >
-            🗑️
-          </button>
         </div>
 
         <!-- Modal Body -->
@@ -262,8 +250,8 @@
                 v-model="selectedPlan.status"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="In Progress">In Progress</option>
-                <option value="Closed">Closed</option>
+                <option value="Active">Active</option>
+                <option value="Pending">Pending</option>
               </select>
             </div>
           </div>
@@ -283,6 +271,7 @@
                 v-model="selectedPlan.duration"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
+                <option value="3 weeks">3 weeks</option>
                 <option value="6 weeks">6 weeks</option>
                 <option value="8 weeks">8 weeks</option>
                 <option value="12 weeks">12 weeks</option>
@@ -340,7 +329,7 @@
     <!-- Delete Confirmation Modal -->
     <div
       v-if="showDeleteModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 p-4"
       @click.self="showDeleteModal = false"
     >
       <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md animate-fadeIn text-center p-8">
@@ -371,7 +360,7 @@
     <!-- Success Modal -->
     <div
       v-if="showSuccessModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 p-4"
     >
       <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md animate-fadeIn text-center p-8">
         <div class="flex justify-center mb-4">
@@ -398,12 +387,15 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth"; // ✅ إضافة auth
+import { toast } from "vue3-toastify";
 
 export default {
   name: "TrainerPlans",
   setup() {
     const db = getFirestore();
-    const trainerUid = "m3xVWfpgocTOqXD0geFHc0Cv2ry1";
+    const auth = getAuth(); // ✅ تعريف auth
+    const trainerUid = ref(null); // ✅ بدل الثابت بمتغير reactive
 
     const plans = ref([]);
     const showCreateModal = ref(false);
@@ -417,43 +409,67 @@ export default {
 
     const newPlan = ref({
       title: "",
-      status: "In Progress",
+      status: "Active",
       location: "",
       sessions: 0,
       duration: "",
       price: 0,
     });
 
+    // ✅ جلب الخطط بناءً على UID الحالي
     const fetchPlans = async () => {
+      if (!trainerUid.value) return; // تأكد إن UID جاهز
       const plansRef = collection(db, "plans");
-      const q = query(plansRef, where("trainer_uid", "==", trainerUid));
+      const q = query(plansRef, where("trainer_uid", "==", trainerUid.value));
       const snapshot = await getDocs(q);
       plans.value = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     };
 
     const createPlan = async () => {
-      if (!newPlan.value.title || !newPlan.value.status) {
-        alert("Please fill all required fields.");
+      if (!newPlan.value.title.trim()) {
+        toast.error("Please enter a plan title", { position: "top-center", autoClose: 2000 });
+        return;
+      }
+      if (!newPlan.value.duration) {
+        toast.error("Please select a duration", { position: "top-center", autoClose: 2000 });
+        return;
+      }
+      if (!newPlan.value.sessions || newPlan.value.sessions <= 0) {
+        toast.error("Please enter number of sessions", { position: "top-center", autoClose: 2000 });
+        return;
+      }
+      if (!newPlan.value.price || newPlan.value.price <= 0) {
+        toast.error("Please enter a valid price", { position: "top-center", autoClose: 2000 });
         return;
       }
 
-      await addDoc(collection(db, "plans"), {
-        ...newPlan.value,
-        trainer_uid: trainerUid,
-        clientsCount: 0,
-      });
+      try {
+        if (!trainerUid.value) {
+          toast.error("User not authenticated", { position: "top-center", autoClose: 2000 });
+          return;
+        }
 
-      newPlan.value = {
-        title: "",
-        status: "In Progress",
-        location: "",
-        sessions: 0,
-        duration: "",
-        price: 0,
-      };
-      showCreateModal.value = false;
-      showSuccess("The plan is created successfully");
-      fetchPlans();
+        await addDoc(collection(db, "plans"), {
+          ...newPlan.value,
+          trainer_uid: trainerUid.value, // ✅ استخدام UID الديناميكي
+          clientsCount: 0,
+        });
+
+        newPlan.value = {
+          title: "",
+          status: "Active",
+          location: "",
+          sessions: 0,
+          duration: "",
+          price: 0,
+        };
+        showCreateModal.value = false;
+        showSuccess("The plan is created successfully");
+        fetchPlans();
+      } catch (err) {
+        console.error("Error creating plan:", err);
+        toast.error("Failed to create plan. Please try again.", { position: "top-center", autoClose: 2000 });
+      }
     };
 
     const openManageModal = (plan) => {
@@ -463,20 +479,29 @@ export default {
 
     const updatePlan = async () => {
       if (!selectedPlan.value) return;
+      if (!selectedPlan.value.title.trim()) {
+        toast.error("Please enter a plan title", { position: "top-center", autoClose: 2000 });
+        return;
+      }
 
-      const planRef = doc(db, "plans", selectedPlan.value.id);
-      await updateDoc(planRef, {
-        title: selectedPlan.value.title,
-        status: selectedPlan.value.status,
-        location: selectedPlan.value.location,
-        sessions: selectedPlan.value.sessions,
-        duration: selectedPlan.value.duration,
-        price: selectedPlan.value.price,
-      });
+      try {
+        const planRef = doc(db, "plans", selectedPlan.value.id);
+        await updateDoc(planRef, {
+          title: selectedPlan.value.title,
+          status: selectedPlan.value.status,
+          location: selectedPlan.value.location,
+          sessions: selectedPlan.value.sessions,
+          duration: selectedPlan.value.duration,
+          price: selectedPlan.value.price,
+        });
 
-      showManageModal.value = false;
-      showSuccess("The plan is updated successfully");
-      fetchPlans();
+        showManageModal.value = false;
+        showSuccess("The plan is updated successfully");
+        fetchPlans();
+      } catch (err) {
+        console.error("Error updating plan:", err);
+        toast.error("Failed to update plan. Please try again.", { position: "top-center", autoClose: 2000 });
+      }
     };
 
     const confirmDelete = () => {
@@ -512,8 +537,16 @@ export default {
       });
     });
 
+    // ✅ التحقق من المستخدم الحالي عند التحميل
     onMounted(() => {
-      fetchPlans();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          trainerUid.value = user.uid;
+          fetchPlans();
+        } else {
+          console.warn("No user logged in");
+        }
+      });
     });
 
     return {

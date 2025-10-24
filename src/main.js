@@ -10,6 +10,8 @@ import App from "./App.vue";
 import "./Firebase/firebaseConfig.js"; // ✅ بيشغّل تهيئة Firebase مرة واحدة
 import { createRouter, createWebHistory } from "vue-router";
 import i18n from "./i18n"; // ✅ ملف اللغات
+import Toast from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import "../src/style.css";
 
 // ----------------------------
@@ -31,7 +33,10 @@ import ContactUs from "./pages/ContactUs.vue";
 import TrainerClient from "./pages/TrainerClient.vue";
 import TrainerReviews from "./pages/trainer/TrainerReviews.vue";
 import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
+import TrainerCustomerservice from "./pages/trainer/TrainerCustomerservice.vue";
+import TraineeCustomerservice from "./pages/trainee/TraineeCustomerservice.vue";
 import TrainerPlans from "./pages/trainer/TrainerPlans.vue";
+import TrainerHome from "./pages/trainer/TrainerHome.vue";
 
 // ----------------------------
 // ✅ إعداد المسارات (Routes)
@@ -57,6 +62,11 @@ const routes = [
     component:TrainerDashboardLayout ,
     children: [
       {
+        path: "home",
+        name: "trainerhome",
+        component: TrainerHome,
+      },
+      {
         path: "reviews",
         name: "trainerreviews",
         component: TrainerReviews,
@@ -65,6 +75,11 @@ const routes = [
         path: "clients",
         name: "trainerclient",
         component: TrainerClient,
+      },
+      {
+        path: "customerservice",
+        name: "trainercustomerservice",
+        component: TrainerCustomerservice,
       },
       {
         path: "settings",
@@ -88,6 +103,11 @@ const routes = [
         name: "traineesettings",
         component: TraineeSettings,
       },
+      {
+        path: "customerservice",
+        name: "traineecustomerservice",
+        component: TraineeCustomerservice,
+      }
     ],
   },
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
@@ -122,4 +142,14 @@ onAuthStateChanged(auth, (user) => {
 createApp(App)
   .use(router)
   .use(i18n)
-  .mount("#app");
+  .use(Toast, {
+  position: "top-center",
+  timeout: 2000,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  showCloseButtonOnHover: false,
+  hideProgressBar: false,
+  theme: "auto",
+})
+.mount("#app");
