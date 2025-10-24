@@ -3,12 +3,14 @@
     <!-- Welcome Header -->
     <div class="bg-white p-6 rounded-2xl shadow-sm mb-8 flex items-center justify-between">
         <div class="flex items-center gap-4">
-            <img src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="profile"
-                class="w-[122px] h-[122px] rounded-full" />
+            <img :src="trainer.profilePicture" alt="profile" class="w-[122px] h-[122px] rounded-full object-cover" />
             <div>
-                <h2 class="text-xl font-semibold text-gray-800">Welcome back, [Name]!</h2>
+                <h2 class="text-xl font-semibold text-gray-800">
+                    Welcome back, {{ trainer.firstName }} {{ trainer.lastName }}!
+                </h2>
                 <p class="text-sm text-gray-500">Ready to crush your fitness goals today?</p>
             </div>
+
         </div>
     </div>
 
@@ -142,68 +144,109 @@
 
 
 </template>
-
 <script>
 import emailjs from "emailjs-com";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "@/Firebase/firebaseConfig"; // ⚠️ Make sure “Firebase” matches your actual folder name exactly!
 
 export default {
-    name: "TrainerCustomerService",
+  name: "TrainerCustomerService",
 
-    data() {
-        return {
-            showPopup: false,
-            form: { name: "", email: "", message: "" },
-            errors: { name: "", email: "", message: "" },
-        };
+  data() {
+    return {
+      showPopup: false,
+      form: { name: "", email: "", message: "" },
+      errors: { name: "", email: "", message: "" },
+      trainer: {
+        firstName: "",
+        lastName: "",
+        profilePicture: "https://via.placeholder.com/122",
+      },
+    };
+  },
+
+  methods: {
+    // ✅ Fetch trainer info from Firestore
+    async fetchTrainerData(uid) {
+      try {
+        // ⚠️ Your data is in "users", not "trainers"
+        const trainerRef = doc(db, "users", uid);
+        const trainerSnap = await getDoc(trainerRef);
+
+        if (trainerSnap.exists()) {
+          const data = trainerSnap.data();
+          this.trainer = data;
+
+          // Auto-fill the form with trainer info
+          this.form.name = `${data.firstName} ${data.lastName}`;
+          this.form.email = data.email;
+        } else {
+          console.warn("Trainer not found in Firestore.");
+        }
+      } catch (error) {
+        console.error("Error fetching trainer data:", error);
+      }
     },
-    methods: {
-        async sendReport() {
-            this.errors = { name: "", email: "", message: "" };
-            let valid = true;
 
-            if (!this.form.name.trim()) {
-                this.errors.name = "Please enter your name.";
-                valid = false;
-            }
+    // ✅ Send message via EmailJS
+    async sendReport() {
+      this.errors = { name: "", email: "", message: "" };
+      let valid = true;
 
-            if (!this.form.email.trim()) {
-                this.errors.email = "Please enter your email.";
-                valid = false;
-            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.form.email)) {
-                this.errors.email = "Please enter a valid email.";
-                valid = false;
-            }
+      if (!this.form.name.trim()) {
+        this.errors.name = "Please enter your name.";
+        valid = false;
+      }
+      if (!this.form.email.trim()) {
+        this.errors.email = "Please enter your email.";
+        valid = false;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.form.email)) {
+        this.errors.email = "Please enter a valid email.";
+        valid = false;
+      }
+      if (!this.form.message.trim()) {
+        this.errors.message = "Please enter your message.";
+        valid = false;
+      }
 
-            if (!this.form.message.trim()) {
-                this.errors.message = "Please enter your message.";
-                valid = false;
-            }
+      if (!valid) return;
 
-            if (!valid) return;
+      try {
+        await emailjs.send(
+          "service_wm84ejo",
+          "template_cgk08e7",
+          {
+            name: this.form.name,
+            email: this.form.email,
+            message: this.form.message,
+          },
+          "37n0HAmFRsDDfRgJT"
+        );
 
-            try {
-                await emailjs.send(
-                    "service_wm84ejo",
-                    "template_cgk08e7",
-                    {
-                        name: this.form?.name || "",
-                        email: this.form?.email || "",
-                        message: this.form?.message || "",
-                    },
-                    "37n0HAmFRsDDfRgJT"
-                );
-
-
-                this.showPopup = true;
-                this.form = { name: "", email: "", message: "" };
-            } catch (error) {
-                console.error("EmailJS Error:", error);
-                alert("Something went wrong. Please try again later.");
-            }
-        },
+        this.showPopup = true;
+        this.form.message = "";
+      } catch (error) {
+        console.error("EmailJS Error:", error);
+        alert("Something went wrong. Please try again later.");
+      }
     },
+  },
+
+  mounted() {
+    // ✅ Detect logged-in trainer and load their Firestore data
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.fetchTrainerData(user.uid);
+      } else {
+        console.warn("No trainer logged in.");
+      }
+    });
+  },
 };
 </script>
+
+
 
 
 <style scoped>
