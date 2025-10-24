@@ -154,7 +154,7 @@
 import emailjs from "emailjs-com";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "@/Firebase/firebaseConfig"; // ⚠️ make sure the “Firebase” folder name matches exactly
+import { auth, db } from "@/Firebase/firebaseConfig"; 
 
 export default {
   name: "TraineeCustomerService",
@@ -173,7 +173,6 @@ export default {
   },
 
   methods: {
-    // ✅ Fetch trainee info from Firestore
     async fetchTraineeData(uid) {
       try {
         const traineeRef = doc(db, "users", uid);
@@ -182,11 +181,9 @@ export default {
         if (traineeSnap.exists()) {
           const data = traineeSnap.data();
 
-          // ✅ Only proceed if this user is a trainee
           if (data.role === "trainee") {
             this.trainee = data;
 
-            // Optional: auto-fill the form
             this.form.name = `${data.firstName} ${data.lastName}`;
             this.form.email = data.email;
           } else {
@@ -200,7 +197,6 @@ export default {
       }
     },
 
-    // ✅ Send message via EmailJS
     async sendReport() {
       this.errors = { name: "", email: "", message: "" };
       let valid = true;
