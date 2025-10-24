@@ -26,7 +26,7 @@
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 fill="#00B0FF"
-                class="w-5 h-7"
+                class="w-7 h-7"
               >
                 <path
                   fill-rule="evenodd"
@@ -44,8 +44,9 @@
                 {{ trainer.yearsExperience }} Years Experience
               </span>
               <span
-                class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium"
+                class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium inline-flex items-center gap-1"
               >
+                <img src="/src/assets/images/location-map.png" alt="location" class="w-5 h-5" />
                 {{ trainer.location }}
               </span>
             </div>
@@ -124,70 +125,78 @@
           </div>
         </div>
       </section>
-
-      <!-- Reviews Section -->
-      <section>
-        <div class="flex items-center justify-between mb-4">
-          <div class="flex items-center gap-3">
-            <h2 class="text-2xl font-medium text-gray-900">Reviews</h2>
-            <div class="flex items-center gap-2">
-              <div class="flex items-center bg-amber-50 px-3 py-1 rounded-lg">
-                <span class="text-xl font-medium text-gray-900">{{ trainer.averageRating }}</span>
-                <svg class="w-5 h-5 text-amber-400 fill-amber-400 ml-1" viewBox="0 0 20 20">
-                  <path
-                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                  />
-                </svg>
-              </div>
-              <span class="text-gray-600 text-sm font">({{ trainer.totalReviews }} reviews)</span>
+    <!-- Reviews Section -->
+    <section>
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <h2 class="text-2xl font-medium text-gray-900">Reviews</h2>
+          <div class="flex items-center gap-2">
+            <div class="flex items-center bg-amber-50 px-3 py-1 rounded-lg">
+              <span class="text-xl font-medium text-gray-900">
+                {{ trainer.averageRating.toFixed(1) }}
+              </span>
+              <svg class="w-5 h-5 text-amber-400 fill-amber-400 ml-1" viewBox="0 0 20 20">
+                <path
+                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                />
+              </svg>
             </div>
-          </div>
-          <button
-            @click="showReviewModal = true"
-            class="cursor-pointer bg-[#00B0FF] hover:bg-[#007db7] text-white px-5 py-2 rounded-2xl font-medium transition-colors"
-          >
-            Write a Review
-          </button>
-        </div>
-
-        <div class="space-y-4">
-          <div
-            v-for="review in trainer.reviews"
-            :key="review.id"
-            class="bg-white rounded-2xl shadow-xl p-5 border-1 border-gray-300"
-          >
-            <div class="flex items-start justify-between mb-2">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
-                <div>
-                  <h4 class="font-semibold text-gray-900">{{ review.author }}</h4>
-                  <p class="text-sm text-gray-500">{{ review.date }}</p>
-                </div>
-              </div>
-              <div class="flex">
-                <svg
-                  v-for="i in 5"
-                  :key="i"
-                  class="w-4 h-4"
-                  :class="i <= review.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-300'"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                  />
-                </svg>
-              </div>
-            </div>
-            <p class="text-gray-700">{{ review.text }}</p>
+            <span class="text-gray-600 text-sm font">
+              ({{ trainer.totalReviews }} reviews)
+            </span>
           </div>
         </div>
-      </section>
-    </div>
+        <button
+          @click="showReviewModal = true"
+          class="cursor-pointer bg-[#00B0FF] hover:bg-[#007db7] text-white px-5 py-2 rounded-2xl font-medium transition-colors"
+        >
+          Write a Review
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <div
+          v-for="review in trainer.reviews"
+          :key="review.id"
+          class="bg-white rounded-2xl shadow-xl p-5 border-1 border-gray-300"
+        >
+          <div class="flex items-start justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <img
+                :src="review.userImage || 'https://via.placeholder.com/40'"
+                alt="User"
+                class="w-10 h-10 rounded-full"
+              />
+              <div>
+                <h4 class="font-semibold text-gray-900">{{ review.author }}</h4>
+                <p class="text-sm text-gray-500">
+                  {{ new Date(review.createdAt?.seconds * 1000).toLocaleDateString() || review.date }}
+                </p>
+              </div>
+            </div>
+            <div class="flex">
+              <svg
+                v-for="i in 5"
+                :key="i"
+                class="w-4 h-4"
+                :class="i <= review.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-300'"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                />
+              </svg>
+            </div>
+          </div>
+          <p class="text-gray-700">{{ review.text }}</p>
+        </div>
+      </div>
+    </section>
 
     <!-- Review Modal -->
     <div
       v-if="showReviewModal"
-      class="fixed inset-0 bg-opacity-50 flex items-center justify-center p-4 z-50"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
       @click.self="showReviewModal = false"
     >
       <div class="bg-white rounded-2xl max-w-md w-full p-6 min-h-[300px] shadow-lg">
@@ -196,7 +205,7 @@
           <img src="/src/assets/images/carbon_star-review.png" alt="review" class="w-16 h-16" />
         </div>
         <p class="text-center text-gray-600 mb-6">
-          Share your experience with your trainer your feedback helps them improve and helps others
+          Share your experience with your trainer — your feedback helps them improve and helps others
           make better choices!
         </p>
 
@@ -209,9 +218,7 @@
           >
             <svg
               class="w-8 h-8"
-              :class="
-                star <= rating ? 'cursor-pointer text-amber-400 fill-amber-400' : 'text-gray-300'
-              "
+              :class="star <= rating ? 'text-amber-400 fill-amber-400' : 'text-gray-300'"
               viewBox="0 0 20 20"
             >
               <path
@@ -225,7 +232,7 @@
           v-model="reviewText"
           placeholder="Write your review here..."
           class="w-full border border-gray-300 rounded-lg p-3 mb-4 h-32 resize-none focus:outline-none focus:ring-2 focus:ring-emerald-500"
-        />
+        ></textarea>
 
         <div class="flex gap-3">
           <button
@@ -244,171 +251,95 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-// Firebase imports - uncomment and configure these
-// import { initializeApp } from 'firebase/app';
-// import { getFirestore, doc, getDoc, collection, addDoc } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  orderBy,
+  onSnapshot,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db } from "@/Firebase/firebaseConfig";
 
-// Firebase configuration - replace with your config
-// const firebaseConfig = {
-//   apiKey: "YOUR_API_KEY",
-//   authDomain: "YOUR_AUTH_DOMAIN",
-//   projectId: "YOUR_PROJECT_ID",
-//   storageBucket: "YOUR_STORAGE_BUCKET",
-//   messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-//   appId: "YOUR_APP_ID"
-// };
+// 🔹 ثابت مؤقت — خده من route params بعدين
+const trainerId = "trainer123";
 
-// const app = initializeApp(firebaseConfig);
-// const db = getFirestore(app);
+// 🔹 بيانات المستخدم الحالي (ممكن تجيبها من Firebase Auth)
+const currentUser = {
+  id: "user789",
+  name: "Bassam Khaled",
+  image: "https://i.pravatar.cc/150?img=12",
+};
 
-const trainer = ref(null);
-const loading = ref(true);
+// 🔹 البيانات الأساسية
+const trainer = ref({
+  name: "Ahmed Ali",
+  role: "Gym Coach",
+  reviews: [],
+  totalReviews: 0,
+  averageRating: 0,
+});
+
 const showReviewModal = ref(false);
 const rating = ref(0);
 const reviewText = ref("");
 
-onMounted(async () => {
-  await fetchTrainerData();
-});
+// 🟢 تحميل الريفيوهات بشكل Real-time
+const fetchReviews = () => {
+  const q = query(
+    collection(db, "reviews"),
+    where("trainerId", "==", trainerId),
+    orderBy("createdAt", "desc")
+  );
 
-const fetchTrainerData = async () => {
-  try {
-    // Firebase fetch - uncomment when ready
-    // const trainerId = 'YOUR_TRAINER_ID'; // Get from route params
-    // const trainerDoc = await getDoc(doc(db, 'trainers', trainerId));
-    // if (trainerDoc.exists()) {
-    //   trainer.value = trainerDoc.data();
-    // }
-
-    // Mock data for demonstration
-    trainer.value = {
-      name: "Ahmed Ali",
-      role: "Gym Coach",
-      image: "https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=400&h=400&fit=crop",
-      yearsExperience: 5,
-      verified: true,
-      location: "Cairo, Egypt",
-      username: "ahmed_ali",
-      plans: [
-        {
-          id: 1,
-          title: "Strength Training",
-          image:
-            "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&h=200&fit=crop",
-          description: "Comprehensive strength building program designed for all fitness levels",
-          duration: "3 months",
-          sessions: "12 sessions",
-          price: "EGP 1,200",
-        },
-        {
-          id: 2,
-          title: "Weight Loss",
-          image:
-            "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&h=200&fit=crop",
-          description: "Effective weight management with nutrition and exercise planning",
-          duration: "2 months",
-          sessions: "16 sessions",
-          price: "EGP 1,500",
-        },
-        {
-          id: 3,
-          title: "Body Building",
-          image:
-            "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&h=200&fit=crop",
-          description: "Advanced muscle building program for serious athletes",
-          duration: "6 months",
-          sessions: "24 sessions",
-          price: "EGP 2,800",
-        },
-      ],
-      certificates: [
-        {
-          id: 1,
-          title: "Personal Training Certification",
-          image:
-            "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=300&h=200&fit=crop",
-        },
-        {
-          id: 2,
-          title: "Nutrition Specialist",
-          image:
-            "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=300&h=200&fit=crop",
-        },
-        {
-          id: 3,
-          title: "Sports Medicine Certificate",
-          image:
-            "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=300&h=200&fit=crop",
-        },
-      ],
-      reviews: [
-        {
-          id: 1,
-          author: "Sarah Ahmed",
-          date: "2 days ago",
-          rating: 5,
-          text: "Ahmed is amazing! I lost 15kg in 3 months and gained so much confidence. His personalized approach really makes a difference. Highly recommend!",
-        },
-        {
-          id: 2,
-          author: "Omar Mahmoud",
-          date: "1 week ago",
-          rating: 5,
-          text: "Best investment I made this year! Professional, knowledgeable, and always motivating. The strength training plan exceeded my expectations!",
-        },
-        {
-          id: 3,
-          author: "Layla Ali",
-          date: "2 weeks ago",
-          rating: 4,
-          text: "Great experience overall! Very professional and attentive to detail. The only minor issue is sometimes the gym gets too crowded.",
-        },
-      ],
-      averageRating: 4.8,
-      totalReviews: 127,
-    };
-
-    loading.value = false;
-  } catch (error) {
-    console.error("Error fetching trainer data:", error);
-    loading.value = false;
-  }
+  onSnapshot(q, (snapshot) => {
+    const reviewsData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    trainer.value.reviews = reviewsData;
+    trainer.value.totalReviews = reviewsData.length;
+    trainer.value.averageRating =
+      reviewsData.reduce((sum, r) => sum + (r.rating || 0), 0) /
+        (reviewsData.length || 1);
+  });
 };
 
+// 🟢 إضافة Review جديد
 const handleSubmitReview = async () => {
   if (rating.value === 0 || !reviewText.value.trim()) {
+    alert("Please rate and write your review");
     return;
   }
 
   try {
-    // Firebase logic to save review - uncomment when ready
-    // await addDoc(collection(db, 'reviews'), {
-    //   trainerId: 'YOUR_TRAINER_ID',
-    //   rating: rating.value,
-    //   text: reviewText.value,
-    //   author: 'Current User Name',
-    //   date: new Date().toISOString(),
-    //   createdAt: new Date()
-    // });
-
-    console.log("Review submitted:", { rating: rating.value, text: reviewText.value });
+    await addDoc(collection(db, "reviews"), {
+      trainerId,
+      userId: currentUser.id,
+      author: currentUser.name,
+      userImage: currentUser.image,
+      rating: rating.value,
+      text: reviewText.value.trim(),
+      createdAt: serverTimestamp(),
+      date: new Date().toLocaleDateString(),
+    });
 
     showReviewModal.value = false;
     rating.value = 0;
     reviewText.value = "";
-
-    // Optionally refresh the trainer data to show the new review
-    // await fetchTrainerData();
+    console.log("✅ Review added successfully");
   } catch (error) {
-    console.error("Error submitting review:", error);
+    console.error("❌ Error submitting review:", error);
     alert("Failed to submit review. Please try again.");
   }
 };
+
+onMounted(fetchReviews);
 </script>
+
 
 <style scoped>
 /* Add any custom styles here if needed */

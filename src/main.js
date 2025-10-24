@@ -68,13 +68,16 @@ const routes = [
         name: "trainerclient",
         component: TrainerClient,
       },
+      { path: "settings", name: "trainersettings", component: TrainerSettings },
     ],
   },
   {
     path: "/trainee",
     name: "trainee",
     component: TraineeDashboardLayout,
-    children: [],
+    children: [
+      {path: "settings", name: "traineesettings", component: TraineeSettings },
+    ],
   },
 
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },

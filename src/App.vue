@@ -71,7 +71,6 @@
 import FooterComp from "./components/FooterComp.vue";
 import NavBar from "./components/NavBar.vue";
 import SideBar from "./components/SideBar.vue";
-import SideBarTrainee from "./components/SideBarTrainee.vue";
 
 export default {
   name: "App",
@@ -79,7 +78,6 @@ export default {
     NavBar,
     FooterComp,
     SideBar,
-    SideBarTrainee,
   },
 };
 </script>
