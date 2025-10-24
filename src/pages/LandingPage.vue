@@ -174,13 +174,12 @@
             alt="card image"
           />
           <h5 class="mb-1 text-[15px] md:text-[20px] font-[700] text-[#1351CD] leading-[150%]">
-            Personalized Planes
+           {{ $t("feature1Title") }}
           </h5>
           <p
             class="text-[15px] lg:text-[17px] text-[#000000] font-[350] leading-[150%] text-center"
           >
-            Create training plans tailored to your <br />
-            fitness goals.
+            {{ $t("feature1Desc") }}
           </p>
         </div>
       </div>
@@ -192,7 +191,7 @@
             alt="card image"
           />
           <h5 class="mb-1 text-[15px] md:text-[20px] font-[700] text-[#1351CD] leading-[150%]">
-            Expert trainers
+           {{ $t("feature2Title") }}
           </h5>
           <p
             class="text-[15px] lg:text-[17px] text-[#000000] font-[350] leading-[150%] text-center"

@@ -104,7 +104,7 @@ export default {
 
     
     </template>
-<style>
+<style scoped>
 .bg-all{
     background: #D9EEFF;
 }
