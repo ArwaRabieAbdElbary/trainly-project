@@ -40,7 +40,7 @@
       class="max-w-5xl p-15 border border-gray-200 rounded-3xl shadow-xl bg-white flex flex-col items-center"
     >
       <div class="flex items-center gap-3 mb-6 self-start">
-         <div
+        <div
           class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
         >
           <img src="../../assets/images/page-1.png" alt="" class="w-5 h-5" />
@@ -48,7 +48,7 @@
         <div>
           <h2 class="text-lg font-medium text-gray-900">
             Personal Information
-          </h2> 
+          </h2>
           <p class="text-sm text-gray-500">Update your personal details</p>
         </div>
       </div>
@@ -196,25 +196,25 @@
       <!-- Buttons -->
       <div class="mt-10 flex-wrap md:flex justify-between items-center w-full">
         <button
-          type="button"
-          class="border-2 border-red-500 text-red-500 font-medium text-sm py-2 px-6 rounded-lg hover:bg-red-50 transition mx-15"
-        >
-          Delete Account
-        </button>
-        <button
           type="submit"
-          class="bg-indigo-600 text-white font-medium text-sm py-2 px-6 rounded-lg hover:bg-indigo-500 transition mx-15"
+          class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-7 py-2.5 text-center mx-15"
         >
           Save Changes
+        </button>
+        <button
+          @click="deleteAccount"
+          class="border-2 border-red-500 text-red-500 font-medium text-sm cursor-pointer py-2 px-6 rounded-lg hover:bg-red-50 transition mx-15"
+        >
+          Delete Account
         </button>
       </div>
     </form>
 
     <!-- ========= Security Section ========= -->
     <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7"
+      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-10"
     >
-      <div class="flex">
+      <div class="flex mx-5">
         <div
           class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
         >
@@ -229,7 +229,7 @@
         </div>
       </div>
 
-      <form class="max-w-[95%] ps-[50px]" @submit.prevent="onSubmit">
+      <form class="max-w-[95%] mx-17" @submit.prevent="onSubmit">
         <!-- Current password -->
         <div class="mb-5">
           <label class="block mb-2 text-sm font-medium text-gray-900"
@@ -460,15 +460,16 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { db, storage } from "@/Firebase/firebaseConfig.js";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { toast } from "vue3-toastify";
 
 export default {
   name: "TraineeSettings",
+
   data() {
     return {
-      userId: "TxSqkk6glFaeLJhULgYcR9dCwjK2",
+      userId: null,
       previewImage: null,
       formData: {
         firstName: "",
@@ -489,41 +490,52 @@ export default {
     };
   },
 
+  mounted() {
+    this.checkUserAndFetchData();
+  },
+
   methods: {
-    getUserData() {
+    // ✅ التأكد من المستخدم والداتا بتاعته
+    checkUserAndFetchData() {
       const auth = getAuth();
-      onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, async (user) => {
         if (user) {
+          this.userId = user.uid;
           this.userData = {
             name: user.displayName || user.email?.split("@")[0] || "User",
-
             uid: user.uid,
             email: user.email,
             photo: user.photoURL,
           };
+          await this.fetchUserData();
+        } else {
+          toast.error("Please login first");
+          this.$router.push("/login");
         }
       });
     },
 
-    // 🟢 جلب بيانات المستخدم
+    // 🟢 جلب بيانات المستخدم من Firestore
     async fetchUserData() {
       try {
+        if (!this.userId) return;
+
         const userRef = doc(db, "users", this.userId);
         const docSnap = await getDoc(userRef);
 
         if (docSnap.exists()) {
           this.formData = { ...this.formData, ...docSnap.data() };
+
           if (docSnap.data().profilePicture) {
             this.previewImage = docSnap.data().profilePicture;
           }
 
-          // ✳️ هنا التعديل
           const firstName = this.formData.firstName || "User";
           this.userData.name =
             firstName.charAt(0).toUpperCase() +
             firstName.slice(1).toLowerCase();
         } else {
-          console.log("No such user!");
+          console.log("No such user document found!");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -540,6 +552,11 @@ export default {
     // 🟢 تحديث بيانات المستخدم
     async handleSubmit() {
       try {
+        if (!this.userId) {
+          toast.error("No user logged in!");
+          return;
+        }
+
         const userRef = doc(db, "users", this.userId);
         let imageUrl = null;
 
@@ -561,9 +578,9 @@ export default {
           ...(imageUrl && { profilePicture: imageUrl }),
         });
 
-        toast.success("✅ Data updated successfully!");
+        toast.success("Data updated successfully ✅");
       } catch (error) {
-        console.error("❌ Error updating user:", error);
+        console.error("Error updating user:", error);
         toast.error("Failed to update data!");
       }
     },
@@ -575,7 +592,7 @@ export default {
       else if (field === "repeat") this.showRepeat = !this.showRepeat;
     },
 
-    // 🟢 تحديث كلمة السر
+    // 🟢 تحديث كلمة السر (ما اتغيرش فيه حاجة)
     async onSubmit() {
       if (this.form.new !== this.form.repeat) {
         toast.error("New password and confirmation do not match!");
@@ -605,12 +622,46 @@ export default {
         toast.error(error.message);
       }
     },
-  },
 
-  mounted() {
-    this.getUserData();
-    this.fetchUserData();
+    // 🗑️ حذف الحساب بالكامل
+    async deleteAccount() {
+      try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (!user) {
+          toast.error("No user is logged in!");
+          return;
+        }
+
+        // حذف بيانات المستخدم من Firestore
+        const userRef = doc(db, "users", user.uid);
+        await deleteDoc(userRef);
+
+        // حذف الحساب من Firebase Authentication
+        await user.delete();
+
+        toast.success("Account deleted successfully ✅");
+
+        // تسجيل خروج وتحويل بعد ثانيتين
+        setTimeout(async () => {
+          await auth.signOut();
+          this.$router.push("/login");
+        }, 2000);
+      } catch (error) {
+        console.error("Error deleting account:", error);
+
+        if (error.code === "auth/requires-recent-login") {
+          toast.error("Please log in again before deleting your account.");
+        } else {
+          toast.error("Failed to delete account!");
+        }
+      }
+    },
   },
 };
 </script>
+
+
+
 <style scoped></style>
