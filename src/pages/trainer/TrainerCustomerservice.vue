@@ -148,7 +148,7 @@
 import emailjs from "emailjs-com";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "@/Firebase/firebaseConfig"; // ⚠️ Make sure “Firebase” matches your actual folder name exactly!
+import { auth, db } from "@/Firebase/firebaseConfig"; 
 
 export default {
   name: "TrainerCustomerService",
@@ -167,10 +167,8 @@ export default {
   },
 
   methods: {
-    // ✅ Fetch trainer info from Firestore
     async fetchTrainerData(uid) {
       try {
-        // ⚠️ Your data is in "users", not "trainers"
         const trainerRef = doc(db, "users", uid);
         const trainerSnap = await getDoc(trainerRef);
 
@@ -178,7 +176,6 @@ export default {
           const data = trainerSnap.data();
           this.trainer = data;
 
-          // Auto-fill the form with trainer info
           this.form.name = `${data.firstName} ${data.lastName}`;
           this.form.email = data.email;
         } else {
@@ -189,7 +186,6 @@ export default {
       }
     },
 
-    // ✅ Send message via EmailJS
     async sendReport() {
       this.errors = { name: "", email: "", message: "" };
       let valid = true;
@@ -234,7 +230,7 @@ export default {
   },
 
   mounted() {
-    // ✅ Detect logged-in trainer and load their Firestore data
+    // Detect logged-in trainer and load their Firestore data
     onAuthStateChanged(auth, (user) => {
       if (user) {
         this.fetchTrainerData(user.uid);

@@ -1,6 +1,5 @@
 <template>
 
-    <!-- Welcome Header -->
   <!-- Welcome Header -->
 <div class="bg-white p-6 rounded-2xl shadow-sm mb-8 flex items-center justify-between">
   <div class="flex items-center gap-4">
@@ -241,7 +240,7 @@ export default {
   },
 
   mounted() {
-    // ✅ Detect logged-in trainee and load their Firestore data
+    // Detect logged-in trainee and load their Firestore data
     onAuthStateChanged(auth, (user) => {
       if (user) {
         this.fetchTraineeData(user.uid);
