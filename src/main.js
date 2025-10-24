@@ -30,7 +30,7 @@ import LoginPage from "./pages/LoginPage.vue";
 import AboutUs from "./pages/AboutUs.vue";
 import SportS from "./pages/SportS.vue";
 import ContactUs from "./pages/ContactUs.vue";
-import TrainerClient from "./pages/TrainerClient.vue";
+import TrainerClient from "./pages/trainer/TrainerClient.vue";
 import TrainerReviews from "./pages/trainer/TrainerReviews.vue";
 import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
 import TrainerCustomerservice from "./pages/trainer/TrainerCustomerservice.vue";

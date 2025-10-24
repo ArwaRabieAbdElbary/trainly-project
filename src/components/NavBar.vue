@@ -3,11 +3,7 @@
     class="flex justify-between items-center px-[50px] md:px-[70px] h-20 bg-white shadow-sm relative"
   >
     <!-- 🔹 اللوجو -->
-    <img
-      src="@/assets/images/Project LOGO.png"
-      alt="Logo"
-      class="w-[140px] h-auto"
-    />
+    <img src="@/assets/images/Project LOGO.png" alt="Logo" class="w-[140px] h-auto" />
 
     <!-- 🔹 روابط التنقل -->
     <ul
@@ -22,13 +18,14 @@
     <!-- 🔹 الأزرار وتبديل اللغة -->
     <div class="hidden md:flex items-center gap-3">
       <!-- ✅ زرار Login بستايل منفصل -->
-      <button
-        @click="$router.push('/login')"
-        class="min-w-[130px] lg:min-w-[150px] px-4 rounded-3xl border-1 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--third)] transition h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
-      >
-        {{ $t("login") }}
-      </button>
-
+      <router-link>
+        <button
+          @click="$router.push('/login')"
+          class="min-w-[130px] lg:min-w-[150px] px-4 rounded-3xl border-1 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--third)] transition h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
+        >
+          {{ $t("login") }}
+        </button>
+      </router-link>
       <!-- ✅ زرار Get Started -->
       <button
         @click="$router.push('/signup')"
@@ -70,30 +67,16 @@
         v-if="isOpen"
         class="absolute top-[80px] left-0 w-full bg-white shadow-md flex flex-col items-center space-y-6 py-6 z-50 md:hidden"
       >
-        <router-link
-          to="/"
-          class="nav-link"
-          @click="isOpen = false"
-          >{{ $t("home") }}</router-link
-        >
-        <router-link
-          to="/sports"
-          class="nav-link"
-          @click="isOpen = false"
-          >{{ $t("sports") }}</router-link
-        >
-        <router-link
-          to="/aboutus"
-          class="nav-link"
-          @click="isOpen = false"
-          >{{ $t("about") }}</router-link
-        >
-        <router-link
-          to="/contactus"
-          class="nav-link"
-          @click="isOpen = false"
-          >{{ $t("contact") }}</router-link
-        >
+        <router-link to="/" class="nav-link" @click="isOpen = false">{{ $t("home") }}</router-link>
+        <router-link to="/sports" class="nav-link" @click="isOpen = false">{{
+          $t("sports")
+        }}</router-link>
+        <router-link to="/aboutus" class="nav-link" @click="isOpen = false">{{
+          $t("about")
+        }}</router-link>
+        <router-link to="/contactus" class="nav-link" @click="isOpen = false">{{
+          $t("contact")
+        }}</router-link>
 
         <div class="flex flex-col gap-4 w-[80%] items-center">
           <button
@@ -185,8 +168,9 @@ export default {
 .gradient-border {
   border: 2px solid transparent;
   border-radius: 12px;
-  background: linear-gradient(white, white) padding-box,
-              linear-gradient(to right, var(--primary), var(--secondry)) border-box;
+  background:
+    linear-gradient(white, white) padding-box,
+    linear-gradient(to right, var(--primary), var(--secondry)) border-box;
 }
 /* ✨ تأثير الموبايل */
 .fade-enter-active,
