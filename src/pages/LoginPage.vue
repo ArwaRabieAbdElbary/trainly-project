@@ -65,12 +65,39 @@
           </a>
 
           <!-- Login Button -->
-          <button
-            type="submit"
-            class="w-full p-3 text-white text-lg rounded-md cursor-pointer mb-4 bg-gradient-to-r from-[#00C853] to-[#00b0ff]"
-          >
-            Log In
-          </button>
+<button
+  type="submit"
+  class="w-full p-3 text-white text-lg rounded-md cursor-pointer mb-4 bg-gradient-to-r from-[#00C853] to-[#00b0ff] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+  :disabled="isLoading"
+>
+  <template v-if="!isLoading">
+    Log In
+  </template>
+  <template v-else>
+    <svg
+      class="animate-spin h-5 w-5 text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        class="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        stroke-width="4"
+      ></circle>
+      <path
+        class="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+      ></path>
+    </svg>
+    <span>Logging in...</span>
+  </template>
+</button>
+
 
           <!-- Google Button -->
           <button
@@ -114,11 +141,7 @@ export default {
     const email = ref("");
     const password = ref("");
     const passwordVisible = ref(false);
-
-    // Loading & errors
     const isLoading = ref(false);
-
-    // 🔔 Toast message reactive variables
     const toastMessage = ref("");
     const showToast = ref(false);
 
@@ -127,7 +150,7 @@ export default {
       showToast.value = true;
       setTimeout(() => {
         showToast.value = false;
-      }, 3000); // popup disappears after 3 seconds
+      }, 3000);
     };
 
     // ✅ Login with Email and Password
@@ -136,8 +159,7 @@ export default {
       isLoading.value = true;
 
       try {
-        // Sign out any existing session (optional but your original code had it)
-        await signOut(auth).catch(() => { /* ignore if no session */ });
+        await signOut(auth).catch(() => {});
 
         const userCredential = await signInWithEmailAndPassword(
           auth,
@@ -147,12 +169,11 @@ export default {
         const user = userCredential.user;
         console.log("✅ Logged in with Email:", user);
 
-        // Fetch user doc from Firestore
+        // Fetch user doc
         const userDocRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userDocRef);
 
         if (!userSnap.exists()) {
-          // No profile in Firestore
           showPopup("❌ No profile found for this account. Please sign up first.");
           await signOut(auth);
           isLoading.value = false;
@@ -161,7 +182,7 @@ export default {
 
         const userData = userSnap.data();
 
-        // Check account status
+        // ✅ تحقق من حالة الحساب
         if (userData.status === "pending") {
           showPopup("⚠️ Your account is under review. You will be notified when approved.");
           await signOut(auth);
@@ -169,22 +190,24 @@ export default {
           return;
         }
 
-        // Success — redirect to landing (temporary)
-        showPopup("✅ Logged in successfully!");
-        router.push("/");
+        // ✅ تحقق من الدور (role)
+        if (userData.role === "trainer") {
+          showPopup("✅ Logged in successfully!");
+          router.push("/trainer/home");
+        } else {
+          showPopup("✅ Logged in successfully!");
+          router.push("/");
+        }
 
       } catch (error) {
         console.error("❌ Login error:", error.code, error.message);
 
-        // Specific error handling
         if (error.code === "auth/user-not-found") {
           showPopup("❌ No account found with this email.");
         } else if (error.code === "auth/wrong-password") {
           showPopup("⚠️ Incorrect password. Please try again.");
         } else if (error.code === "auth/account-exists-with-different-credential") {
           showPopup("⚠️ This email is linked with Google. Trying to link accounts...");
-
-          // Try to link with Google (if possible)
           try {
             const methods = await fetchSignInMethodsForEmail(auth, email.value);
             if (methods.includes("google.com")) {
@@ -193,11 +216,20 @@ export default {
               const credential = EmailAuthProvider.credential(email.value, password.value);
               await linkWithCredential(googleUser, credential);
               showPopup("✅ Accounts linked successfully!");
-              // After linking, fetch Firestore doc and redirect
               const userDocRef = doc(db, "users", googleUser.uid);
               const userSnap = await getDoc(userDocRef);
-              if (userSnap.exists() && userSnap.data().status !== "pending") {
-                router.push("/");
+              if (userSnap.exists()) {
+                const userData = userSnap.data();
+                if (userData.status === "pending") {
+                  showPopup("⚠️ Your account is under review. You will be notified when approved.");
+                  await signOut(auth);
+                  return;
+                }
+                if (userData.role === "trainer") {
+                  router.push("/trainer/home");
+                } else {
+                  router.push("/");
+                }
               } else {
                 showPopup("❌ Profile missing or pending after linking. Contact support.");
                 await signOut(auth);
@@ -225,17 +257,15 @@ export default {
       isLoading.value = true;
 
       try {
-        provider.setCustomParameters({ prompt: "select_account" }); // force account chooser
+        provider.setCustomParameters({ prompt: "select_account" });
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
         console.log("✅ Logged in with Google:", user);
 
-        // Fetch user doc
         const userDocRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userDocRef);
 
         if (!userSnap.exists()) {
-          // If no profile, we prefer to ask user to sign up (or create minimal profile automatically)
           showPopup("❌ No profile found for this Google account. Please sign up first.");
           await signOut(auth);
           isLoading.value = false;
@@ -243,6 +273,7 @@ export default {
         }
 
         const userData = userSnap.data();
+
         if (userData.status === "pending") {
           showPopup("⚠️ Your account is under review. You will be notified when approved.");
           await signOut(auth);
@@ -250,8 +281,14 @@ export default {
           return;
         }
 
-        showPopup("✅ Logged in with Google!");
-        router.push("/");
+        // ✅ تحقق من الدور
+        if (userData.role === "trainer") {
+          showPopup("✅ Logged in with Google!");
+          router.push("/trainer/home");
+        } else {
+          showPopup("✅ Logged in with Google!");
+          router.push("/");
+        }
 
       } catch (error) {
         console.error("❌ Google login error:", error.code, error.message);
@@ -267,19 +304,6 @@ export default {
       }
     };
 
-    // // ✅ Logout function — uncomment when you want to enable logout
-    // const handleLogout = async () => {
-    //   try {
-    //     await signOut(auth);
-    //     showPopup("👋 Signed out successfully!");
-    //     router.push("/login");
-    //   } catch (error) {
-    //     console.error("❌ Logout error:", error);
-    //     showPopup("❌ Error while signing out.");
-    //   }
-    // };
-
-    // ✅ Password visibility toggle
     const togglePasswordVisibility = () => {
       passwordVisible.value = !passwordVisible.value;
     };
@@ -293,7 +317,6 @@ export default {
       password,
       handleLogin,
       handleGoogleLogin,
-      // handleLogout, // uncomment to enable logout
       isLoading,
       passwordVisible,
       togglePasswordVisibility,

@@ -36,7 +36,13 @@ import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
 import TrainerProfile from "./pages/TrainerProfile.vue";
 import SearchPage from "./pages/SearchPage.vue";
 import TrainerPlans from "./pages/trainer/TrainerPlans.vue";
+import TrainerHome from "./pages/trainer/TrainerHome.vue";
 import HomePage from "./pages/HomePage.vue";
+import TrainerSettings from "./pages/trainer/TrainerSettings.vue";
+import TraineeDashboardLayout from "./pages/trainee/TraineeDashboardLayout.vue";
+import TraineeSettings from "./pages/trainee/TraineeSettings.vue";
+import TraineeCustomerservice from "./pages/trainee/TraineeCustomerservice.vue";
+import TrainerCustomerservice from "./pages/trainer/TrainerCustomerservice.vue";
 
 // ----------------------------
 // ✅ إعداد المسارات (Routes)
@@ -65,6 +71,16 @@ const routes = [
     component: TrainerDashboardLayout,
     children: [
       {
+        path: "home",
+        name: "trainerhome",
+        component: TrainerHome,
+      },
+      {
+        path: "plans",
+        name: "trainerplans",
+        component: TrainerPlans,
+      },
+      {
         path: "reviews",
         name: "trainerreviews",
         component: TrainerReviews,
@@ -73,6 +89,11 @@ const routes = [
         path: "clients",
         name: "trainerclient",
         component: TrainerClient,
+      },
+      {
+        path: "customerservice",
+        name: "trainercustomerservice",
+        component: TrainerCustomerservice,
       },
       {
         path: "settings",
@@ -91,6 +112,11 @@ const routes = [
         name: "traineesettings",
         component: TraineeSettings,
       },
+      {
+        path: "customerservice",
+        name: "traineecustomerservice",
+        component: TraineeCustomerservice,
+      }
     ],
   },
 
@@ -107,9 +133,6 @@ const router = createRouter({
 // ----------------------------
 import { auth } from "./Firebase/firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
-import TrainerSettings from "./pages/trainer/TrainerSettings.vue";
-import TraineeDashboardLayout from "./pages/trainee/TraineeDashboardLayout.vue";
-import TraineeSettings from "./pages/trainee/TraineeSettings.vue";
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -126,5 +149,14 @@ onAuthStateChanged(auth, (user) => {
 createApp(App)
   .use(router)
   .use(i18n)
-  .use(Toast)
-  .mount("#app");
+  .use(Toast, {
+  position: "top-center",
+  timeout: 2000,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  showCloseButtonOnHover: false,
+  hideProgressBar: false,
+  theme: "auto",
+})
+.mount("#app");

@@ -7,24 +7,23 @@
         class="flex-1 pt-8 flex flex-col items-center md:items-start md:justify-start relative z-10 mt-13"
       >
         <h1 class="text-3xl lg:text-5xl font-bold mt-0 lg:mt-10">
-          {{ $t('welcomeTitle') }} <span class="text-gradient">{{$t('trainly')}}</span>
+          {{ $t("welcomeTitle") }} <span class="text-gradient">{{ $t("trainly") }}</span>
         </h1>
         <h2 class="text-xl lg:text-2xl tracking-wide lg:tracking-widest mt-3">
-          {{ $t('yourJourney') }}
+          {{ $t("yourJourney") }}
         </h2>
         <h2 class="text-2xl lg:text-4xl font-medium mt-0 md:mt-3 text-gradient">
-          {{ $t('findTrainer') }}
-        
+          {{ $t("findTrainer") }}
         </h2>
-        
+
         <p class="text-sm text-center md:text-left lg:text-xl mt-4 mb-2">
-          {{ $t('description1') }}<br />
-          {{ $t('description2') }}
+          {{ $t("description1") }}<br />
+          {{ $t("description2") }}
         </p>
         <button
           class="mt-6 px-6 py-1 lg:py-1 cursor-pointer rounded-3xl bg-primary text-white hover:opacity-90 transition text-lg md:text-2xl font-light lg:font-medium md:w-60 md:h-12 w-[40%]"
         >
-          {{ $t('startJourney') }}
+          {{ $t("startJourney") }}
         </button>
       </div>
 
@@ -47,7 +46,6 @@
     </div>
   </section>
 
-
   <section
     class="relative max-w-full pb-10 md:pb-0 h-auto md:h-[650px] lg:h-[796px] mx-auto overflow-hidden mt-0 lg:mt-10 bg-sec2-sm md:bg-sec2"
   >
@@ -64,16 +62,16 @@
         class="flex-1 px-[10px] pt-10 flex flex-col items-center relative z-10 mt-0 lg:mt-10 mx-auto"
       >
         <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mt-1 md:mt-10">
-          {{$t('whyChoose')}} <span class="text-gradient">{{$t('trainly')}}</span> ؟
+          {{ $t("whyChoose") }} <span class="text-gradient">{{ $t("trainly") }}</span> ؟
         </h1>
         <p class="text-sm text-center lg:text-xl mt-4 mb-7">
-          {{ $t('whyChooseDesc1') }} <br />
-          {{ $t('whyChooseDesc2') }}
+          {{ $t("whyChooseDesc1") }} <br />
+          {{ $t("whyChooseDesc2") }}
         </p>
-        <div class="grid grid-cols-2 md:grid-cols-2 gap-5 w-[60%] md:w-[70%] lg:w-[80%] ">
+        <div class="grid grid-cols-2 md:grid-cols-2 gap-5 w-[60%] md:w-[70%] lg:w-[80%]">
           <!-- Card 1 -->
           <div
-            class="bg-[#C3F7E3] rounded-2xl p-3 md:p-4 shadow-md flex flex-col  md:gap-2 h-[200px]"
+            class="bg-[#C3F7E3] rounded-2xl p-3 md:p-4 shadow-md flex flex-col md:gap-2 h-[200px]"
           >
             <img
               src="@/assets/images/octicon_goal-16.png"
@@ -82,18 +80,16 @@
             />
             <div>
               <h3 class="font-semibold text-sm md:text-[17px] mb-1 leading-tight">
-                {{$t('personalizedTrainingTitle')}}
+                {{ $t("personalizedTrainingTitle") }}
               </h3>
               <p class="text-[11px] md:text-[15px] text-gray-900 leading-snug">
-                {{$t('personalizedTrainingDesc')}}
+                {{ $t("personalizedTrainingDesc") }}
               </p>
             </div>
           </div>
 
           <!-- Card 2 -->
-          <div
-            class="bg-[#C3F7E3] rounded-2xl p-3 md:p-4 shadow-md flex flex-col  gap-2 h-[200px]"
-          >
+          <div class="bg-[#C3F7E3] rounded-2xl p-3 md:p-4 shadow-md flex flex-col gap-2 h-[200px]">
             <img
               src="@/assets/images/Vector-1.png"
               alt="icon"
@@ -101,18 +97,16 @@
             />
             <div>
               <h3 class="font-semibold text-sm md:text-[17px] mb-1 leading-tight">
-                {{$t('certifiedTrainersTitle')}}
+                {{ $t("certifiedTrainersTitle") }}
               </h3>
               <p class="text-[11px] md:text-[15px] text-gray-900 leading-snug">
-                {{$t('certifiedTrainersDesc')}}
+                {{ $t("certifiedTrainersDesc") }}
               </p>
             </div>
           </div>
 
           <!-- Card 3 -->
-          <div
-            class="bg-[#C3F7E3] rounded-2xl p-3 md:p-4 shadow-md flex flex-col  gap-2 h-[200px]"
-          >
+          <div class="bg-[#C3F7E3] rounded-2xl p-3 md:p-4 shadow-md flex flex-col gap-2 h-[200px]">
             <img
               src="@/assets/images/Vector2.png"
               alt="icon"
@@ -120,18 +114,16 @@
             />
             <div>
               <h3 class="font-semibold text-sm md:text-[17px] mb-1 leading-tight">
-                {{$t('flexibleSchedulingTitle')}}
+                {{ $t("flexibleSchedulingTitle") }}
               </h3>
               <p class="text-[11px] md:text-[15px] text-gray-900 leading-snug">
-                 {{$t('flexibleSchedulingDesc')}}
+                {{ $t("flexibleSchedulingDesc") }}
               </p>
             </div>
           </div>
 
           <!-- Card 4 -->
-          <div
-            class="bg-[#C3F7E3] rounded-2xl p-3 md:p-4 shadow-md flex flex-col  gap-2 h-[200px]"
-          >
+          <div class="bg-[#C3F7E3] rounded-2xl p-3 md:p-4 shadow-md flex flex-col gap-2 h-[200px]">
             <img
               src="@/assets/images/solar_cup-bold.png"
               alt="icon"
@@ -139,19 +131,17 @@
             />
             <div>
               <h3 class="font-semibold text-sm md:text-base mb-1 leading-tight">
-                 {{$t('progressTrackingTitle')}}
+                {{ $t("progressTrackingTitle") }}
               </h3>
               <p class="text-[11px] md:text-[15px] text-gray-900 leading-snug">
-                 {{$t('progressTrackingDesc')}}
+                {{ $t("progressTrackingDesc") }}
               </p>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div
-      class="hidden absolute -bottom-13 pt-[300px] left-0 w-full lg:flex justify-center z-30"
-    >
+    <div class="hidden absolute -bottom-13 pt-[300px] left-0 w-full lg:flex justify-center z-30">
       <img
         src="@/assets/images/Rectangle2.png"
         alt=""
@@ -161,11 +151,12 @@
   </section>
 
   <section class="relative bg-white pb-[30px] lg:pb-[100px] pt-20 overflow-hidden">
-    <h2 class="text-3xl font-[600] mb-6 text-center ">{{$t('featureTitle')}}</h2>
+    <h2 class="text-3xl font-[600] mb-6 text-center">{{ $t("featureTitle") }}</h2>
 
     <div
       class="flex flex-wrap justify-center md:justify-evenly items-center gap-5 text-center mx-auto"
     >
+      <!-- Feature Card 1 -->
       <div class="features-card">
         <div class="flex flex-col items-center pb-10">
           <img
@@ -174,16 +165,17 @@
             alt="card image"
           />
           <h5 class="mb-1 text-[15px] md:text-[20px] font-[700] text-[#1351CD] leading-[150%]">
-            Personalized Planes
+            {{ $t("feature1Title") }}
           </h5>
           <p
             class="text-[15px] lg:text-[17px] text-[#000000] font-[350] leading-[150%] text-center"
           >
-            Create training plans tailored to your <br />
-            fitness goals.
+            {{ $t("feature1Desc") }}
           </p>
         </div>
       </div>
+
+      <!-- Feature Card 2 -->
       <div class="features-card">
         <div class="flex flex-col items-center pb-10">
           <img
@@ -192,16 +184,17 @@
             alt="card image"
           />
           <h5 class="mb-1 text-[15px] md:text-[20px] font-[700] text-[#1351CD] leading-[150%]">
-            Expert trainers
+            {{ $t("feature2Title") }}
           </h5>
           <p
             class="text-[15px] lg:text-[17px] text-[#000000] font-[350] leading-[150%] text-center"
           >
-            Get guidance from certified trainers in <br />
-            various sports.
+            {{ $t("feature2Desc") }}
           </p>
         </div>
       </div>
+
+      <!-- Feature Card 3 -->
       <div class="features-card">
         <div class="flex flex-col items-center pb-10">
           <img
@@ -210,116 +203,110 @@
             alt="card image"
           />
           <h5 class="mb-1 text-[15px] md:text-[20px] font-[700] text-[#1351CD] leading-[150%]">
-            Flexible scheduling
+            {{ $t("feature3Title") }}
           </h5>
           <p
             class="text-[15px] lg:text-[17px] text-[#000000] font-[350] leading-[150%] text-center"
           >
-            Train at your convenience with our <br />
-            flexible schedule options.
+            {{ $t("feature3Desc") }}
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="relative md:pt-[90px] lg:pt-[70px]">
-    <div class="hidden lg:block absolute top-[-100px] left-0 w-full z-10">
-      <img src="@/assets/images/Rectangle1.png" alt="curve" class="w-full block" />
-    </div>
+  <!-- How It Works Section -->
+  <section
+    class="bg-[#8CDAFE99] w-full h-[550px] md:h-[772px] lg:h-[795px] md:pt-[20px] lg:pt-[100px]"
+  >
+    <h2 class="text-[30px] lg:text-[45px] font-[600] text-center mb-17 pt-10 md:pt-0">
+      {{ $t("howItWorks") }}
+    </h2>
 
-    <div
-      class="bg-[#8CDAFE99] w-full h-[550px] md:h-[772px] lg:h-[795px] md:pt-[20px] lg:pt-[100px]"
-    >
-      <h2 class="text-[30px] lg:text-[45px] font-[600] text-center mb-17 pt-10 md:pt-0">
-        How It Works
-      </h2>
+    <div class="relative flex flex-col items-center w-full mx-auto">
+      <div
+        class="absolute top-[-40px] bottom-[-40px] w-[4px] bg-gradient-to-b from-[#00C853F2] to-[#0D8BF2] h-[437px] md:h-[680px] lg:h-[600px]"
+      ></div>
 
-      <div class="relative flex flex-col items-center w-full mx-auto">
-        <div
-          class="absolute top-[-40px] bottom-[-40px] w-[4px] bg-gradient-to-b from-[#00C853F2] to-[#0D8BF2] h-[437px] md:h-[680px] lg:h-[600px]"
-        ></div>
-
-        <div class="relative flex items-center md:mb-17 mb-2 w-full px-[5%] md:px-[10%]">
-          <div class="w-1/2 text-right md:pr-12 pr-8">
-            <h3 class="text-md md:text-xl font-semibold">1. Create Your Profile</h3>
-            <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
-              Set up your profile with your fitness goals and <br />
-              preferences.
-            </p>
-          </div>
-
-          <div class="img-box">
-            <img src="@/assets/images/user.png" alt="icon" />
-          </div>
-
-          <div class="w-1/2"></div>
+      <!-- Step 1 -->
+      <div class="relative flex items-center md:mb-17 w-full px-[5%] md:px-[10%]">
+        <div class="w-1/2 text-end md:pe-12 pe-7">
+          <h3 class="text-md md:text-xl font-semibold">{{ $t("step1Title") }}</h3>
+          <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
+            {{ $t("step1Desc") }} <br />
+            {{ $t("step1Desc2") }}
+          </p>
         </div>
-
-        <div class="relative flex items-center md:mb-17 mb-2 w-full px-[5%] md:px-[10%]">
-          <div class="w-1/2"></div>
-
-          <div class="img-box">
-            <img src="@/assets/images/search.png" alt="icon" />
-          </div>
-
-          <div class="w-1/2 pl-7 md:pl-12">
-            <h3 class="text-md md:text-xl font-semibold">2. Browse Trainers</h3>
-            <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
-              Explore our network of certified trainers and find the <br />
-              perfect match.
-            </p>
-          </div>
+        <div class="img-box">
+          <img src="@/assets/images/user.png" alt="icon" />
         </div>
+        <div class="w-1/2"></div>
+      </div>
 
-        <div class="relative flex items-center md:mb-17 mb-2 w-full px-[5%] md:px-[10%]">
-          <div class="w-1/2 text-right md:pr-12 pr-8">
-            <h3 class="text-md md:text-xl font-semibold">3. Book Sessions</h3>
-            <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
-              Schedule and book training sessions directly <br />
-              through the app.
-            </p>
-          </div>
-
-          <div class="img-box">
-            <img src="@/assets/images/Vector.png" alt="icon" />
-          </div>
-
-          <div class="w-1/2"></div>
+      <!-- Step 2 -->
+      <div class="relative flex items-center md:mb-17 w-full px-[5%] md:px-[10%]">
+        <div class="w-1/2"></div>
+        <div class="img-box">
+          <img src="@/assets/images/search.png" alt="icon" />
         </div>
+        <div class="w-1/2 ps-7 md:ps-12">
+          <h3 class="text-md md:text-xl font-semibold">{{ $t("step2Title") }}</h3>
+          <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
+            {{ $t("step2Desc") }} <br />
+            {{ $t("step2Desc2") }}
+          </p>
+        </div>
+      </div>
 
-        <div class="relative flex items-center w-full px-[3%] md:px-[10%]">
-          <div class="w-1/2"></div>
+      <!-- Step 3 -->
+      <div class="relative flex items-center md:mb-17 mb-2 w-full px-[5%] md:px-[10%]">
+        <div class="w-1/2 text-end md:pe-12 pe-7">
+          <h3 class="text-md md:text-xl font-semibold">{{ $t("step3Title") }}</h3>
+          <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
+            {{ $t("step3Desc") }}
+            <br />
+            {{ $t("step3Desc2") }}
+          </p>
+        </div>
+        <div class="img-box">
+          <img src="@/assets/images/vector-step3.png" alt="icon" />
+        </div>
+        <div class="w-1/2"></div>
+      </div>
 
-          <div class="img-box">
-            <img src="@/assets/images/cup.png" alt="icon" />
-          </div>
-
-          <div class="w-1/2 pl-8 md:pl-12">
-            <h3 class="text-md md:text-xl font-semibold">4. Achieve Your Goals</h3>
-            <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
-              Track your progress, stay motivated, and achieve your <br />
-              fitness aspirations.
-            </p>
-          </div>
+      <!-- Step 4 -->
+      <div class="relative flex items-center md:mb-17 w-full px-[5%] md:px-[10%]">
+        <div class="w-1/2"></div>
+        <div class="img-box">
+          <img src="@/assets/images/cup.png" alt="icon" />
+        </div>
+        <div class="w-1/2 ps-8 md:ps-12">
+          <h3 class="text-md md:text-xl font-semibold">{{ $t("step4Title") }}</h3>
+          <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
+            {{ $t("step4Desc") }}
+            <br />
+            {{ $t("step4Desc2") }}
+          </p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- Call to Action Section -->
   <section>
     <div class="flex flex-col justify-center items-center mt-20">
       <h5 class="font-[600] text-[20px] md:text-[30px] mb-3">
-        Ready to Start Your Fitness Journey?
+        {{ $t("readyTitle") }}
       </h5>
       <p class="font-[400] text-[14px] md:text-[16px] mb-8 md:text-left text-center">
-        Join us today and get in the best shape of your life with the help of professional trainers.
+        {{ $t("readyDesc") }}
       </p>
-      <button
-        class="mb-10 rounded-3xl bg-primary text-white hover:opacity-90 transition md:text-xl font-medium w-[40%] h-10 md:w-60 md:h-15 cursor-pointer"
+      <router-link
+        to="/signup"
+        class="mb-10 w-[40%] md:w-60 h-10 md:h-15 rounded-3xl bg-primary text-white hover:opacity-90 transition md:text-xl font-medium cursor-pointer flex justify-center items-center"
       >
-        Get Started Now
-      </button>
+        {{ $t("getStarted") }}
+      </router-link>
     </div>
   </section>
 </template>
