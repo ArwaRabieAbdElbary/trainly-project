@@ -1,4 +1,4 @@
- <script>
+<script>
 export default {
   name: "SideBar",
 };
@@ -13,14 +13,23 @@ export default {
       <div class="flex items-center justify-start rtl:justify-end">
         <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-20">
             <span class="sr-only">Open sidebar</span>
-            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-               <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+            <svg
+              class="w-6 h-6"
+              aria-hidden="true"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+              ></path>
             </svg>
-         </button>
-        <a href="https://flowbite.com" class="flex ms-2 md:me-24">
-        </a>
-      </div>
-      <div class="flex items-center">
+          </button>
+          <a href="https://flowbite.com" class="flex ms-2 md:me-24"> </a>
+        </div>
+        <div class="flex items-center">
           <div class="flex items-center ms-3 gap-[40px]">
             <div class="hidden md:block ">
               <img src="@/assets/images/mingcute_notification-line.png" alt="" class="w-7 h-7">
@@ -28,16 +37,25 @@ export default {
 
 
             <div>
-              <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+              <button
+                type="button"
+                class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                aria-expanded="false"
+                data-dropdown-toggle="dropdown-user"
+              >
+                <img
+                  class="w-8 h-8 rounded-full"
+                  src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                  alt="user photo"
+                />
               </button>
             </div>
 
           </div>
         </div>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
 <aside
       id="default-sidebar"
@@ -120,11 +138,18 @@ export default {
 .bg-all{
     background: #D9EEFF;
 }
-.bg-nav{
-    background: #b8dbf8;
+.bg-nav {
+  background: #b8dbf8;
 }
-.bg-hov{
-  background: #83D3F799;
+.bg-hov {
+  background: #83d3f799;
+}
+.router-link-active {
+  background: #61b7df99 !important;
+  color: #000;
+  font-weight: 600;
+}
+.router-link-active img {
+  filter: invert(29%) sepia(83%) saturate(749%) hue-rotate(181deg) brightness(95%) contrast(90%);
 }
 </style>
-

@@ -1,68 +1,21 @@
 <template>
   <div>
     <NavBar
-      v-if="
-        ![
-          'payment',
-          'failed',
-          'error',
-          'resetpassword',
-          'resetpassword2',
-          'forgetpassword1',
-          'forgetpassword2',
-          'login',
-          'signup',
-          'trainerclient',
-          'trainer',
-          'trainerreviews',
-          'trainersettings',
-          'traineesettings',
-          'trainee',
-        ].includes($route.name)
-      "
+      v-if="!['payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'trainerclient','trainer','trainerreviews','trainersettings' , 'traineesettings' , 'trainee'].includes($route.name)"
     />
 
     <SideBar
-      v-if="
-        ![
-          'landing',
-          'payment',
-          'failed',
-          'error',
-          'resetpassword',
-          'resetpassword2',
-          'forgetpassword1',
-          'forgetpassword2',
-          'login',
-          'signup',
-          'aboutus',
-          'sports',
-          'contactus',
-          'trainerprofile',
-          'search',
-        ].includes($route.name)
-      "
+      v-if="!['landing', 'payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'aboutus' , 'sports' , 'contactus' , 'traineesettings','trainee'].includes($route.name)"
+    />
+
+    <SideBarTrainee
+       v-if="!['landing', 'payment', 'failed', 'error', 'resetpassword', 'resetpassword2', 'forgetpassword1', 'forgetpassword2', 'login', 'signup', 'aboutus' , 'sports' , 'contactus' , 'trainerclient' , 'trainerreviews' ,'trainersettings' , 'trainer' ].includes($route.name)"
     />
 
     <router-view />
 
     <FooterComp
-      v-if="
-        ![
-          'payment',
-          'failed',
-          'error',
-          'login',
-          'signup',
-          'trainerclient',
-          'trainer',
-          'trainerreviews',
-          'trainersettings',
-          'traineesettings',
-          'trainer',
-          'trainee',
-        ].includes($route.name)
-      "
+      v-if="!['payment', 'failed', 'error', 'login', 'signup', 'trainerclient' , 'trainer' , 'trainerreviews','trainersettings' , 'traineesettings' , 'trainer' , 'trainee'].includes($route.name)"
     />
   </div>
 </template>

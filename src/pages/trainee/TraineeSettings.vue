@@ -1,223 +1,616 @@
 <template>
-<form>
-  <div class="space-y-12">
-    <div class="border-b border-gray-900/10 pb-12">
-      <h2 class="text-base/7 font-semibold text-gray-900">Profile</h2>
-      <p class="mt-1 text-sm/6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
+  <!-- Welcome Header -->
+  <div
+    class="relative mb-10 mx-auto max-w-5xl bg-gradient-to-r from-[#D9EEFF] to-[#AEE2FF] rounded-2xl shadow-md p-6 flex items-center justify-between overflow-hidden"
+  >
+    <div
+      class="absolute top-0 right-0 w-40 h-40 bg-white/20 rounded-full blur-2xl"
+    ></div>
 
-      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-        <div class="sm:col-span-4">
-          <label for="username" class="block text-sm/6 font-medium text-gray-900">Username</label>
-          <div class="mt-2">
-            <div class="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-              <div class="shrink-0 text-base text-gray-500 select-none sm:text-sm/6">workcation.com/</div>
-              <input id="username" type="text" name="username" placeholder="janesmith" class="block min-w-0 grow bg-white py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6" />
-            </div>
-          </div>
-        </div>
+    <div class="flex items-center gap-5 relative z-10">
+      <div class="bg-white shadow-sm p-3 rounded-full">
+        <img
+          src="../../assets/images/hand.png"
+          alt="User icon"
+          class="w-10 h-10"
+        />
+      </div>
+      <div>
+        <h2 class="text-2xl font-semibold text-gray-800">
+          Welcome back, {{ userData.name }}!
+        </h2>
 
-        <div class="col-span-full">
-          <label for="about" class="block text-sm/6 font-medium text-gray-900">About</label>
-          <div class="mt-2">
-            <textarea id="about" name="about" rows="3" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"></textarea>
-          </div>
-          <p class="mt-3 text-sm/6 text-gray-600">Write a few sentences about yourself.</p>
-        </div>
-
-        <div class="col-span-full">
-          <label for="photo" class="block text-sm/6 font-medium text-gray-900">Photo</label>
-          <div class="mt-2 flex items-center gap-x-3">
-            <svg viewBox="0 0 24 24" fill="currentColor" data-slot="icon" aria-hidden="true" class="size-12 text-gray-300">
-              <path d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" fill-rule="evenodd" />
-            </svg>
-            <button type="button" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50">Change</button>
-          </div>
-        </div>
-
-        <div class="col-span-full">
-          <label for="cover-photo" class="block text-sm/6 font-medium text-gray-900">Cover photo</label>
-          <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-            <div class="text-center">
-              <svg viewBox="0 0 24 24" fill="currentColor" data-slot="icon" aria-hidden="true" class="mx-auto size-12 text-gray-300">
-                <path d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" clip-rule="evenodd" fill-rule="evenodd" />
-              </svg>
-              <div class="mt-4 flex text-sm/6 text-gray-600">
-                <label for="file-upload" class="relative cursor-pointer rounded-md bg-transparent font-semibold text-indigo-600 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-indigo-600 hover:text-indigo-500">
-                  <span>Upload a file</span>
-                  <input id="file-upload" type="file" name="file-upload" class="sr-only" />
-                </label>
-                <p class="pl-1">or drag and drop</p>
-              </div>
-              <p class="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-            </div>
-          </div>
-        </div>
+        <p class="text-sm text-gray-600 mt-1">
+          Ready to crush your fitness goals today? 💪
+        </p>
       </div>
     </div>
+  </div>
 
-    <div class="border-b border-gray-900/10 pb-12">
-      <h2 class="text-base/7 font-semibold text-gray-900">Personal Information</h2>
-      <p class="mt-1 text-sm/6 text-gray-600">Use a permanent address where you can receive mail.</p>
+  <section class="max-w-5xl mx-auto flex flex-col gap-10">
+    <div class="">
+      <h2 class="text-[24px] font-medium text-gray-900">Settings</h2>
+      <p class="mt-2 text-[16px] text-gray-500">
+        Manage your account settings and preferences here.
+      </p>
+    </div>
 
-      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-        <div class="sm:col-span-3">
-          <label for="first-name" class="block text-sm/6 font-medium text-gray-900">First name</label>
-          <div class="mt-2">
-            <input id="first-name" type="text" name="first-name" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-          </div>
+    <form
+      @submit.prevent="handleSubmit"
+      class="max-w-5xl p-15 border border-gray-200 rounded-3xl shadow-xl bg-white flex flex-col items-center"
+    >
+      <div class="flex items-center gap-3 mb-6 self-start">
+         <div
+          class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
+        >
+          <img src="../../assets/images/page-1.png" alt="" class="w-5 h-5" />
         </div>
-
-        <div class="sm:col-span-3">
-          <label for="last-name" class="block text-sm/6 font-medium text-gray-900">Last name</label>
-          <div class="mt-2">
-            <input id="last-name" type="text" name="last-name" autocomplete="family-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-          </div>
+        <div>
+          <h2 class="text-lg font-medium text-gray-900">
+            Personal Information
+          </h2>
+          <p class="text-sm text-gray-500">Update your personal details</p>
         </div>
+      </div>
 
-        <div class="sm:col-span-4">
-          <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
-          <div class="mt-2">
-            <input id="email" type="email" name="email" autocomplete="email" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+      <!-- Upload Profile Photo -->
+      <div class="flex flex-col items-center mb-10">
+        <label
+          for="profilePhoto"
+          class="w-24 h-24 flex flex-col items-center justify-center rounded-full border-2 border-dashed border-gray-300 cursor-pointer hover:border-indigo-500 transition bg-gray-50 overflow-hidden"
+        >
+          <img
+            v-if="previewImage"
+            :src="previewImage"
+            alt="Preview"
+            class="w-full h-full object-cover rounded-full"
+          />
+          <div v-else class="flex flex-col items-center justify-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 text-gray-400 mb-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            <span class="text-xs text-gray-500">Upload your photo</span>
           </div>
-        </div>
+          <input
+            id="profilePhoto"
+            type="file"
+            class="hidden"
+            accept="image/*"
+            @change="handleFileUpload"
+          />
+        </label>
+      </div>
 
-        <div class="sm:col-span-3">
-          <label for="country" class="block text-sm/6 font-medium text-gray-900">Country</label>
-          <div class="mt-2 grid grid-cols-1">
-            <select id="country" name="country" autocomplete="country-name" class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-              <option>United States</option>
-              <option>Canada</option>
-              <option>Mexico</option>
+      <!-- Personal Info -->
+      <div class="w-full space-y-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mx-15">
+          <div>
+            <label
+              for="first-name"
+              class="block text-sm font-medium text-gray-900"
+              >First Name</label
+            >
+            <input
+              id="first-name"
+              v-model="formData.firstName"
+              type="text"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label
+              for="last-name"
+              class="block text-sm font-medium text-gray-900"
+              >Last Name</label
+            >
+            <input
+              id="last-name"
+              v-model="formData.lastName"
+              type="text"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-900"
+              >Email</label
+            >
+            <input
+              id="email"
+              v-model="formData.email"
+              type="email"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label for="gender" class="block text-sm font-medium text-gray-900"
+              >Gender</label
+            >
+            <select
+              id="gender"
+              v-model="formData.gender"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            >
+              <option value="">Select</option>
+              <option>Female</option>
+              <option>Male</option>
             </select>
-            <svg viewBox="0 0 16 16" fill="currentColor" data-slot="icon" aria-hidden="true" class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4">
-              <path d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" fill-rule="evenodd" />
-            </svg>
           </div>
         </div>
 
-        <div class="col-span-full">
-          <label for="street-address" class="block text-sm/6 font-medium text-gray-900">Street address</label>
-          <div class="mt-2">
-            <input id="street-address" type="text" name="street-address" autocomplete="street-address" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+        <!-- City / Country / Birthday -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mx-15">
+          <div>
+            <label for="city" class="block text-sm font-medium text-gray-900"
+              >City</label
+            >
+            <input
+              id="city"
+              v-model="formData.city"
+              type="text"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
           </div>
-        </div>
 
-        <div class="sm:col-span-2 sm:col-start-1">
-          <label for="city" class="block text-sm/6 font-medium text-gray-900">City</label>
-          <div class="mt-2">
-            <input id="city" type="text" name="city" autocomplete="address-level2" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+          <div>
+            <label for="country" class="block text-sm font-medium text-gray-900"
+              >Country</label
+            >
+            <input
+              id="country"
+              v-model="formData.country"
+              type="text"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            />
           </div>
-        </div>
 
-        <div class="sm:col-span-2">
-          <label for="region" class="block text-sm/6 font-medium text-gray-900">State / Province</label>
-          <div class="mt-2">
-            <input id="region" type="text" name="region" autocomplete="address-level1" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
-          </div>
-        </div>
-
-        <div class="sm:col-span-2">
-          <label for="postal-code" class="block text-sm/6 font-medium text-gray-900">ZIP / Postal code</label>
-          <div class="mt-2">
-            <input id="postal-code" type="text" name="postal-code" autocomplete="postal-code" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+          <div>
+            <label
+              for="birthday"
+              class="block text-sm font-medium text-gray-900"
+              >Birthday</label
+            >
+            <input
+              id="birthday"
+              v-model="formData.birthdate"
+              type="date"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-gray-50"
+            />
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="border-b border-gray-900/10 pb-12">
-      <h2 class="text-base/7 font-semibold text-gray-900">Notifications</h2>
-      <p class="mt-1 text-sm/6 text-gray-600">We'll always let you know about important changes, but you pick what else you want to hear about.</p>
-
-      <div class="mt-10 space-y-10">
-        <fieldset>
-          <legend class="text-sm/6 font-semibold text-gray-900">By email</legend>
-          <div class="mt-6 space-y-6">
-            <div class="flex gap-3">
-              <div class="flex h-6 shrink-0 items-center">
-                <div class="group grid size-4 grid-cols-1">
-                  <input id="comments" type="checkbox" name="comments" checked aria-describedby="comments-description" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto" />
-                  <svg viewBox="0 0 14 14" fill="none" class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25">
-                    <path d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 group-has-checked:opacity-100" />
-                    <path d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 group-has-indeterminate:opacity-100" />
-                  </svg>
-                </div>
-              </div>
-              <div class="text-sm/6">
-                <label for="comments" class="font-medium text-gray-900">Comments</label>
-                <p id="comments-description" class="text-gray-500">Get notified when someones posts a comment on a posting.</p>
-              </div>
-            </div>
-            <div class="flex gap-3">
-              <div class="flex h-6 shrink-0 items-center">
-                <div class="group grid size-4 grid-cols-1">
-                  <input id="candidates" type="checkbox" name="candidates" aria-describedby="candidates-description" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto" />
-                  <svg viewBox="0 0 14 14" fill="none" class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25">
-                    <path d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 group-has-checked:opacity-100" />
-                    <path d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 group-has-indeterminate:opacity-100" />
-                  </svg>
-                </div>
-              </div>
-              <div class="text-sm/6">
-                <label for="candidates" class="font-medium text-gray-900">Candidates</label>
-                <p id="candidates-description" class="text-gray-500">Get notified when a candidate applies for a job.</p>
-              </div>
-            </div>
-            <div class="flex gap-3">
-              <div class="flex h-6 shrink-0 items-center">
-                <div class="group grid size-4 grid-cols-1">
-                  <input id="offers" type="checkbox" name="offers" aria-describedby="offers-description" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto" />
-                  <svg viewBox="0 0 14 14" fill="none" class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25">
-                    <path d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 group-has-checked:opacity-100" />
-                    <path d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-0 group-has-indeterminate:opacity-100" />
-                  </svg>
-                </div>
-              </div>
-              <div class="text-sm/6">
-                <label for="offers" class="font-medium text-gray-900">Offers</label>
-                <p id="offers-description" class="text-gray-500">Get notified when a candidate accepts or rejects an offer.</p>
-              </div>
-            </div>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend class="text-sm/6 font-semibold text-gray-900">Push notifications</legend>
-          <p class="mt-1 text-sm/6 text-gray-600">These are delivered via SMS to your mobile phone.</p>
-          <div class="mt-6 space-y-6">
-            <div class="flex items-center gap-x-3">
-              <input id="push-everything" type="radio" name="push-notifications" checked class="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden" />
-              <label for="push-everything" class="block text-sm/6 font-medium text-gray-900">Everything</label>
-            </div>
-            <div class="flex items-center gap-x-3">
-              <input id="push-email" type="radio" name="push-notifications" class="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden" />
-              <label for="push-email" class="block text-sm/6 font-medium text-gray-900">Same as email</label>
-            </div>
-            <div class="flex items-center gap-x-3">
-              <input id="push-nothing" type="radio" name="push-notifications" class="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white not-checked:before:hidden checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden" />
-              <label for="push-nothing" class="block text-sm/6 font-medium text-gray-900">No push notifications</label>
-            </div>
-          </div>
-        </fieldset>
+      <!-- Buttons -->
+      <div class="mt-10 flex-wrap md:flex justify-between items-center w-full">
+        <button
+          type="button"
+          class="border-2 border-red-500 text-red-500 font-medium text-sm py-2 px-6 rounded-lg hover:bg-red-50 transition mx-15"
+        >
+          Delete Account
+        </button>
+        <button
+          type="submit"
+          class="bg-indigo-600 text-white font-medium text-sm py-2 px-6 rounded-lg hover:bg-indigo-500 transition mx-15"
+        >
+          Save Changes
+        </button>
       </div>
+    </form>
+
+    <!-- ========= Security Section ========= -->
+    <div
+      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7"
+    >
+      <div class="flex">
+        <div
+          class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
+        >
+          <img src="../../assets/images/security.png" alt="" class="w-5 h-5" />
+        </div>
+
+        <div>
+          <h2 class="text-xl font-[500] mb-1">Security</h2>
+          <p class="mb-6 font-[400] text-[13px] text-gray-500">
+            Manage your password and security settings
+          </p>
+        </div>
+      </div>
+
+      <form class="max-w-[95%] ps-[50px]" @submit.prevent="onSubmit">
+        <!-- Current password -->
+        <div class="mb-5">
+          <label class="block mb-2 text-sm font-medium text-gray-900"
+            >Current Password</label
+          >
+          <div class="relative">
+            <input
+              :type="showCurrent ? 'text' : 'password'"
+              v-model="form.current"
+              class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+              required
+            />
+            <button
+              type="button"
+              @click="toggle('current')"
+              class="absolute inset-y-0 right-2 flex items-center justify-center px-2 text-gray-500"
+            >
+              <svg
+                v-if="!showCurrent"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274
+                4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+              <svg
+                v-else
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477
+                0-8.268-2.943-9.542-7a9.965 9.965 0 012.223-3.583M3 3l18 18"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9.88 9.88a3 3 0 104.24 4.24"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- New password -->
+        <div class="mb-5">
+          <label class="block mb-2 text-sm font-medium text-gray-900"
+            >New Password</label
+          >
+          <div class="relative">
+            <input
+              :type="showNew ? 'text' : 'password'"
+              v-model="form.new"
+              class="shadow-xs border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+              required
+              minlength="8"
+            />
+            <button
+              type="button"
+              @click="toggle('new')"
+              class="absolute inset-y-0 right-2 flex items-center justify-center px-2 text-gray-500"
+            >
+              <svg
+                v-if="!showNew"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477
+                0 8.268 2.943 9.542 7-1.274 4.057-5.065
+                7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+              <svg
+                v-else
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112
+                19c-4.477 0-8.268-2.943-9.542-7a9.965
+                9.965 0 012.223-3.583M3 3l18 18"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9.88 9.88a3 3 0 104.24 4.24"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Repeat password -->
+        <div class="mb-5">
+          <label class="block mb-2 text-sm font-medium text-gray-900"
+            >Confirm Password</label
+          >
+          <div class="relative">
+            <input
+              :type="showRepeat ? 'text' : 'password'"
+              v-model="form.repeat"
+              class="shadow-xs border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10"
+              required
+              minlength="8"
+            />
+            <button
+              type="button"
+              @click="toggle('repeat')"
+              class="absolute inset-y-0 right-2 flex items-center justify-center px-2 text-gray-500"
+            >
+              <svg
+                v-if="!showRepeat"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12
+                5c4.477 0 8.268 2.943 9.542 7-1.274
+                4.057-5.065 7-9.542 7-4.477
+                0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+              <svg
+                v-else
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112
+                19c-4.477 0-8.268-2.943-9.542-7a9.965
+                9.965 0 012.223-3.583M3 3l18 18"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9.88 9.88a3 3 0 104.24 4.24"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="text-white mt-5 bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        >
+          Update Password
+        </button>
+
+        <p
+          v-if="message"
+          class="text-sm mt-3 text-center"
+          :class="messageColor"
+        >
+          {{ message }}
+        </p>
+      </form>
     </div>
-  </div>
-
-  <div class="mt-6 flex items-center justify-end gap-x-6">
-    <button type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
-    <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
-  </div>
-</form>
-
-
+  </section>
 </template>
 
 <script>
-    export default {
-        name:"TraineeSettings",
-    }
+import {
+  getAuth,
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { db, storage } from "@/Firebase/firebaseConfig.js";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { toast } from "vue3-toastify";
+
+export default {
+  name: "TraineeSettings",
+  data() {
+    return {
+      userId: "TxSqkk6glFaeLJhULgYcR9dCwjK2",
+      previewImage: null,
+      formData: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        gender: "",
+        city: "",
+        country: "",
+        birthdate: "",
+        experience: "",
+        profilePicture: null,
+      },
+      showCurrent: false,
+      showNew: false,
+      showRepeat: false,
+      form: { current: "", new: "", repeat: "" },
+      userData: {},
+    };
+  },
+
+  methods: {
+    getUserData() {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.userData = {
+            name: user.displayName || user.email?.split("@")[0] || "User",
+
+            uid: user.uid,
+            email: user.email,
+            photo: user.photoURL,
+          };
+        }
+      });
+    },
+
+    // 🟢 جلب بيانات المستخدم
+    async fetchUserData() {
+      try {
+        const userRef = doc(db, "users", this.userId);
+        const docSnap = await getDoc(userRef);
+
+        if (docSnap.exists()) {
+          this.formData = { ...this.formData, ...docSnap.data() };
+          if (docSnap.data().profilePicture) {
+            this.previewImage = docSnap.data().profilePicture;
+          }
+
+          // ✳️ هنا التعديل
+          const firstName = this.formData.firstName || "User";
+          this.userData.name =
+            firstName.charAt(0).toUpperCase() +
+            firstName.slice(1).toLowerCase();
+        } else {
+          console.log("No such user!");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    },
+
+    // 🟢 تحميل الصورة الجديدة
+    handleFileUpload(e) {
+      const file = e.target.files[0];
+      this.formData.profilePicture = file;
+      this.previewImage = URL.createObjectURL(file);
+    },
+
+    // 🟢 تحديث بيانات المستخدم
+    async handleSubmit() {
+      try {
+        const userRef = doc(db, "users", this.userId);
+        let imageUrl = null;
+
+        if (this.formData.profilePicture instanceof File) {
+          const imageRef = ref(storage, `profilePictures/${this.userId}`);
+          await uploadBytes(imageRef, this.formData.profilePicture);
+          imageUrl = await getDownloadURL(imageRef);
+        }
+
+        await updateDoc(userRef, {
+          firstName: this.formData.firstName,
+          lastName: this.formData.lastName,
+          email: this.formData.email,
+          gender: this.formData.gender,
+          city: this.formData.city,
+          country: this.formData.country,
+          birthdate: this.formData.birthdate,
+          experience: this.formData.experience,
+          ...(imageUrl && { profilePicture: imageUrl }),
+        });
+
+        toast.success("✅ Data updated successfully!");
+      } catch (error) {
+        console.error("❌ Error updating user:", error);
+        toast.error("Failed to update data!");
+      }
+    },
+
+    // 🟢 إظهار/إخفاء الباسورد
+    toggle(field) {
+      if (field === "current") this.showCurrent = !this.showCurrent;
+      else if (field === "new") this.showNew = !this.showNew;
+      else if (field === "repeat") this.showRepeat = !this.showRepeat;
+    },
+
+    // 🟢 تحديث كلمة السر
+    async onSubmit() {
+      if (this.form.new !== this.form.repeat) {
+        toast.error("New password and confirmation do not match!");
+        return;
+      }
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        toast.error("No user is signed in!");
+        return;
+      }
+
+      try {
+        const credential = EmailAuthProvider.credential(
+          user.email,
+          this.form.current
+        );
+        await reauthenticateWithCredential(user, credential);
+        await updatePassword(user, this.form.new);
+
+        toast.success("Password updated successfully");
+        this.form.current = this.form.new = this.form.repeat = "";
+      } catch (error) {
+        console.error(error);
+        toast.error(error.message);
+      }
+    },
+  },
+
+  mounted() {
+    this.getUserData();
+    this.fetchUserData();
+  },
+};
 </script>
-
-<style scoped>
-
-</style>
+<style scoped></style>
