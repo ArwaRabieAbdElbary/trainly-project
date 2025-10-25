@@ -3,26 +3,16 @@
   <div
     class="w-full relative mb-10 bg-gradient-to-r from-[#D9EEFF] to-[#AEE2FF] rounded-2xl shadow-md p-6 flex items-center justify-between overflow-hidden"
   >
-    <div
-      class="absolute top-0 right-0 w-40 h-40 bg-white/20 rounded-full blur-2xl"
-    ></div>
+    <div class="absolute top-0 right-0 w-40 h-40 bg-white/20 rounded-full blur-2xl"></div>
 
     <div class="flex items-center gap-5 relative z-10">
       <div class="bg-white shadow-sm p-3 rounded-full">
-        <img
-          src="../../assets/images/hand.png"
-          alt="User icon"
-          class="w-10 h-10"
-        />
+        <img src="../../assets/images/hand.png" alt="User icon" class="w-10 h-10" />
       </div>
       <div>
-        <h2 class="text-2xl font-semibold text-gray-800">
-          Welcome back, {{ userData.name }}!
-        </h2>
+        <h2 class="text-2xl font-semibold text-gray-800">Welcome back, {{ userData.name }}!</h2>
 
-        <p class="text-sm text-gray-600 mt-1">
-          Ready to crush your fitness goals today? 💪
-        </p>
+        <p class="text-sm text-gray-600 mt-1">Ready to crush your fitness goals today? 💪</p>
       </div>
     </div>
   </div>
@@ -37,18 +27,14 @@
 
     <form
       @submit.prevent="handleSubmit"
-      class=" p-15 border border-gray-200 rounded-3xl shadow-xl bg-white flex flex-col items-center"
+      class="p-15 border border-gray-200 rounded-3xl shadow-xl bg-white flex flex-col items-center"
     >
       <div class="flex items-center gap-3 mb-6 self-start">
-        <div
-          class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
-        >
+        <div class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
           <img src="../../assets/images/page-1.png" alt="" class="w-5 h-5" />
         </div>
         <div>
-          <h2 class="text-lg font-medium text-gray-900">
-            Personal Information
-          </h2>
+          <h2 class="text-lg font-medium text-gray-900">Personal Information</h2>
           <p class="text-sm text-gray-500">Update your personal details</p>
         </div>
       </div>
@@ -96,9 +82,7 @@
       <div class="w-full space-y-10">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mx-15">
           <div>
-            <label
-              for="first-name"
-              class="block text-sm font-medium text-gray-900"
+            <label for="first-name" class="block text-sm font-medium text-gray-900"
               >First Name</label
             >
             <input
@@ -110,11 +94,7 @@
           </div>
 
           <div>
-            <label
-              for="last-name"
-              class="block text-sm font-medium text-gray-900"
-              >Last Name</label
-            >
+            <label for="last-name" class="block text-sm font-medium text-gray-900">Last Name</label>
             <input
               id="last-name"
               v-model="formData.lastName"
@@ -124,9 +104,7 @@
           </div>
 
           <div>
-            <label for="email" class="block text-sm font-medium text-gray-900"
-              >Email</label
-            >
+            <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
             <input
               id="email"
               v-model="formData.email"
@@ -136,9 +114,7 @@
           </div>
 
           <div>
-            <label for="gender" class="block text-sm font-medium text-gray-900"
-              >Gender</label
-            >
+            <label for="gender" class="block text-sm font-medium text-gray-900">Gender</label>
             <select
               id="gender"
               v-model="formData.gender"
@@ -154,9 +130,7 @@
         <!-- City / Country / Birthday -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mx-15">
           <div>
-            <label for="city" class="block text-sm font-medium text-gray-900"
-              >City</label
-            >
+            <label for="city" class="block text-sm font-medium text-gray-900">City</label>
             <input
               id="city"
               v-model="formData.city"
@@ -166,9 +140,7 @@
           </div>
 
           <div>
-            <label for="country" class="block text-sm font-medium text-gray-900"
-              >Country</label
-            >
+            <label for="country" class="block text-sm font-medium text-gray-900">Country</label>
             <input
               id="country"
               v-model="formData.country"
@@ -178,11 +150,7 @@
           </div>
 
           <div>
-            <label
-              for="birthday"
-              class="block text-sm font-medium text-gray-900"
-              >Birthday</label
-            >
+            <label for="birthday" class="block text-sm font-medium text-gray-900">Birthday</label>
             <input
               id="birthday"
               v-model="formData.birthdate"
@@ -194,10 +162,10 @@
       </div>
 
       <!-- Buttons -->
-      <div class="mt-10 flex-wrap md:flex justify-between items-center w-full">
+      <div class="flex flex-col md:flex-row mt-10 flex-wrap justify-between items-center w-full">
         <button
           type="submit"
-          class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-7 py-2.5 text-center mx-15"
+          class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-7 py-2.5 text-center mx-15 mb-2"
         >
           Save Changes
         </button>
@@ -211,13 +179,9 @@
     </form>
 
     <!-- ========= Security Section ========= -->
-    <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-10"
-    >
+    <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-10">
       <div class="flex mx-5">
-        <div
-          class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
-        >
+        <div class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
           <img src="../../assets/images/security.png" alt="" class="w-5 h-5" />
         </div>
 
@@ -232,9 +196,7 @@
       <form class="max-w-[95%] mx-17" @submit.prevent="onSubmit">
         <!-- Current password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
-            >Current Password</label
-          >
+          <label class="block mb-2 text-sm font-medium text-gray-900">Current Password</label>
           <div class="relative">
             <input
               :type="showCurrent ? 'text' : 'password'"
@@ -297,9 +259,7 @@
 
         <!-- New password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
-            >New Password</label
-          >
+          <label class="block mb-2 text-sm font-medium text-gray-900">New Password</label>
           <div class="relative">
             <input
               :type="showNew ? 'text' : 'password'"
@@ -365,9 +325,7 @@
 
         <!-- Repeat password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
-            >Confirm Password</label
-          >
+          <label class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
           <div class="relative">
             <input
               :type="showRepeat ? 'text' : 'password'"
@@ -434,16 +392,12 @@
 
         <button
           type="submit"
-          class="text-white mt-5 bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          class="text-white mt-5 bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-auto md:mx-0 block"
         >
           Update Password
         </button>
 
-        <p
-          v-if="message"
-          class="text-sm mt-3 text-center"
-          :class="messageColor"
-        >
+        <p v-if="message" class="text-sm mt-3 text-center" :class="messageColor">
           {{ message }}
         </p>
       </form>
@@ -531,9 +485,7 @@ export default {
           }
 
           const firstName = this.formData.firstName || "User";
-          this.userData.name =
-            firstName.charAt(0).toUpperCase() +
-            firstName.slice(1).toLowerCase();
+          this.userData.name = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
         } else {
           console.log("No such user document found!");
         }
@@ -608,10 +560,7 @@ export default {
       }
 
       try {
-        const credential = EmailAuthProvider.credential(
-          user.email,
-          this.form.current
-        );
+        const credential = EmailAuthProvider.credential(user.email, this.form.current);
         await reauthenticateWithCredential(user, credential);
         await updatePassword(user, this.form.new);
 
@@ -661,7 +610,5 @@ export default {
   },
 };
 </script>
-
-
 
 <style scoped></style>
