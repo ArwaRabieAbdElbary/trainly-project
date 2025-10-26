@@ -81,8 +81,9 @@
 
         <div class="flex flex-col gap-4 w-[80%] items-center">
           <button
-            class="w-[60%] rounded-2xl border-2 border-primary text-primary hover:bg-primary hover:text-white transition h-11 text-[17px] cursor-pointer"
-          >
+            @click="$router.push('/login'); isOpen = false"
+             class="min-w-[130px] lg:min-w-[150px] px-4 rounded-3xl border-1 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary)] hover:text-[var(--third)] transition h-10 lg:h-11 text-[14px] lg:text-[17px] cursor-pointer"
+        >
             {{ $t("login") }}
           </button>
         </div>

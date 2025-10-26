@@ -1,4 +1,5 @@
 <template>
+ 
   <nav class="top-0 z-50 w-full">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
       <div class="flex items-center justify-between">
@@ -63,7 +64,7 @@
   <!-- ✅ Overlay أبيض شفاف -->
   <div
     v-if="isSidebarOpen"
-    class="fixed inset-0 bg-white bg-opacity-70 z-30 lg:hidden transition-all duration-300"
+    class="fixed inset-0 filter backdrop-blur-sm bg-opacity-70 z-30 lg:hidden transition-all duration-300"
     @click="toggleSidebar"
   ></div>
 
@@ -78,8 +79,33 @@
   >
     <div class="h-full px-3 py-4 overflow-y-auto">
       <ul class="space-y-4 font-light text-[14px] mx-5">
-        <li class="mb-11 mt-3 mx-2">
+        <!-- ✅ Logo -->
+        <li class="mb-8 mt-3 mx-2">
           <img src="@/assets/images/Project LOGO.png" class="h-8 w-25 me-3" alt="Logo" />
+        </li>
+
+        <!-- ✅ Back to Home Button -->
+        <li class="mb-6">
+          <router-link
+            to="/traineehome"
+            class="flex items-center p-2 text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg hover:from-blue-600 hover:to-blue-700 transition duration-300 shadow-md"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+            <span class="ms-3 font-medium">Back to Home</span>
+          </router-link>
         </li>
 
         <li>
@@ -142,6 +168,7 @@
             <span class="ms-3 font-medium">Log out</span>
           </button>
         </li>
+      
 
         <!-- ✅ Confirmation Modal -->
         <Teleport to="body">
@@ -151,10 +178,12 @@
             @cancel="cancelLogout"
           />
         </Teleport>
+       
       </ul>
     </div>
   </aside>
 </template>
+
 
 <script>
 import { ref, onMounted } from "vue";
@@ -168,11 +197,14 @@ export default {
   components: { ConfirmLogoutModal },
   setup() {
     const isSidebarOpen = ref(false);
+   
     const traineeImage = ref("");
     const showLogoutModal = ref(false);
     const db = getFirestore();
     const auth = getAuth();
     const router = useRouter();
+
+   
 
     const toggleSidebar = () => {
       isSidebarOpen.value = !isSidebarOpen.value;

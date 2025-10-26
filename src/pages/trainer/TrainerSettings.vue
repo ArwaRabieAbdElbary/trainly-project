@@ -7,19 +7,13 @@
       </p>
     </div>
     <!-- ========= Personal Info Section ========= -->
-    <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7"
-    >
+    <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7">
       <div class="flex items-center gap-3 mb-6">
-        <div
-          class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
-        >
+        <div class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
           <img src="../../assets/images/page-1.png" alt="" class="w-5 h-5" />
         </div>
         <div>
-          <h2 class="text-lg font-medium text-gray-900">
-            Personal Information
-          </h2>
+          <h2 class="text-lg font-medium text-gray-900">Personal Information</h2>
           <p class="text-sm text-gray-500">Update your personal details</p>
         </div>
       </div>
@@ -64,9 +58,7 @@
         <!-- Inputs -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <label class="block text-sm font-medium text-gray-900"
-              >First Name</label
-            >
+            <label class="block text-sm font-medium text-gray-900">First Name</label>
             <input
               v-model="formData.firstName"
               type="text"
@@ -75,9 +67,7 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900"
-              >Last Name</label
-            >
+            <label class="block text-sm font-medium text-gray-900">Last Name</label>
             <input
               v-model="formData.lastName"
               type="text"
@@ -95,9 +85,7 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900"
-              >Gender</label
-            >
+            <label class="block text-sm font-medium text-gray-900">Gender</label>
             <select
               v-model="formData.gender"
               class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -121,9 +109,7 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900"
-              >Country</label
-            >
+            <label class="block text-sm font-medium text-gray-900">Country</label>
             <input
               v-model="formData.country"
               type="text"
@@ -132,9 +118,7 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900"
-              >Birthday</label
-            >
+            <label class="block text-sm font-medium text-gray-900">Birthday</label>
             <input
               v-model="formData.birthdate"
               type="date"
@@ -145,9 +129,7 @@
 
         <!-- Experience -->
         <div>
-          <label class="block text-sm font-medium text-gray-900"
-            >Years of Experience</label
-          >
+          <label class="block text-sm font-medium text-gray-900">Years of Experience</label>
           <input
             v-model="formData.experience"
             type="number"
@@ -157,86 +139,73 @@
 
         <!-- Upload Certificate -->
         <!-- Upload Certificate -->
-        <div>
-          <h2 class="text-sm font-medium text-gray-900 mt-8">
-            Upload Certificate
-          </h2>
-          <div
-            class="flex text-center border-2 border-dashed border-gray-300 p-5 rounded-xl hover:border-blue-400 transition mt-3"
-          >
-            <div class="flex-1">
-              <input
-                id="certificate"
-                type="file"
-                class="hidden"
-                @change="newCertificate = $event.target.files[0]"
-              />
-              <label
-                for="certificate"
-                class="cursor-pointer inline-block bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-400 transition text-sm"
-              >
-                Upload
-              </label>
-              <p class="text-xs text-gray-500 mt-2">PDF, JPG up to 10MB</p>
+<div>
+  <h2 class="text-sm font-medium text-gray-900 mt-8">
+    Upload Certificate
+  </h2>
+  <div
+    class="flex text-center border-2 border-dashed border-gray-300 p-5 rounded-xl hover:border-blue-400 transition mt-3"
+  >
+    <div class="flex-1">
+      <input
+        id="certificate"
+        type="file"
+        class="hidden"
+        @change="newCertificate = $event.target.files[0]"
+      />
+      <label
+        for="certificate"
+        class="cursor-pointer inline-block bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-400 transition text-sm"
+      >
+        Upload
+      </label>
+      <p class="text-xs text-gray-500 mt-2">PDF, JPG up to 10MB</p>
 
-              <!-- Certificate List with Remove Buttons -->
-              <div
-                v-if="formData.certifications && formData.certifications.length"
-                class="mt-4 space-y-2"
-              >
-                <div
-                  v-for="(cert, index) in formData.certifications"
-                  :key="index"
-                  class="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
-                >
-                  <a
-                    :href="cert"
-                    target="_blank"
-                    class="text-blue-500 hover:text-blue-600 text-sm font-medium"
-                  >
-                    📄 Certificate {{ index + 1 }}
-                  </a>
-                  <button
-                    type="button"
-                    @click="removeCertificate(index)"
-                    class="text-red-600 hover:text-red-800 text-sm font-medium flex items-center gap-1 transition"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      />
-                    </svg>
-                    Remove
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+      <!-- Certificate List with Remove Buttons -->
+      <div
+        v-if="formData.certifications && formData.certifications.length"
+        class="mt-4 space-y-2"
+      >
+        <div
+          v-for="(cert, index) in formData.certifications"
+          :key="index"
+          class="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
+        >
+          <a
+            :href="cert"
+            target="_blank"
+            class="text-blue-500 hover:text-blue-600 text-sm font-medium"
+          >
+            📄 Certificate {{ index + 1 }}
+          </a>
+          <button
+            type="button"
+            @click="removeCertificate(index)"
+            class="text-red-600 hover:text-red-800 text-sm font-medium flex items-center gap-1 transition cursor-pointer"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            Remove
+          </button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
 
         <!-- Buttons -->
-        <div
-          class="mt-10 flex-wrap md:flex justify-between items-center w-full"
-        >
+        <div class="flex flex-col md:flex-row mt-10 justify-between w-full gap-4 md:gap-0">
           <button
             type="submit"
-            class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm py-2 px-6 rounded-lg transition"
+            class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm py-2 px-6 rounded-lg transition mx-auto md:mx-0"
           >
             Save Changes
           </button>
           <button
             type="button"
             @click="deleteAccount"
-            class="border-2 border-red-500 text-red-500 font-medium text-sm cursor-pointer py-2 px-6 rounded-lg hover:bg-red-50 transition"
+            class="border-2 border-red-500 text-red-500 font-medium text-sm cursor-pointer py-2 px-6 rounded-lg hover:bg-red-50 transition mx-auto md:mx-0"
           >
             Delete Account
           </button>
@@ -245,13 +214,9 @@
     </div>
 
     <!-- ========= Security Section ========= -->
-    <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7"
-    >
+    <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7">
       <div class="flex">
-        <div
-          class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
-        >
+        <div class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
           <img src="../../assets/images/security.png" alt="" class="w-5 h-5" />
         </div>
 
@@ -266,9 +231,7 @@
       <form class="max-w-[95%] ps-[50px]" @submit.prevent="onSubmit">
         <!-- Current password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
-            >Current Password</label
-          >
+          <label class="block mb-2 text-sm font-medium text-gray-900">Current Password</label>
           <div class="relative">
             <input
               :type="showCurrent ? 'text' : 'password'"
@@ -299,7 +262,7 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274
                 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                 />
               </svg>
@@ -315,7 +278,7 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477
                 0-8.268-2.943-9.542-7a9.965 9.965 0 012.223-3.583M3 3l18 18"
                 />
                 <path
@@ -331,9 +294,7 @@
 
         <!-- New password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
-            >New Password</label
-          >
+          <label class="block mb-2 text-sm font-medium text-gray-900">New Password</label>
           <div class="relative">
             <input
               :type="showNew ? 'text' : 'password'"
@@ -365,8 +326,8 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 
-                0 8.268 2.943 9.542 7-1.274 4.057-5.065 
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477
+                0 8.268 2.943 9.542 7-1.274 4.057-5.065
                 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                 />
               </svg>
@@ -382,8 +343,8 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M13.875 18.825A10.05 10.05 0 0112 
-                19c-4.477 0-8.268-2.943-9.542-7a9.965 
+                  d="M13.875 18.825A10.05 10.05 0 0112
+                19c-4.477 0-8.268-2.943-9.542-7a9.965
                 9.965 0 012.223-3.583M3 3l18 18"
                 />
                 <path
@@ -399,9 +360,7 @@
 
         <!-- Repeat password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
-            >Confirm Password</label
-          >
+          <label class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
           <div class="relative">
             <input
               :type="showRepeat ? 'text' : 'password'"
@@ -433,9 +392,9 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 
-                5c4.477 0 8.268 2.943 9.542 7-1.274 
-                4.057-5.065 7-9.542 7-4.477 
+                  d="M2.458 12C3.732 7.943 7.523 5 12
+                5c4.477 0 8.268 2.943 9.542 7-1.274
+                4.057-5.065 7-9.542 7-4.477
                 0-8.268-2.943-9.542-7z"
                 />
               </svg>
@@ -451,8 +410,8 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M13.875 18.825A10.05 10.05 0 0112 
-                19c-4.477 0-8.268-2.943-9.542-7a9.965 
+                  d="M13.875 18.825A10.05 10.05 0 0112
+                19c-4.477 0-8.268-2.943-9.542-7a9.965
                 9.965 0 012.223-3.583M3 3l18 18"
                 />
                 <path
@@ -468,16 +427,12 @@
 
         <button
           type="submit"
-          class="text-white mt-5 bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          class="text-white mt-5 bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-auto md:mx-0 block"
         >
           Update Password
         </button>
 
-        <p
-          v-if="message"
-          class="text-sm mt-3 text-center"
-          :class="messageColor"
-        >
+        <p v-if="message" class="text-sm mt-3 text-center" :class="messageColor">
           {{ message }}
         </p>
       </form>
@@ -485,21 +440,16 @@
   </section>
 </template>
 
-
 <script>
 import { db, storage } from "@/Firebase/firebaseConfig.js";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
-import {
-  ref as storageRef,
-  uploadBytes,
-  getDownloadURL,
-  
-} from "firebase/storage";
+import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
   getAuth,
   updatePassword,
   reauthenticateWithCredential,
   EmailAuthProvider,
+  
 } from "firebase/auth";
 import { toast } from "vue3-toastify";
 
@@ -795,10 +745,7 @@ export default {
       }
 
       try {
-        const credential = EmailAuthProvider.credential(
-          user.email,
-          this.form.current
-        );
+        const credential = EmailAuthProvider.credential(user.email, this.form.current);
         await reauthenticateWithCredential(user, credential);
         await updatePassword(user, this.form.new);
 

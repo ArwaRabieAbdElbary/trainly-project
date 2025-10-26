@@ -1,346 +1,798 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center">
+  <div class="min-h-screen bg-gray-50">
     <!-- Loading State -->
-    <div v-if="loading" class="min-h-screen flex items-center justify-center">
-      <div class="text-xl text-gray-600">Loading...</div>
+    <div v-if="loading" class="max-w-7xl mx-auto px-4 py-10">
+      <div class="text-center py-20">
+        <div class="inline-block animate-pulse text-gray-500 text-lg">Loading trainer profile...</div>
+      </div>
     </div>
 
     <!-- Error State -->
-    <div v-else-if="!trainer" class="min-h-screen flex items-center justify-center">
-      <div class="text-xl text-gray-600">Trainer not found</div>
+    <div v-else-if="error" class="max-w-7xl mx-auto px-4 py-10">
+      <div class="text-center py-20">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p class="text-red-500 text-lg font-medium">{{ error }}</p>
+        <button
+          @click="retryLoad"
+          class="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition"
+        >
+          Retry
+        </button>
+      </div>
     </div>
 
     <!-- Main Content -->
-    <div v-else class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- Trainer Profile Card -->
-      <div class="bg-white rounded-2xl shadow-xl p-6 mb-8 border-1 border-gray-300">
-        <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
-          <img :src="trainer.image" :alt="trainer.name" class="w-40 h-40 rounded-xl object-cover" />
-          <div class="flex-1">
-            <div class="flex items-center gap-2">
-              <h1 class="text-2xl font-semibold text-gray-900">{{ trainer.name }}</h1>
+    <div v-else class="max-w-7xl mx-auto px-4 py-10">
+      <!-- HERO -->
+      <div class="relative mb-10">
+        <div class="bg-gradient-to-r from-sky-50 to-blue-50 border border-sky-200 rounded-2xl p-6 pl-36 pr-6 flex items-center shadow-sm">
+          <!-- Profile Image -->
+          <img
+            :src="trainer.profilePicture || placeholder"
+            alt="trainer profile"
+            class="absolute -top-6 left-6 w-40 h-40 object-cover rounded-xl border-4 border-white shadow-xl"
+            @error="handleImageError"
+          />
 
-              <!-- verifcation sign-->
-              <svg
-                v-if="trainer.verified"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="#00B0FF"
-                class="w-7 h-7"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M22.5 12a5.5 5.5 0 01-5.5 5.5h-1.172l-.707.707A2 2 0 0113.5 19h-3a2 2 0 01-1.621-.793l-.707-.707H7a5.5 5.5 0 110-11h1.172l.707-.707A2 2 0 0110.5 5h3a2 2 0 011.621.793l.707.707H17a5.5 5.5 0 015.5 5.5zM10.75 13.69l4.72-4.72a.75.75 0 111.06 1.06l-5.25 5.25a.75.75 0 01-1.06 0l-2.25-2.25a.75.75 0 111.06-1.06l1.72 1.72z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </div>
-            <p class="text-gray-600">{{ trainer.role }}</p>
+          <div class="ml-28 w-full flex items-center justify-between flex-wrap gap-4">
+            <div class="flex-1 min-w-0">
+              <h1 class="text-3xl font-bold text-gray-900 mb-1">
+                {{ trainer.firstName }} {{ trainer.lastName }}
+              </h1>
+              <p class="text-sky-600 font-medium text-lg mb-4">
+                {{ trainer.sport ? capitalize(trainer.sport) + ' Coach' : 'Fitness Coach' }}
+              </p>
 
-            <div class="flex items-center gap-4 mt-3">
-              <span
-                class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium"
-              >
-                {{ trainer.yearsExperience }} Years Experience
-              </span>
-              <span
-                class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium inline-flex items-center gap-1"
-              >
-                <img src="/src/assets/images/location-map.png" alt="location" class="w-5 h-5" />
-                {{ trainer.location }}
-              </span>
-            </div>
-          </div>
-          <button
-            class="cursor-pointer bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2.5 rounded-2xl font-medium transition-colors"
-          >
-            Message
-          </button>
-        </div>
-      </div>
-
-      <!-- Plans Section -->
-      <section class="mb-8">
-        <h2 class="text-2xl font-medium text-gray-900 mb-4">Plans</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div
-            v-for="plan in trainer.plans"
-            :key="plan.id"
-            class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-md transition-shadow border-t-5 border-blue-500"
-          >
-            <img :src="plan.image" :alt="plan.title" class="w-full h-48 object-cover" />
-            <div class="p-5">
-              <h3 class="text-lg font-bold text-gray-900 mb-2">{{ plan.title }}</h3>
-              <p class="text-gray-600 text-sm mb-4">{{ plan.description }}</p>
-              <div class="flex items-center gap-4 text-sm text-gray-600 mb-4">
-                <span class="flex items-center">
-                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
+              <div class="flex flex-wrap items-center gap-6 text-sm text-gray-700">
+                <div class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  {{ plan.duration }}
-                </span>
-                <span class="flex items-center">
-                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
+                  <span class="font-semibold">Username:</span>
+                  <span class="text-gray-600">@{{ trainer.username || trainer.userName || 'N/A' }}</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                   </svg>
-                  {{ plan.sessions }}
-                </span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-xl font-bold text-gray-900">{{ plan.price }}</span>
-                <button
-                  class="cursor-pointer bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-2xl text-sm font-medium transition-colors"
-                >
-                  Book Now
-                </button>
+                  <span class="font-semibold">Experience:</span>
+                  <span class="text-gray-600">{{ getExperience() }} years</span>
+                </div>
+
+                <div class="flex items-center gap-2 text-gray-600">
+                  <svg class="w-4 h-4 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"></path>
+                    <circle cx="12" cy="9" r="2.5"></circle>
+                  </svg>
+                  <span class="capitalize">{{ getLocation() }}</span>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      <!-- Certificates Section -->
-      <section class="mb-8">
-        <h2 class="text-2xl font-medium text-gray-900 mb-4">Certificates</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div
-            v-for="cert in trainer.certificates"
-            :key="cert.id"
-            class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer border-1 border-gray-300"
-          >
-            <img :src="cert.image" :alt="cert.title" class="w-full object-cover" />
-            <div class="p-4">
-              <p class="text-sm font-medium text-gray-900 text-center">{{ cert.title }}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    <!-- Reviews Section -->
-    <section>
-      <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center gap-3">
-          <h2 class="text-2xl font-medium text-gray-900">Reviews</h2>
-          <div class="flex items-center gap-2">
-            <div class="flex items-center bg-amber-50 px-3 py-1 rounded-lg">
-              <span class="text-xl font-medium text-gray-900">
-                {{ trainer.averageRating.toFixed(1) }}
-              </span>
-              <svg class="w-5 h-5 text-amber-400 fill-amber-400 ml-1" viewBox="0 0 20 20">
-                <path
-                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                />
-              </svg>
-            </div>
-            <span class="text-gray-600 text-sm font">
-              ({{ trainer.totalReviews }} reviews)
-            </span>
-          </div>
-        </div>
-        <button
-          @click="showReviewModal = true"
-          class="cursor-pointer bg-[#00B0FF] hover:bg-[#007db7] text-white px-5 py-2 rounded-2xl font-medium transition-colors"
-        >
-          Write a Review
-        </button>
-      </div>
-
-      <div class="space-y-4">
-        <div
-          v-for="review in trainer.reviews"
-          :key="review.id"
-          class="bg-white rounded-2xl shadow-xl p-5 border-1 border-gray-300"
-        >
-          <div class="flex items-start justify-between mb-2">
             <div class="flex items-center gap-3">
-              <img
-                :src="review.userImage || 'https://via.placeholder.com/40'"
-                alt="User"
-                class="w-10 h-10 rounded-full"
-              />
-              <div>
-                <h4 class="font-semibold text-gray-900">{{ review.author }}</h4>
-                <p class="text-sm text-gray-500">
-                  {{ new Date(review.createdAt?.seconds * 1000).toLocaleDateString() || review.date }}
-                </p>
-              </div>
-            </div>
-            <div class="flex">
-              <svg
-                v-for="i in 5"
-                :key="i"
-                class="w-4 h-4"
-                :class="i <= review.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-300'"
-                viewBox="0 0 20 20"
+              <button
+                @click="contactTrainer"
+                class="px-6 py-3 rounded-xl bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 text-white font-semibold shadow-lg transition-all transform hover:scale-105"
               >
-                <path
-                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
-                />
-              </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Contact Trainer
+              </button>
             </div>
           </div>
-          <p class="text-gray-700">{{ review.text }}</p>
         </div>
       </div>
-    </section>
 
-    <!-- Review Modal -->
-    <div
-      v-if="showReviewModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-      @click.self="showReviewModal = false"
-    >
-      <div class="bg-white rounded-2xl max-w-md w-full p-6 min-h-[300px] shadow-lg">
-        <h3 class="text-2xl font-bold text-gray-900 mb-2 text-center">Write Your Review</h3>
-        <div class="flex justify-center mb-4">
-          <img src="/src/assets/images/carbon_star-review.png" alt="review" class="w-16 h-16" />
+      <!-- Plans -->
+      <section class="mb-12">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold text-gray-900">Training Plans</h2>
+          <span class="text-sm text-gray-500">{{ plans.length }} plan(s) available</span>
         </div>
-        <p class="text-center text-gray-600 mb-6">
-          Share your experience with your trainer — your feedback helps them improve and helps others
-          make better choices!
-        </p>
 
-        <div class="flex justify-center gap-2 mb-4">
-          <button
-            v-for="star in 5"
-            :key="star"
-            @click="rating = star"
-            class="cursor-pointer focus:outline-none"
+        <div v-if="plans.length === 0" class="text-center py-12 bg-white rounded-xl border">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <p class="text-gray-500">No training plans available yet.</p>
+        </div>
+
+        <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            v-for="plan in plans"
+            :key="plan.id"
+            class="bg-white rounded-xl overflow-hidden shadow-md border hover:shadow-xl transition-all"
           >
-            <svg
-              class="w-8 h-8"
-              :class="star <= rating ? 'text-amber-400 fill-amber-400' : 'text-gray-300'"
-              viewBox="0 0 20 20"
-            >
-              <path
-                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+            <div class="h-48 overflow-hidden bg-gray-100">
+              <img
+                :src="plan.image || placeholder"
+                alt="plan image"
+                class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                @error="handleImageError"
               />
+            </div>
+
+            <div class="p-5">
+              <h3 class="font-bold text-lg mb-2 text-gray-900">{{ plan.title || 'Untitled Plan' }}</h3>
+              <p class="text-sm text-gray-600 mb-4 line-clamp-2">{{ plan.description || 'No description available.' }}</p>
+
+              <div class="space-y-2 mb-4 text-sm">
+                <div class="flex items-center justify-between">
+                  <span class="text-gray-600">Duration:</span>
+                  <span class="font-semibold text-gray-900">{{ plan.duration || 'N/A' }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-gray-600">Sessions:</span>
+                  <span class="font-semibold text-gray-900">{{ plan.sessions || 'N/A' }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-gray-600">Price:</span>
+                  <span class="font-bold text-green-600 text-lg">{{ formatPrice(plan.price) }}</span>
+                </div>
+              </div>
+
+              <button
+                @click="bookPlan(plan)"
+                class="w-full py-2.5 rounded-lg bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold transition-all transform hover:scale-105"
+              >
+                Book Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Certificates -->
+      <section class="mb-12">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold text-gray-900">Certificates & Qualifications</h2>
+          <span class="text-sm text-gray-500">{{ (trainer.certifications || []).length }} certificate(s)</span>
+        </div>
+
+        <div v-if="!(trainer.certifications && trainer.certifications.length)" class="text-center py-12 bg-white rounded-xl border">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p class="text-gray-500">No certificates uploaded yet.</p>
+        </div>
+
+        <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div
+            v-for="(cert, idx) in trainer.certifications"
+            :key="idx"
+            class="border rounded-xl overflow-hidden bg-white hover:shadow-lg transition-shadow cursor-pointer"
+            @click="viewCertificate(cert)"
+          >
+            <img
+              :src="cert"
+              alt="certificate"
+              class="w-full h-56 object-contain bg-gray-50 p-2"
+              @error="handleImageError"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Reviews -->
+      <section class="mb-20">
+        <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">Reviews & Ratings</h2>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2">
+                <span class="text-3xl font-bold text-sky-600">{{ avgRatingDisplay }}</span>
+                <div class="flex text-yellow-400 text-xl">
+                  <span v-for="n in 5" :key="n">{{ n <= Math.round(avgRating || 0) ? '★' : '☆' }}</span>
+                </div>
+              </div>
+              <span class="text-gray-500 text-sm">({{ reviewsCount }} review{{ reviewsCount !== 1 ? 's' : '' }})</span>
+            </div>
+          </div>
+
+          <button
+            @click="openAddReview"
+            class="bg-sky-500 hover:bg-sky-600 text-white px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg transition-all transform hover:scale-105 cursor-pointer"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>
+            Add Review
           </button>
         </div>
 
-        <textarea
-          v-model="reviewText"
-          placeholder="Write your review here..."
-          class="w-full border border-gray-300 rounded-lg p-3 mb-4 h-32 resize-none focus:outline-none focus:ring-2 focus:ring-emerald-500"
-        ></textarea>
+        <div v-if="reviews.length === 0" class="text-center py-12 bg-white rounded-xl border">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+          </svg>
+          <p class="text-gray-500 text-lg">No reviews yet. Be the first to review!</p>
+        </div>
 
-        <div class="flex gap-3">
-          <button
-            @click="showReviewModal = false"
-            class="cursor-pointer flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-lg font-medium transition-colors"
+        <div v-else class="space-y-4">
+          <div
+            v-for="rev in reviews"
+            :key="rev.id"
+            class="bg-white p-6 rounded-xl shadow-md border hover:shadow-lg transition-shadow"
           >
-            Cancel
-          </button>
-          <button
-            @click="handleSubmitReview"
-            class="cursor-pointer flex-1 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
-          >
-            Post Review
-          </button>
+            <div class="flex items-start gap-4">
+              <img
+                :src="rev.traineeProfilePic || rev.reviewerPhoto || placeholder"
+                alt="reviewer"
+                class="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
+                @error="handleImageError"
+              />
+
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+                  <div>
+                    <div class="font-semibold text-gray-900">{{ rev.traineeName || rev.reviewerName || 'Anonymous' }}</div>
+                    <div class="flex items-center gap-2 mt-1">
+                      <div class="flex text-yellow-400">
+                        <span v-for="n in 5" :key="n" class="text-lg">
+                          {{ n <= Math.round(rev.rating || 0) ? '★' : '☆' }}
+                        </span>
+                      </div>
+                      <span class="text-sm text-gray-500">({{ rev.rating || 0 }}/5)</span>
+                    </div>
+                  </div>
+                  <div class="text-xs text-gray-400">{{ formatDate(rev.createdAt) }}</div>
+                </div>
+
+                <p class="text-gray-700 leading-relaxed mb-3">{{ rev.comment }}</p>
+
+                <div v-if="rev.status || rev.sessionType" class="flex flex-wrap gap-3 text-xs">
+                  <span v-if="rev.status" class="px-3 py-1 bg-green-100 text-green-700 rounded-full font-medium">
+                    {{ capitalize(rev.status) }}
+                  </span>
+                  <span v-if="rev.sessionType" class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-medium">
+                    {{ capitalize(rev.sessionType) }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Add Review Modal -->
+    <Teleport to="body">
+      <div
+        v-if="showAddReview"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+        @click.self="closeAddReview"
+      >
+        <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl relative animate-fade-in">
+          <div class="p-6 border-b">
+            <button
+              @click="closeAddReview"
+              class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full p-2 transition"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <h3 class="text-2xl font-bold text-gray-900">Add Your Review</h3>
+            <p class="text-sm text-gray-500 mt-1">Share your experience with this trainer</p>
+          </div>
+
+          <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Your Name *</label>
+              <input
+                v-model="newReview.reviewerName"
+                type="text"
+                placeholder="Enter your name"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition"
+                required
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Rating *</label>
+              <div class="flex items-center gap-2">
+                <select
+                  v-model.number="newReview.rating"
+                  class="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition"
+                >
+                  <option v-for="n in 5" :key="n" :value="n">{{ n }} Star{{ n > 1 ? 's' : '' }}</option>
+                </select>
+                <div class="flex text-yellow-400 text-2xl">
+                  <span v-for="n in 5" :key="n">{{ n <= newReview.rating ? '★' : '☆' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Your Review *</label>
+              <textarea
+                v-model="newReview.comment"
+                class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition resize-none"
+                rows="4"
+                placeholder="Share your experience with this trainer..."
+                required
+              ></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="text-sm font-semibold text-gray-700 mb-2 block">Phone (optional)</label>
+                <input
+                  v-model="newReview.phone"
+                  type="tel"
+                  placeholder="+20 123 456 7890"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition"
+                />
+              </div>
+              <div>
+                <label class="text-sm font-semibold text-gray-700 mb-2 block">Session Type (optional)</label>
+                <select
+                  v-model="newReview.sessionType"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition"
+                >
+                  <option value="">Select type</option>
+                  <option value="online">Online</option>
+                  <option value="in-person">In-Person</option>
+                  <option value="hybrid">Hybrid</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 border-t bg-gray-50 flex justify-end gap-3">
+            <button
+              @click="closeAddReview"
+              class="px-6 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-100 transition font-medium cursor-pointer"
+              :disabled="addingReview"
+            >
+              Cancel
+            </button>
+            <button
+              @click="submitReview"
+              :disabled="addingReview || !canSubmitReview"
+              class="px-6 py-2.5 bg-sky-500 hover:bg-sky-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-lg transition font-semibold cursor-pointer"
+            >
+              <span v-if="addingReview">Adding...</span>
+              <span v-else>Submit Review</span>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </Teleport>
   </div>
-</div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { getAuth } from "firebase/auth";
 import {
+  doc,
+  getDoc,
   collection,
-  addDoc,
+  getDocs,
   query,
   where,
-  orderBy,
-  onSnapshot,
+  addDoc,
   serverTimestamp,
 } from "firebase/firestore";
 import { db } from "@/Firebase/firebaseConfig";
 
-// 🔹 ثابت مؤقت — خده من route params بعدين
-const trainerId = "trainer123";
+// router / auth
+const route = useRoute();
+const router = useRouter();
+const auth = getAuth();
 
-// 🔹 بيانات المستخدم الحالي (ممكن تجيبها من Firebase Auth)
-const currentUser = {
-  id: "user789",
-  name: "Bassam Khaled",
-  image: "https://i.pravatar.cc/150?img=12",
-};
+// trainer uid source (query or params)
+const uid = route.query.uid || route.params.uid || null;
 
-// 🔹 البيانات الأساسية
-const trainer = ref({
-  name: "Ahmed Ali",
-  role: "Gym Coach",
-  reviews: [],
-  totalReviews: 0,
-  averageRating: 0,
+// placeholders
+const placeholder = "https://via.placeholder.com/400x300?text=No+Image";
+
+// state
+const trainer = ref({});
+const plans = ref([]);
+const reviews = ref([]);
+const loading = ref(true);
+const error = ref(null);
+
+const avgRating = ref(null);
+const reviewsCount = ref(0);
+
+// add-review modal state
+const showAddReview = ref(false);
+const addingReview = ref(false);
+const newReview = ref({
+  reviewerName: "",
+  rating: 5,
+  comment: "",
+  phone: "",
+  sessionType: "",
 });
 
-const showReviewModal = ref(false);
-const rating = ref(0);
-const reviewText = ref("");
+// computed helpers
+const avgRatingDisplay = computed(() => (avgRating.value !== null ? avgRating.value.toFixed(1) : "N/A"));
+const canSubmitReview = computed(() => newReview.value.reviewerName.trim() && newReview.value.comment.trim());
 
-// 🟢 تحميل الريفيوهات بشكل Real-time
-const fetchReviews = () => {
-  const q = query(
-    collection(db, "reviews"),
-    where("trainerId", "==", trainerId),
-    orderBy("createdAt", "desc")
-  );
-
-  onSnapshot(q, (snapshot) => {
-    const reviewsData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    trainer.value.reviews = reviewsData;
-    trainer.value.totalReviews = reviewsData.length;
-    trainer.value.averageRating =
-      reviewsData.reduce((sum, r) => sum + (r.rating || 0), 0) /
-        (reviewsData.length || 1);
-  });
-};
-
-// 🟢 إضافة Review جديد
-const handleSubmitReview = async () => {
-  if (rating.value === 0 || !reviewText.value.trim()) {
-    alert("Please rate and write your review");
+// ------------------ Fetch trainer doc ------------------
+const fetchTrainer = async () => {
+  if (!uid) {
+    error.value = "No trainer ID provided";
     return;
   }
 
   try {
-    await addDoc(collection(db, "reviews"), {
-      trainerId,
-      userId: currentUser.id,
-      author: currentUser.name,
-      userImage: currentUser.image,
-      rating: rating.value,
-      text: reviewText.value.trim(),
-      createdAt: serverTimestamp(),
-      date: new Date().toLocaleDateString(),
-    });
-
-    showReviewModal.value = false;
-    rating.value = 0;
-    reviewText.value = "";
-    console.log("✅ Review added successfully");
-  } catch (error) {
-    console.error("❌ Error submitting review:", error);
-    alert("Failed to submit review. Please try again.");
+    const docRef = doc(db, "users", uid);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+      const data = snap.data();
+      trainer.value = {
+        id: snap.id,
+        ...data,
+        certifications: data.certifications || [],
+      };
+    } else {
+      error.value = "Trainer not found";
+      trainer.value = {};
+    }
+  } catch (err) {
+    console.error("fetchTrainer error:", err);
+    error.value = "Failed to load trainer profile";
+    trainer.value = {};
   }
 };
 
-onMounted(fetchReviews);
+// ------------------ Fetch plans (top-level collection with trainer_uid) ------------------
+const fetchPlans = async () => {
+  plans.value = [];
+  if (!uid) return;
+
+  try {
+    // Query top-level 'plans' collection where trainer_uid matches
+    const pq = query(collection(db, "plans"), where("trainer_uid", "==", uid));
+    const snap = await getDocs(pq);
+
+    if (!snap.empty) {
+      plans.value = snap.docs
+        .map((d) => {
+          const data = d.data();
+          return {
+            id: d.id,
+            title: data.title || "Untitled Plan",
+            description: data.description || "",
+            duration: data.duration || "N/A",
+            sessions: data.sessions || "N/A",
+            price: data.price || 0,
+            status: data.status || "active",
+            location: data.location || "",
+            image: data.image || data.planImage || null,
+            clientsCount: data.clientsCount || 0,
+            trainer_uid: data.trainer_uid
+          };
+        })
+        // ✅ فلتر: اعرض فقط الـ plans اللي الـ status بتاعها active
+        .filter((plan) => plan.status.toLowerCase() === "active");
+    } else {
+      console.log("No plans found for this trainer");
+      plans.value = [];
+    }
+  } catch (err) {
+    console.error("fetchPlans error:", err);
+    plans.value = [];
+  }
+};
+// ------------------ Fetch reviews (robust + client-side sort + avg calc) ------------------
+const fetchReviews = async () => {
+  if (!uid) return;
+
+  reviews.value = [];
+  avgRating.value = null;
+  reviewsCount.value = 0;
+
+  try {
+    let snap = null;
+
+    // Try top-level "reviews" collection first (without forcing orderBy to avoid docs without createdAt causing issues)
+    try {
+      const q = query(collection(db, "reviews"), where("trainerId", "==", uid));
+      snap = await getDocs(q);
+    } catch  {
+      snap = null;
+    }
+
+    // Fallback to subcollection users/{uid}/reviews
+    if (!snap || snap.empty) {
+      try {
+        const subQ = query(collection(db, `users/${uid}/reviews`));
+        snap = await getDocs(subQ);
+      } catch {
+        snap = null;
+      }
+    }
+
+    if (snap && !snap.empty) {
+      const list = [];
+      snap.forEach((d) => {
+        const data = d.data();
+        const rating =
+          typeof data.rating === "number"
+            ? data.rating
+            : data.rate
+            ? Number(data.rate)
+            : 0;
+
+        list.push({
+          id: d.id,
+          comment: data.comment || data.text || "",
+          rating,
+          createdAt: data.createdAt ?? null,
+          status: data.status || null,
+          traineeId: data.traineeId || data.reviewerUid || null,
+          traineeName: data.traineeName || data.reviewerName || null,
+          traineeProfilePic: data.traineeProfilePic || data.reviewerPhoto || null,
+          trainerId: data.trainerId || null,
+          trainerName: data.trainerName || null,
+          trainerProfilePic: data.trainerProfilePic || null,
+          sessionType: data.sessionType || null,
+        });
+      });
+
+      // client-side sort by createdAt desc (handle Firestore Timestamp and JS Date; nulls go last)
+      list.sort((a, b) => {
+        const toMillis = (x) => {
+          if (!x) return 0;
+          if (x.toDate && typeof x.toDate === "function") return x.toDate().getTime();
+          const t = new Date(x);
+          return isNaN(t.getTime()) ? 0 : t.getTime();
+        };
+        return toMillis(b.createdAt) - toMillis(a.createdAt);
+      });
+
+      reviews.value = list;
+
+      // compute avg & count
+      let total = 0;
+      let count = 0;
+      list.forEach((r) => {
+        if (typeof r.rating === "number" && r.rating > 0) {
+          total += r.rating;
+          count++;
+        }
+      });
+      avgRating.value = count > 0 ? total / count : null;
+      reviewsCount.value = count;
+    } else {
+      reviews.value = [];
+      avgRating.value = null;
+      reviewsCount.value = 0;
+    }
+  } catch (err) {
+    console.error("fetchReviews error:", err);
+    // keep existing state
+  }
+};
+
+// ------------------ Overall load ------------------
+const loadData = async () => {
+  loading.value = true;
+  error.value = null;
+
+  if (!uid) {
+    error.value = "No trainer ID provided";
+    loading.value = false;
+    return;
+  }
+
+  await fetchTrainer();
+  if (!error.value) {
+    await Promise.all([fetchPlans(), fetchReviews()]);
+  }
+
+  loading.value = false;
+};
+
+onMounted(() => {
+  loadData();
+});
+
+// ------------------ Helpers ------------------
+const capitalize = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : "");
+const getExperience = () => {
+  const exp = trainer.value.experience ?? trainer.value.yearsOfExperience;
+  return exp !== null && exp !== undefined ? exp : "N/A";
+};
+const getLocation = () => {
+  const city = trainer.value.city;
+  const country = trainer.value.country;
+  if (city && country) return `${city}, ${country}`;
+  if (city) return city;
+  if (country) return country;
+  return "Location not specified";
+};
+const formatPrice = (price) => {
+  if (price === undefined || price === null || price === "") return "N/A";
+  return `$${Number(price).toFixed(2)}`;
+};
+const formatDate = (ts) => {
+  if (!ts) return "N/A";
+  try {
+    const date = ts.toDate ? ts.toDate() : new Date(ts);
+    return date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+  } catch {
+    return "N/A";
+  }
+};
+const handleImageError = (e) => {
+  e.target.src = placeholder;
+};
+const viewCertificate = (certUrl) => window.open(certUrl, "_blank");
+const bookPlan = (plan) => {
+  router.push({ name: "booking", query: { planId: plan.id, trainerId: uid } }).catch(() => {
+    alert(`Booking coming soon\nPlan: ${plan.title || "—"}`);
+  });
+};
+const contactTrainer = () => {
+  if (trainer.value.email) {
+    window.location.href = `mailto:${trainer.value.email}`;
+    return;
+  }
+  router.push({ name: "chat", query: { trainerId: uid } }).catch(() => {
+    alert("Contact info not available");
+  });
+};
+
+// ------------------ Add review (optimistic + serverTimestamp) ------------------
+const openAddReview = () => {
+  const user = auth.currentUser;
+  if (!user) {
+    alert("Please login to add a review.");
+    router.push({ name: "login" });
+    return;
+  }
+  if (user.displayName) newReview.value.reviewerName = user.displayName;
+  showAddReview.value = true;
+};
+
+const closeAddReview = () => {
+  showAddReview.value = false;
+  newReview.value = { reviewerName: "", rating: 5, comment: "", phone: "", sessionType: "" };
+};
+
+const submitReview = async () => {
+  if (!uid) {
+    alert("No trainer specified");
+    return;
+  }
+  if (!canSubmitReview.value) {
+    alert("Please enter your name and comment");
+    return;
+  }
+
+  addingReview.value = true;
+
+  try {
+    const user = auth.currentUser;
+    let traineeName = newReview.value.reviewerName.trim();
+    let traineeProfilePic = null;
+    let traineeId = null;
+
+    if (user) {
+      traineeId = user.uid;
+      // try to fetch user doc for display name/picture
+      try {
+        const uDoc = await getDoc(doc(db, "users", user.uid));
+        if (uDoc.exists()) {
+          const ud = uDoc.data();
+          if (ud.firstName) traineeName = `${ud.firstName} ${ud.lastName || ""}`.trim();
+          traineeProfilePic = ud.profilePicture || ud.profilePic || null;
+        }
+      } catch (e) {
+        console.warn("Could not fetch user profile:", e);
+      }
+    }
+
+    const payloadForServer = {
+      comment: newReview.value.comment.trim(),
+      rating: Number(newReview.value.rating),
+      createdAt: serverTimestamp(),
+      status: "approved", // change to 'pending' if admin approval required
+      traineeId,
+      traineeName,
+      traineeProfilePic,
+      trainerId: uid,
+      trainerName: `${trainer.value.firstName || ""} ${trainer.value.lastName || ""}`.trim(),
+      trainerProfilePic: trainer.value.profilePicture || null,
+      phone: newReview.value.phone || null,
+      sessionType: newReview.value.sessionType || null,
+    };
+
+    // Optimistic local review (user-visible immediately)
+    const localCreatedAt = new Date();
+    const localRev = {
+      id: "local-" + Date.now(),
+      ...payloadForServer,
+      createdAt: localCreatedAt,
+    };
+
+    // add optimistic item at top
+    reviews.value.unshift(localRev);
+
+    // recompute avg locally
+    {
+      let total = 0, count = 0;
+      reviews.value.forEach(r => {
+        const rr = typeof r.rating === "number" ? r.rating : 0;
+        if (rr > 0) { total += rr; count++; }
+      });
+      avgRating.value = count > 0 ? total / count : null;
+      reviewsCount.value = count;
+    }
+
+    // persist to Firestore: try top-level then fallback to subcollection
+    let docRef = null;
+    try {
+      docRef = await addDoc(collection(db, "reviews"), payloadForServer);
+    } catch {
+      docRef = await addDoc(collection(db, `users/${uid}/reviews`), payloadForServer);
+    }
+
+    // replace local id with server id and sync after small delay
+    if (docRef) {
+      const idx = reviews.value.findIndex(r => r.id && String(r.id).startsWith("local-"));
+      if (idx !== -1) reviews.value[idx].id = docRef.id;
+      // schedule sync to capture server timestamp & canonical data
+      setTimeout(() => { fetchReviews().catch(() => {}); }, 1200);
+    }
+
+    closeAddReview();
+    // optional: show success toast/alert
+    // alert("Thank you for your review!");
+  } catch (err) {
+    console.error("submitReview error:", err);
+    alert("Failed to submit review. Please try again.");
+    // remove optimistic placeholder
+    reviews.value = reviews.value.filter(r => !(r.id && String(r.id).startsWith("local-")));
+    // recompute averages
+    {
+      let total = 0, count = 0;
+      reviews.value.forEach(r => {
+        const rr = typeof r.rating === "number" ? r.rating : 0;
+        if (rr > 0) { total += rr; count++; }
+      });
+      avgRating.value = count > 0 ? total / count : null;
+      reviewsCount.value = count;
+    }
+  } finally {
+    addingReview.value = false;
+  }
+};
 </script>
 
-
 <style scoped>
-/* Add any custom styles here if needed */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  text-overflow: ellipsis;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
 </style>

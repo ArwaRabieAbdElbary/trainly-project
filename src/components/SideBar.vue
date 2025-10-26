@@ -1,6 +1,6 @@
 <template>
   <!-- ✅ Navbar -->
-  <nav class="top-0 z-50 w-full bg-white ">
+  <nav class="top-0 z-50 w-full bg-white">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
       <div class="flex items-center justify-between">
         <!-- 🔹 زرار فتح السايد بار (مظبوط ومنسق) -->
@@ -30,7 +30,7 @@
         <!-- 🔹 الأوفرلاي الأبيض -->
         <div
           v-if="isSidebarOpen"
-          class="fixed inset-0 bg-white bg-opacity-80 backdrop-blur-sm z-30 lg:hidden transition-all duration-300"
+          class="fixed inset-0 filter backdrop-blur-sm bg-opacity-80 z-30 lg:hidden transition-all duration-300"
           @click="toggleSidebar"
         ></div>
 
@@ -82,6 +82,19 @@
             class="h-8 w-25 me-3"
             alt="Logo"
           />
+        </li>
+
+        <!-- ✅ View My Profile - الرابط الصح -->
+        <li>
+          <router-link
+            to="/myprofile"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <span class="ms-3">View My Profile</span>
+          </router-link>
         </li>
 
         <li>

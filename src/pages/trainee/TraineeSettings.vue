@@ -3,26 +3,16 @@
   <div
     class="w-full relative mb-10 bg-gradient-to-r from-[#D9EEFF] to-[#AEE2FF] rounded-2xl shadow-md p-6 flex items-center justify-between overflow-hidden"
   >
-    <div
-      class="absolute top-0 right-0 w-40 h-40 bg-white/20 rounded-full blur-2xl"
-    ></div>
+    <div class="absolute top-0 right-0 w-40 h-40 bg-white/20 rounded-full blur-2xl"></div>
 
     <div class="flex items-center gap-5 relative z-10">
       <div class="bg-white shadow-sm p-3 rounded-full">
-        <img
-          src="../../assets/images/hand.png"
-          alt="User icon"
-          class="w-10 h-10"
-        />
+        <img src="../../assets/images/hand.png" alt="User icon" class="w-10 h-10" />
       </div>
       <div>
-        <h2 class="text-2xl font-semibold text-gray-800">
-          Welcome back, {{ userData.name }}!
-        </h2>
+        <h2 class="text-2xl font-semibold text-gray-800">Welcome back, {{ userData.name }}!</h2>
 
-        <p class="text-sm text-gray-600 mt-1">
-          Ready to crush your fitness goals today? 💪
-        </p>
+        <p class="text-sm text-gray-600 mt-1">Ready to crush your fitness goals today? 💪</p>
       </div>
     </div>
   </div>
@@ -36,19 +26,15 @@
     </div>
 
     <form
-      @submit.prevent="handleSubmit"
-      class=" p-15 border border-gray-200 rounded-3xl shadow-xl bg-white flex flex-col items-center"
+      @submit.prevent="showConfirmUpdateModal"
+      class="p-15 border border-gray-200 rounded-3xl shadow-xl bg-white flex flex-col items-center"
     >
       <div class="flex items-center gap-3 mb-6 self-start">
-        <div
-          class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
-        >
+        <div class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
           <img src="../../assets/images/page-1.png" alt="" class="w-5 h-5" />
         </div>
         <div>
-          <h2 class="text-lg font-medium text-gray-900">
-            Personal Information
-          </h2>
+          <h2 class="text-lg font-medium text-gray-900">Personal Information</h2>
           <p class="text-sm text-gray-500">Update your personal details</p>
         </div>
       </div>
@@ -96,9 +82,7 @@
       <div class="w-full space-y-10">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mx-15">
           <div>
-            <label
-              for="first-name"
-              class="block text-sm font-medium text-gray-900"
+            <label for="first-name" class="block text-sm font-medium text-gray-900"
               >First Name</label
             >
             <input
@@ -110,11 +94,7 @@
           </div>
 
           <div>
-            <label
-              for="last-name"
-              class="block text-sm font-medium text-gray-900"
-              >Last Name</label
-            >
+            <label for="last-name" class="block text-sm font-medium text-gray-900">Last Name</label>
             <input
               id="last-name"
               v-model="formData.lastName"
@@ -124,9 +104,7 @@
           </div>
 
           <div>
-            <label for="email" class="block text-sm font-medium text-gray-900"
-              >Email</label
-            >
+            <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
             <input
               id="email"
               v-model="formData.email"
@@ -136,17 +114,15 @@
           </div>
 
           <div>
-            <label for="gender" class="block text-sm font-medium text-gray-900"
-              >Gender</label
-            >
+            <label for="gender" class="block text-sm font-medium text-gray-900">Gender</label>
             <select
               id="gender"
               v-model="formData.gender"
               class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
             >
               <option value="">Select</option>
-              <option>Female</option>
-              <option>Male</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
             </select>
           </div>
         </div>
@@ -154,9 +130,7 @@
         <!-- City / Country / Birthday -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mx-15">
           <div>
-            <label for="city" class="block text-sm font-medium text-gray-900"
-              >City</label
-            >
+            <label for="city" class="block text-sm font-medium text-gray-900">City</label>
             <input
               id="city"
               v-model="formData.city"
@@ -166,9 +140,7 @@
           </div>
 
           <div>
-            <label for="country" class="block text-sm font-medium text-gray-900"
-              >Country</label
-            >
+            <label for="country" class="block text-sm font-medium text-gray-900">Country</label>
             <input
               id="country"
               v-model="formData.country"
@@ -178,11 +150,7 @@
           </div>
 
           <div>
-            <label
-              for="birthday"
-              class="block text-sm font-medium text-gray-900"
-              >Birthday</label
-            >
+            <label for="birthday" class="block text-sm font-medium text-gray-900">Birthday</label>
             <input
               id="birthday"
               v-model="formData.birthdate"
@@ -194,14 +162,15 @@
       </div>
 
       <!-- Buttons -->
-      <div class="mt-10 flex-wrap md:flex justify-between items-center w-full">
+      <div class="flex flex-col md:flex-row mt-10 flex-wrap justify-between items-center w-full">
         <button
           type="submit"
-          class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-7 py-2.5 text-center mx-15"
+          class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-7 py-2.5 text-center mx-15 mb-2"
         >
           Save Changes
         </button>
         <button
+        type='button'
           @click="deleteAccount"
           class="border-2 border-red-500 text-red-500 font-medium text-sm cursor-pointer py-2 px-6 rounded-lg hover:bg-red-50 transition mx-15"
         >
@@ -211,13 +180,9 @@
     </form>
 
     <!-- ========= Security Section ========= -->
-    <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-10"
-    >
+    <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-10">
       <div class="flex mx-5">
-        <div
-          class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
-        >
+        <div class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
           <img src="../../assets/images/security.png" alt="" class="w-5 h-5" />
         </div>
 
@@ -232,9 +197,7 @@
       <form class="max-w-[95%] mx-17" @submit.prevent="onSubmit">
         <!-- Current password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
-            >Current Password</label
-          >
+          <label class="block mb-2 text-sm font-medium text-gray-900">Current Password</label>
           <div class="relative">
             <input
               :type="showCurrent ? 'text' : 'password'"
@@ -297,9 +260,7 @@
 
         <!-- New password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
-            >New Password</label
-          >
+          <label class="block mb-2 text-sm font-medium text-gray-900">New Password</label>
           <div class="relative">
             <input
               :type="showNew ? 'text' : 'password'"
@@ -365,9 +326,7 @@
 
         <!-- Repeat password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
-            >Confirm Password</label
-          >
+          <label class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
           <div class="relative">
             <input
               :type="showRepeat ? 'text' : 'password'"
@@ -434,16 +393,12 @@
 
         <button
           type="submit"
-          class="text-white mt-5 bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          class="text-white mt-5 bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-auto md:mx-0 block"
         >
           Update Password
         </button>
 
-        <p
-          v-if="message"
-          class="text-sm mt-3 text-center"
-          :class="messageColor"
-        >
+        <p v-if="message" class="text-sm mt-3 text-center" :class="messageColor">
           {{ message }}
         </p>
       </form>
@@ -491,6 +446,7 @@ export default {
 
   mounted() {
     const auth = getAuth();
+    // keep auth listener as in your file (you asked not to touch password; auth check can remain)
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         this.userId = user.uid;
@@ -518,6 +474,11 @@ export default {
           if (docSnap.data().profilePicture) {
             this.previewImage = docSnap.data().profilePicture;
           }
+
+          const firstName = this.formData.firstName || "User";
+          this.userData.name = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+        } else {
+          console.log("No such user document found!");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -531,8 +492,49 @@ export default {
       this.previewImage = URL.createObjectURL(file);
     },
 
-    // 🟢 Update user data + show success modal
-    async handleSubmit() {
+    // NEW: show confirm modal before performing update (same style as delete modal)
+    showConfirmUpdateModal() {
+      const confirmBox = document.createElement("div");
+      confirmBox.classList.add("fixed", "inset-0", "flex", "items-center", "justify-center", "z-50");
+      confirmBox.style.backgroundColor = "rgba(255, 255, 255, 0.7)";
+      confirmBox.style.backdropFilter = "blur(3px)";
+
+      confirmBox.innerHTML = `
+        <div class="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full mx-4 border border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">
+            Confirm changes
+          </h2>
+          <p class="text-gray-500 mb-6 text-sm">
+            Are you sure you want to save these changes to your profile?
+          </p>
+          <div class="flex justify-center gap-4">
+            <button id="confirmUpdateYes" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
+              Yes
+            </button>
+            <button id="confirmUpdateNo" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 transition">
+              Cancel
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(confirmBox);
+
+      const yesBtn = document.getElementById("confirmUpdateYes");
+      const noBtn = document.getElementById("confirmUpdateNo");
+
+      noBtn.addEventListener("click", () => confirmBox.remove());
+
+      yesBtn.addEventListener("click", async () => {
+        // close confirm modal first
+        confirmBox.remove();
+        // perform the update
+        await this.performUpdate();
+      });
+    },
+
+    // do the actual upload + firestore update, then show success modal
+    async performUpdate() {
       try {
         if (!this.userId) return;
 
@@ -557,40 +559,37 @@ export default {
           ...(imageUrl && { profilePicture: imageUrl }),
         });
 
-        // ✅ Show success modal
+        // Success modal (same visual style as delete modal)
         const modal = document.createElement("div");
-        modal.classList.add(
-          "fixed", "inset-0", "flex", "items-center", "justify-center", "z-50"
-        );
+        modal.classList.add("fixed", "inset-0", "flex", "items-center", "justify-center", "z-50");
         modal.style.backgroundColor = "rgba(0,0,0,0.3)";
         modal.innerHTML = `
           <div class="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full mx-4 border border-gray-200">
             <h2 class="text-lg font-semibold text-gray-800 mb-4">
-              Your data has been updated successfully 🎉
+              Your data has been updated successfully
             </h2>
-            <button id="closeModal" class="bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition">
+            <button id="closeUpdateModal" class="bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition">
               OK
             </button>
           </div>
         `;
         document.body.appendChild(modal);
-        document.getElementById("closeModal").addEventListener("click", () => modal.remove());
-
+        document.getElementById("closeUpdateModal").addEventListener("click", () => modal.remove());
       } catch (error) {
         console.error("Error updating user:", error);
         alert("Failed to update data!");
       }
     },
 
-    // 🟢 Show/hide password fields
+    // NOTE: keep password logic untouched (you asked not to touch it)
     toggle(field) {
       if (field === "current") this.showCurrent = !this.showCurrent;
       else if (field === "new") this.showNew = !this.showNew;
       else if (field === "repeat") this.showRepeat = !this.showRepeat;
     },
 
-    // 🟢 Update password (unchanged)
     async onSubmit() {
+      // keep password handling as-is (no changes)
       if (this.form.new !== this.form.repeat) {
         alert("New password and confirmation do not match!");
         return;
@@ -605,10 +604,7 @@ export default {
       }
 
       try {
-        const credential = EmailAuthProvider.credential(
-          user.email,
-          this.form.current
-        );
+        const credential = EmailAuthProvider.credential(user.email, this.form.current);
         await reauthenticateWithCredential(user, credential);
         await updatePassword(user, this.form.new);
 
@@ -620,7 +616,7 @@ export default {
       }
     },
 
-    // 🟢 Delete account
+    // Delete account modal & flow unchanged (kept as in your file)
     async deleteAccount() {
       const confirmBox = document.createElement("div");
       confirmBox.classList.add(
@@ -628,7 +624,7 @@ export default {
       );
       confirmBox.style.backgroundColor = "rgba(255, 255, 255, 0.7)";
       confirmBox.style.backdropFilter = "blur(3px)";
-      
+
       confirmBox.innerHTML = `
         <div class="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full mx-4 border border-gray-200">
           <h2 class="text-lg font-semibold text-gray-800 mb-4">
@@ -647,15 +643,23 @@ export default {
           </div>
         </div>
       `;
-      
+
       document.body.appendChild(confirmBox);
 
-      document.getElementById("cancelDelete").addEventListener("click", () => confirmBox.remove());
-      document.getElementById("confirmDelete").addEventListener("click", async () => {
+      const confirmBtn = document.getElementById("confirmDelete");
+      const cancelBtn = document.getElementById("cancelDelete");
+
+      cancelBtn.addEventListener("click", () => confirmBox.remove());
+
+      confirmBtn.addEventListener("click", async () => {
         try {
           const auth = getAuth();
           const user = auth.currentUser;
-          if (!user) return confirmBox.remove();
+
+          if (!user) {
+            confirmBox.remove();
+            return;
+          }
 
           const userRef = doc(db, "users", user.uid);
           await deleteDoc(userRef);
