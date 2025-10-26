@@ -1,16 +1,5 @@
 @import "tailwindcss";
 @reference "tailwindcss";
-/* .input {
- @apply p-2 border border-gray-300 rounded-md shadow-sm text-sm;
-}
-
-.btn-primary {
-  @apply p-2 bg-gradient-to-r from-green-500 to-blue-500 text-white rounded-md transition-all hover:opacity-90;
-}
-
-.btn-secondary {
-  @apply p-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-md transition-all hover:opacity-90;
-} */
 
 html[lang="en"], body[lang="en"], :root[lang="en"] {
   font-family: 'Poppins', sans-serif !important;

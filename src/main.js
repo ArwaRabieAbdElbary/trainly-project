@@ -1,6 +1,6 @@
-const savedLocale = localStorage.getItem('lang') || 'en';
+const savedLocale = localStorage.getItem("lang") || "en";
 document.documentElement.lang = savedLocale;
-document.dir = savedLocale === 'ar' ? 'rtl' : 'ltr';
+document.dir = savedLocale === "ar" ? "rtl" : "ltr";
 
 // ----------------------------
 // ✅ الاستيرادات الأساسية
@@ -33,9 +33,16 @@ import ContactUs from "./pages/ContactUs.vue";
 import TrainerClient from "./pages/trainer/TrainerClient.vue";
 import TrainerReviews from "./pages/trainer/TrainerReviews.vue";
 import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
-import TrainerCustomerservice from "./pages/trainer/TrainerCustomerservice.vue";
-import TraineeCustomerservice from "./pages/trainee/TraineeCustomerservice.vue";
+import TrainerProfile from "./pages/TrainerProfile.vue";
+import SearchPage from "./pages/SearchPage.vue";
 import TrainerPlans from "./pages/trainer/TrainerPlans.vue";
+import TrainerHome from "./pages/trainer/TrainerHome.vue";
+import HomePage from "./pages/HomePage.vue";
+import TrainerSettings from "./pages/trainer/TrainerSettings.vue";
+import TraineeDashboardLayout from "./pages/trainee/TraineeDashboardLayout.vue";
+import TraineeSettings from "./pages/trainee/TraineeSettings.vue";
+import TraineeCustomerservice from "./pages/trainee/TraineeCustomerservice.vue";
+import TrainerCustomerservice from "./pages/trainer/TrainerCustomerservice.vue";
 
 // ----------------------------
 // ✅ إعداد المسارات (Routes)
@@ -52,14 +59,27 @@ const routes = [
   { path: "/trainerplans", name: "trainerplans", component: TrainerPlans },
   { path: "/signup", name: "signup", component: Signup },
   { path: "/login", name: "login", component: LoginPage },
-  {path: "/aboutus", name: "aboutus", component: AboutUs },
-  {path: "/sports", name: "sports", component: SportS },
-  {path: "/contactus", name: "contactus", component: ContactUs },
+  { path: "/aboutus", name: "aboutus", component: AboutUs },
+  { path: "/sports", name: "sports", component: SportS },
+  { path: "/contactus", name: "contactus", component: ContactUs },
+  { path: "/search", name: "search", component: SearchPage },
+  {path: "/home", name: "home", component: HomePage },
+  { path: "/trainerprofile", name: "trainerprofile", component: TrainerProfile },
   {
-    path:"/trainer" ,
-    name:"trainer",
-    component:TrainerDashboardLayout ,
+    path: "/trainer",
+    name: "trainer",
+    component: TrainerDashboardLayout,
     children: [
+      {
+        path: "home",
+        name: "trainerhome",
+        component: TrainerHome,
+      },
+      {
+        path: "plans",
+        name: "trainerplans",
+        component: TrainerPlans,
+      },
       {
         path: "reviews",
         name: "trainerreviews",
@@ -80,17 +100,12 @@ const routes = [
         name: "trainersettings",
         component: TrainerSettings,
       },
-      {
-        path: "plans",
-        name: "trainerplans",
-        component: TrainerPlans,
-      },
     ],
   },
-    {
-    path:"/trainee" ,
-    name:"trainee",
-    component:TraineeDashboardLayout ,
+  {
+    path: "/trainee",
+    name: "trainee",
+    component: TraineeDashboardLayout,
     children: [
       {
         path: "settings",
@@ -104,6 +119,7 @@ const routes = [
       }
     ],
   },
+
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
 ];
 
@@ -117,9 +133,6 @@ const router = createRouter({
 // ----------------------------
 import { auth } from "./Firebase/firebaseConfig.js";
 import { onAuthStateChanged } from "firebase/auth";
-import TrainerSettings from "./pages/trainer/TrainerSettings.vue";
-import TraineeDashboardLayout from "./pages/trainee/TraineeDashboardLayout.vue";
-import TraineeSettings from "./pages/trainee/TraineeSettings.vue";
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -138,12 +151,12 @@ createApp(App)
   .use(i18n)
   .use(Toast, {
   position: "top-center",
-  timeout: 2000,        
-  closeOnClick: true,    
-  pauseOnHover: true,    
-  draggable: true,       
+  timeout: 2000,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
   showCloseButtonOnHover: false,
   hideProgressBar: false,
-  theme: "auto",         
+  theme: "auto",
 })
 .mount("#app");

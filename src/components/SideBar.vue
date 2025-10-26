@@ -1,19 +1,14 @@
-<script>
-export default {
-  name: "SideBar",
-};
-</script>
 <template>
-  <nav class="top-0 z-50 w-full">
+  <!-- ✅ Navbar -->
+  <nav class="top-0 z-50 w-full bg-white ">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
       <div class="flex items-center justify-between">
+        <!-- 🔹 زرار فتح السايد بار (مظبوط ومنسق) -->
         <div class="flex items-center justify-start rtl:justify-end">
           <button
-            data-drawer-target="logo-sidebar"
-            data-drawer-toggle="logo-sidebar"
-            aria-controls="logo-sidebar"
+            @click="toggleSidebar"
             type="button"
-            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-20"
+            class="inline-flex items-center justify-center p-2 text-gray-600 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 transition duration-200"
           >
             <span class="sr-only">Open sidebar</span>
             <svg
@@ -30,12 +25,24 @@ export default {
               ></path>
             </svg>
           </button>
-          <a href="https://flowbite.com" class="flex ms-2 md:me-24"> </a>
         </div>
+
+        <!-- 🔹 الأوفرلاي الأبيض -->
+        <div
+          v-if="isSidebarOpen"
+          class="fixed inset-0 bg-white bg-opacity-80 backdrop-blur-sm z-30 lg:hidden transition-all duration-300"
+          @click="toggleSidebar"
+        ></div>
+
+        <!-- باقي الناف زي ما هو -->
         <div class="flex items-center">
           <div class="flex items-center ms-3 gap-[40px]">
             <div class="hidden md:block">
-              <img src="@/assets/images/mingcute_notification-line.png" alt="" class="w-7 h-7" />
+              <img
+                src="@/assets/images/mingcute_notification-line.png"
+                alt=""
+                class="w-7 h-7"
+              />
             </div>
 
             <div>
@@ -47,7 +54,7 @@ export default {
               >
                 <img
                   class="w-8 h-8 rounded-full"
-                  src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                  :src="trainerImage || 'https://media1.tenor.com/m/IfbOs_yh89AAAAAC/loading-buffering.gif'"
                   alt="user photo"
                 />
               </button>
@@ -58,20 +65,29 @@ export default {
     </div>
   </nav>
 
+  <!-- ✅ Sidebar -->
   <aside
-    id="default-sidebar"
-    class="hidden lg:block fixed top-0 left-0 z-40 w-65 h-screen transition-transform -translate-x-full sm:translate-x-0 rounded-lg"
+    :class="[
+      'fixed top-0 left-0 z-40 w-65 h-screen transition-transform duration-300 bg-all rounded-tr-4xl overflow-y-auto',
+      isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
+      'lg:translate-x-0'
+    ]"
     aria-label="Sidebar"
   >
-    <div class="h-full px-3 py-4 overflow-y-auto bg-all rounded-tr-4xl">
+    <div class="h-full px-3 py-4">
       <ul class="space-y-4 font-light text-[14px] mx-5">
         <li class="mb-11 mt-3 mx-2">
-          <img src="@/assets/images/Project LOGO.png" class="h-8 w-25 me-3" alt="Logo" />
+          <img
+            src="@/assets/images/Project LOGO.png"
+            class="h-8 w-25 me-3"
+            alt="Logo"
+          />
         </li>
+
         <li>
           <router-link
             to="/trainer/home"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
             <img src="@/assets/images/bx_home.png" alt="" class="w-5 h-5" />
             <span class="ms-3">Home</span>
@@ -81,89 +97,202 @@ export default {
         <li>
           <router-link
             to="/trainer/plans"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
-            <img src="@/assets/images/grommet-icons_plan.png" alt="" class="w-5 h-5" />
+            <img
+              src="@/assets/images/grommet-icons_plan.png"
+              alt=""
+              class="w-5 h-5"
+            />
             <span class="ms-3">My Plans</span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/trainer/inbox"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
-            <img src="@/assets/images/wpf_message-outline.png" alt="" class="w-5 h-5" />
+            <img
+              src="@/assets/images/wpf_message-outline.png"
+              alt=""
+              class="w-5 h-5"
+            />
             <span class="ms-3">Inbox</span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/trainer/clients"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
-            <img src="@/assets/images/fluent_people-24-filled.png" alt="" class="w-5 h-5" />
+            <img
+              src="@/assets/images/fluent_people-24-filled.png"
+              alt=""
+              class="w-5 h-5"
+            />
             <span class="ms-3">Clients</span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/trainer/reviews"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
-            <img src="@/assets/images/carbon_star-review.png" alt="" class="w-5 h-5" />
+            <img
+              src="@/assets/images/carbon_star-review.png"
+              alt=""
+              class="w-5 h-5"
+            />
             <span class="ms-3">Reviews</span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/trainer/settings"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
-            <img src="@/assets/images/mdi_settings-outline.png" alt="" class="w-5 h-5" />
-
+            <img
+              src="@/assets/images/mdi_settings-outline.png"
+              alt=""
+              class="w-5 h-5"
+            />
             <span class="ms-3">Settings</span>
           </router-link>
         </li>
+
         <li>
           <router-link
-            to="/trainer/customer-service"
-            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200"
+            to="/trainer/customerservice"
+            class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
-            <img src="@/assets/images/mdi_customer-service.png" alt="" class="w-6 h-6" />
-
+            <img
+              src="@/assets/images/mdi_customer-service.png"
+              alt=""
+              class="w-6 h-6"
+            />
             <span class="ms-3">Customer Service</span>
           </router-link>
         </li>
-        <li>
-          <router-link
-            to="/trainer/logout"
-            class="flex items-center p-2 text-red-600 rounded-lg hover:bg-blue-200"
-          >
-            <img src="@/assets/images/logout.png" alt="" class="w-5 h-5" />
 
-            <span class="ms-3">Log out</span>
-          </router-link>
+        <!-- ✅ Log Out Button -->
+        <li>
+          <button
+            @click="handleLogout"
+            class="flex items-center p-2 text-red-600 rounded-lg hover:bg-blue-200 w-full transition duration-300 cursor-pointer"
+          >
+            <img
+              src="@/assets/images/logout.png"
+              alt="logout icon"
+              class="w-5 h-5"
+            />
+            <span class="ms-3 font-medium">Log out</span>
+          </button>
         </li>
+
+        <!-- ✅ Confirmation Modal -->
+        <Teleport to="body">
+          <ConfirmLogoutModal
+            v-model="showLogoutModal"
+            @confirm="confirmLogout"
+            @cancel="cancelLogout"
+          />
+        </Teleport>
       </ul>
     </div>
   </aside>
 </template>
+
+
+<script>
+import { onMounted, ref } from "vue";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { useRouter } from "vue-router";
+import ConfirmLogoutModal from "../components/ConfirmLogoutModal.vue";
+
+export default {
+  name: "SideBar",
+  components: { ConfirmLogoutModal },
+  setup() {
+    const trainerImage = ref("");
+    const showLogoutModal = ref(false);
+    const isSidebarOpen = ref(false);
+
+    const db = getFirestore();
+    const auth = getAuth();
+    const router = useRouter();
+
+    const toggleSidebar = () => {
+      isSidebarOpen.value = !isSidebarOpen.value;
+    };
+
+    const fetchTrainerImage = async (uid) => {
+      try {
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          trainerImage.value =
+            docSnap.data().profilePicture ||
+            "https://media1.tenor.com/m/IfbOs_yh89AAAAAC/loading-buffering.gif";
+        }
+      } catch (error) {
+        console.error("Error fetching trainer data:", error);
+      }
+    };
+
+    const handleLogout = () => {
+      showLogoutModal.value = true;
+    };
+
+    const confirmLogout = async () => {
+      try {
+        await signOut(auth);
+        router.push("/");
+      } catch (error) {
+        console.error("Error logging out:", error);
+      }
+    };
+
+    const cancelLogout = () => {
+      console.log("Logout cancelled");
+    };
+
+    onMounted(() => {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          fetchTrainerImage(user.uid);
+        }
+      });
+    });
+
+    return {
+      trainerImage,
+      handleLogout,
+      showLogoutModal,
+      confirmLogout,
+      cancelLogout,
+      isSidebarOpen,
+      toggleSidebar,
+    };
+  },
+};
+</script>
+
 <style scoped>
 .bg-all {
   background: #d9eeff;
 }
-.bg-nav {
-  background: #b8dbf8;
-}
-.bg-hov {
-  background: #83d3f799;
-}
 .router-link-active {
-  background: #61b7df99 !important;
+  background-color: #83d3f7;
   color: #000;
   font-weight: 600;
 }
 .router-link-active img {
-  filter: invert(29%) sepia(83%) saturate(749%) hue-rotate(181deg) brightness(95%) contrast(90%);
+  filter: invert(29%) sepia(83%) saturate(749%) hue-rotate(181deg)
+    brightness(95%) contrast(90%);
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <!-- Welcome Header -->
   <div
-    class="relative mb-10 mx-auto max-w-5xl bg-gradient-to-r from-[#D9EEFF] to-[#AEE2FF] rounded-2xl shadow-md p-6 flex items-center justify-between overflow-hidden"
+    class="w-full relative mb-10 bg-gradient-to-r from-[#D9EEFF] to-[#AEE2FF] rounded-2xl shadow-md p-6 flex items-center justify-between overflow-hidden"
   >
     <div
       class="absolute top-0 right-0 w-40 h-40 bg-white/20 rounded-full blur-2xl"
@@ -27,7 +27,7 @@
     </div>
   </div>
 
-  <section class="max-w-5xl mx-auto flex flex-col gap-10">
+  <section class="w-full flex flex-col gap-10">
     <div class="">
       <h2 class="text-[24px] font-medium text-gray-900">Settings</h2>
       <p class="mt-2 text-[16px] text-gray-500">
@@ -37,7 +37,7 @@
 
     <form
       @submit.prevent="handleSubmit"
-      class="max-w-5xl p-15 border border-gray-200 rounded-3xl shadow-xl bg-white flex flex-col items-center"
+      class=" p-15 border border-gray-200 rounded-3xl shadow-xl bg-white flex flex-col items-center"
     >
       <div class="flex items-center gap-3 mb-6 self-start">
         <div
@@ -265,7 +265,7 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274
                 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                 />
               </svg>
@@ -281,7 +281,7 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477
                 0-8.268-2.943-9.542-7a9.965 9.965 0 012.223-3.583M3 3l18 18"
                 />
                 <path
@@ -331,8 +331,8 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 
-                0 8.268 2.943 9.542 7-1.274 4.057-5.065 
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477
+                0 8.268 2.943 9.542 7-1.274 4.057-5.065
                 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                 />
               </svg>
@@ -348,8 +348,8 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M13.875 18.825A10.05 10.05 0 0112 
-                19c-4.477 0-8.268-2.943-9.542-7a9.965 
+                  d="M13.875 18.825A10.05 10.05 0 0112
+                19c-4.477 0-8.268-2.943-9.542-7a9.965
                 9.965 0 012.223-3.583M3 3l18 18"
                 />
                 <path
@@ -399,9 +399,9 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 
-                5c4.477 0 8.268 2.943 9.542 7-1.274 
-                4.057-5.065 7-9.542 7-4.477 
+                  d="M2.458 12C3.732 7.943 7.523 5 12
+                5c4.477 0 8.268 2.943 9.542 7-1.274
+                4.057-5.065 7-9.542 7-4.477
                 0-8.268-2.943-9.542-7z"
                 />
               </svg>
@@ -417,8 +417,8 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M13.875 18.825A10.05 10.05 0 0112 
-                19c-4.477 0-8.268-2.943-9.542-7a9.965 
+                  d="M13.875 18.825A10.05 10.05 0 0112
+                19c-4.477 0-8.268-2.943-9.542-7a9.965
                 9.965 0 012.223-3.583M3 3l18 18"
                 />
                 <path
@@ -462,7 +462,6 @@ import {
 import { db, storage } from "@/Firebase/firebaseConfig.js";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { toast } from "vue3-toastify";
 
 export default {
   name: "TraineeSettings",
@@ -491,71 +490,51 @@ export default {
   },
 
   mounted() {
-    this.checkUserAndFetchData();
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        this.userId = user.uid;
+        this.userData = {
+          name: user.displayName || user.email?.split("@")[0] || "User",
+          uid: user.uid,
+          email: user.email,
+          photo: user.photoURL,
+        };
+        await this.fetchUserData();
+      }
+    });
   },
 
   methods: {
-    // ✅ التأكد من المستخدم والداتا بتاعته
-    checkUserAndFetchData() {
-      const auth = getAuth();
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          this.userId = user.uid;
-          this.userData = {
-            name: user.displayName || user.email?.split("@")[0] || "User",
-            uid: user.uid,
-            email: user.email,
-            photo: user.photoURL,
-          };
-          await this.fetchUserData();
-        } else {
-          toast.error("Please login first");
-          this.$router.push("/login");
-        }
-      });
-    },
-
-    // 🟢 جلب بيانات المستخدم من Firestore
+    // 🟢 Fetch user data
     async fetchUserData() {
       try {
         if (!this.userId) return;
-
         const userRef = doc(db, "users", this.userId);
         const docSnap = await getDoc(userRef);
 
         if (docSnap.exists()) {
           this.formData = { ...this.formData, ...docSnap.data() };
-
           if (docSnap.data().profilePicture) {
             this.previewImage = docSnap.data().profilePicture;
           }
-
-          const firstName = this.formData.firstName || "User";
-          this.userData.name =
-            firstName.charAt(0).toUpperCase() +
-            firstName.slice(1).toLowerCase();
-        } else {
-          console.log("No such user document found!");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     },
 
-    // 🟢 تحميل الصورة الجديدة
+    // 🟢 Upload new profile image
     handleFileUpload(e) {
       const file = e.target.files[0];
       this.formData.profilePicture = file;
       this.previewImage = URL.createObjectURL(file);
     },
 
-    // 🟢 تحديث بيانات المستخدم
+    // 🟢 Update user data + show success modal
     async handleSubmit() {
       try {
-        if (!this.userId) {
-          toast.error("No user logged in!");
-          return;
-        }
+        if (!this.userId) return;
 
         const userRef = doc(db, "users", this.userId);
         let imageUrl = null;
@@ -578,24 +557,42 @@ export default {
           ...(imageUrl && { profilePicture: imageUrl }),
         });
 
-        toast.success("Data updated successfully ✅");
+        // ✅ Show success modal
+        const modal = document.createElement("div");
+        modal.classList.add(
+          "fixed", "inset-0", "flex", "items-center", "justify-center", "z-50"
+        );
+        modal.style.backgroundColor = "rgba(0,0,0,0.3)";
+        modal.innerHTML = `
+          <div class="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full mx-4 border border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">
+              Your data has been updated successfully 🎉
+            </h2>
+            <button id="closeModal" class="bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition">
+              OK
+            </button>
+          </div>
+        `;
+        document.body.appendChild(modal);
+        document.getElementById("closeModal").addEventListener("click", () => modal.remove());
+
       } catch (error) {
         console.error("Error updating user:", error);
-        toast.error("Failed to update data!");
+        alert("Failed to update data!");
       }
     },
 
-    // 🟢 إظهار/إخفاء الباسورد
+    // 🟢 Show/hide password fields
     toggle(field) {
       if (field === "current") this.showCurrent = !this.showCurrent;
       else if (field === "new") this.showNew = !this.showNew;
       else if (field === "repeat") this.showRepeat = !this.showRepeat;
     },
 
-    // 🟢 تحديث كلمة السر (ما اتغيرش فيه حاجة)
+    // 🟢 Update password (unchanged)
     async onSubmit() {
       if (this.form.new !== this.form.repeat) {
-        toast.error("New password and confirmation do not match!");
+        alert("New password and confirmation do not match!");
         return;
       }
 
@@ -603,7 +600,7 @@ export default {
       const user = auth.currentUser;
 
       if (!user) {
-        toast.error("No user is signed in!");
+        alert("No user is signed in!");
         return;
       }
 
@@ -615,52 +612,69 @@ export default {
         await reauthenticateWithCredential(user, credential);
         await updatePassword(user, this.form.new);
 
-        toast.success("Password updated successfully");
+        alert("Password updated successfully!");
         this.form.current = this.form.new = this.form.repeat = "";
       } catch (error) {
         console.error(error);
-        toast.error(error.message);
+        alert(error.message);
       }
     },
 
-    // 🗑️ حذف الحساب بالكامل
+    // 🟢 Delete account
     async deleteAccount() {
-      try {
-        const auth = getAuth();
-        const user = auth.currentUser;
+      const confirmBox = document.createElement("div");
+      confirmBox.classList.add(
+        "fixed", "inset-0", "flex", "items-center", "justify-center", "z-50"
+      );
+      confirmBox.style.backgroundColor = "rgba(255, 255, 255, 0.7)";
+      confirmBox.style.backdropFilter = "blur(3px)";
+      
+      confirmBox.innerHTML = `
+        <div class="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full mx-4 border border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">
+            Are you sure you want to delete your account?
+          </h2>
+          <p class="text-gray-500 mb-6 text-sm">
+            This action cannot be undone.
+          </p>
+          <div class="flex justify-center gap-4">
+            <button id="confirmDelete" class="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition">
+              Yes, Delete
+            </button>
+            <button id="cancelDelete" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 transition">
+              Cancel
+            </button>
+          </div>
+        </div>
+      `;
+      
+      document.body.appendChild(confirmBox);
 
-        if (!user) {
-          toast.error("No user is logged in!");
-          return;
+      document.getElementById("cancelDelete").addEventListener("click", () => confirmBox.remove());
+      document.getElementById("confirmDelete").addEventListener("click", async () => {
+        try {
+          const auth = getAuth();
+          const user = auth.currentUser;
+          if (!user) return confirmBox.remove();
+
+          const userRef = doc(db, "users", user.uid);
+          await deleteDoc(userRef);
+          await user.delete();
+
+          confirmBox.remove();
+          this.$router.push("/");
+        } catch (error) {
+          console.error("Error deleting account:", error);
+          confirmBox.remove();
+          alert("Failed to delete account!");
         }
-
-        // حذف بيانات المستخدم من Firestore
-        const userRef = doc(db, "users", user.uid);
-        await deleteDoc(userRef);
-
-        // حذف الحساب من Firebase Authentication
-        await user.delete();
-
-        toast.success("Account deleted successfully ✅");
-
-        // تسجيل خروج وتحويل بعد ثانيتين
-        setTimeout(async () => {
-          await auth.signOut();
-          this.$router.push("/login");
-        }, 2000);
-      } catch (error) {
-        console.error("Error deleting account:", error);
-
-        if (error.code === "auth/requires-recent-login") {
-          toast.error("Please log in again before deleting your account.");
-        } else {
-          toast.error("Failed to delete account!");
-        }
-      }
+      });
     },
   },
 };
 </script>
+
+
 
 
 

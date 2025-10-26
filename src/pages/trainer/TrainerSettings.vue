@@ -156,6 +156,7 @@
         </div>
 
         <!-- Upload Certificate -->
+        <!-- Upload Certificate -->
         <div>
           <h2 class="text-sm font-medium text-gray-900 mt-8">
             Upload Certificate
@@ -178,18 +179,45 @@
               </label>
               <p class="text-xs text-gray-500 mt-2">PDF, JPG up to 10MB</p>
 
+              <!-- Certificate List with Remove Buttons -->
               <div
                 v-if="formData.certifications && formData.certifications.length"
+                class="mt-4 space-y-2"
               >
-                <a
+                <div
                   v-for="(cert, index) in formData.certifications"
                   :key="index"
-                  :href="cert"
-                  target="_blank"
-                  class="text-blue-500 mt-2 inline-block ml-4"
+                  class="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
                 >
-                  View Certificate {{ index + 1 }}
-                </a>
+                  <a
+                    :href="cert"
+                    target="_blank"
+                    class="text-blue-500 hover:text-blue-600 text-sm font-medium"
+                  >
+                    📄 Certificate {{ index + 1 }}
+                  </a>
+                  <button
+                    type="button"
+                    @click="removeCertificate(index)"
+                    class="text-red-600 hover:text-red-800 text-sm font-medium flex items-center gap-1 transition"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                    Remove
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -208,7 +236,7 @@
           <button
             type="button"
             @click="deleteAccount"
-            class="border-2 border-red-500 text-red-500 font-medium text-sm cursor-pointer py-2 px-6 rounded-lg hover:bg-red-50 transition mx-15"
+            class="border-2 border-red-500 text-red-500 font-medium text-sm cursor-pointer py-2 px-6 rounded-lg hover:bg-red-50 transition"
           >
             Delete Account
           </button>
@@ -465,14 +493,13 @@ import {
   ref as storageRef,
   uploadBytes,
   getDownloadURL,
+  
 } from "firebase/storage";
 import {
   getAuth,
   updatePassword,
   reauthenticateWithCredential,
   EmailAuthProvider,
-  onAuthStateChanged,
-  deleteUser,
 } from "firebase/auth";
 import { toast } from "vue3-toastify";
 
@@ -502,7 +529,7 @@ export default {
       newProfilePhoto: null,
       newCertificate: null,
 
-      // بيانات الباسورد
+      // password section (unchanged)
       form: { current: "", new: "", repeat: "" },
       showCurrent: false,
       showNew: false,
@@ -510,26 +537,22 @@ export default {
     };
   },
 
-  mounted() {
-    this.checkUserAndFetchData();
+  async mounted() {
+    // get uid automatically since user is already signed in
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+      this.userId = user.uid;
+      await this.fetchTrainerData();
+    } else {
+      // fallback: if for any reason there's no currentUser, ask to login
+      alert("No user found. Please log in again.");
+      this.$router.push("/login");
+    }
   },
 
   methods: {
-    // ✅ التأكد من تسجيل الدخول
-    async checkUserAndFetchData() {
-      const auth = getAuth();
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          this.userId = user.uid;
-          await this.fetchTrainerData();
-        } else {
-          toast.error("Please login first");
-          this.$router.push("/login");
-        }
-      });
-    },
-
-    // 🟢 جلب بيانات المستخدم
+    // fetch trainer data from Firestore
     async fetchTrainerData() {
       try {
         if (!this.userId) return;
@@ -540,59 +563,223 @@ export default {
         }
       } catch (error) {
         console.error("Error fetching trainer data:", error);
+        alert("An error occurred while loading your data.");
       }
     },
 
-    // 🟢 رفع الملفات
+    // upload file to storage and return download URL
     async uploadFile(file, type) {
       if (!file) return null;
-      const fileRef = storageRef(
-        storage,
-        `users/${this.userId}/${type}-${Date.now()}-${file.name}`
-      );
-      await uploadBytes(fileRef, file);
-      return await getDownloadURL(fileRef);
+      try {
+        const fileRef = storageRef(
+          storage,
+          `users/${this.userId}/${type}-${Date.now()}-${file.name}`
+        );
+        await uploadBytes(fileRef, file);
+        return await getDownloadURL(fileRef);
+      } catch (error) {
+        console.error("File upload failed:", error);
+        alert("File upload failed. Please try again.");
+        return null;
+      }
     },
 
-    // 🟢 تحديث بيانات المستخدم
+    // remove certificate from local array and Firestore (doesn't delete file in storage)
+    async removeCertificate(index) {
+      try {
+        if (!this.userId || !this.formData.certifications) return;
+
+        // remove locally
+        this.formData.certifications.splice(index, 1);
+
+        // update firestore
+        const userRef = doc(db, "users", this.userId);
+        await updateDoc(userRef, {
+          certifications: this.formData.certifications,
+        });
+      } catch (error) {
+        console.error("Error removing certificate:", error);
+        alert("Failed to remove certificate.");
+      }
+    },
+
+    // main update function for profile (no toasts here)
     async updateTrainer() {
       try {
         if (!this.userId) {
-          toast.error("No user logged in!");
+          alert("No user found!");
           return;
         }
 
+        const updateData = {};
+
+        // handle new profile photo
         if (this.newProfilePhoto) {
-          this.formData.profilePicture = await this.uploadFile(
+          const photoUrl = await this.uploadFile(
             this.newProfilePhoto,
             "profilePhoto"
           );
+          if (photoUrl) {
+            updateData.profilePicture = photoUrl;
+            this.formData.profilePicture = photoUrl;
+          }
         }
 
+        // handle new certificate
         if (this.newCertificate) {
-          const url = await this.uploadFile(this.newCertificate, "certificate");
-          if (!this.formData.certifications) this.formData.certifications = [];
-          this.formData.certifications.push(url);
+          const certUrl = await this.uploadFile(this.newCertificate, "certificate");
+          if (certUrl) {
+            if (!this.formData.certifications) this.formData.certifications = [];
+            this.formData.certifications.push(certUrl);
+            updateData.certifications = this.formData.certifications;
+          }
         }
+
+        // add/edit textual fields
+        Object.assign(updateData, {
+          firstName: this.formData.firstName,
+          lastName: this.formData.lastName,
+          email: this.formData.email,
+          gender: this.formData.gender,
+          city: this.formData.city,
+          country: this.formData.country,
+          birthdate: this.formData.birthdate,
+          experience: this.formData.experience,
+          phone: this.formData.phone,
+          sport: this.formData.sport,
+          role: this.formData.role,
+          status: this.formData.status,
+          username: this.formData.username,
+        });
 
         const docRef = doc(db, "users", this.userId);
-        await updateDoc(docRef, this.formData);
+        await updateDoc(docRef, updateData);
 
-        toast.success("Data updated successfully");
+        // reset file inputs
+        this.newProfilePhoto = null;
+        this.newCertificate = null;
+
+        // show success modal (same style as delete confirm)
+        this.showSuccessModal();
       } catch (error) {
         console.error("Error updating trainer data:", error);
-        toast.error("Failed to update data!");
+        alert("An error occurred. Please try again.");
       }
     },
 
-    // 🟢 إظهار أو إخفاء كلمة السر
+    // success modal (same structure as confirmBox but single OK button)
+    showSuccessModal() {
+      const modal = document.createElement("div");
+      modal.classList.add(
+        "fixed",
+        "inset-0",
+        "flex",
+        "items-center",
+        "justify-center",
+        "z-50"
+      );
+      modal.style.backgroundColor = "rgba(255, 255, 255, 0.7)";
+      modal.style.backdropFilter = "blur(3px)";
+
+      modal.innerHTML = `
+        <div class="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full mx-4 border border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">
+            Profile Updated Successfully
+          </h2>
+          <p class="text-gray-500 mb-6 text-sm">
+            Your information has been saved.
+          </p>
+          <div class="flex justify-center">
+            <button id="closeSuccessModal" class="bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition">
+              OK
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+
+      const closeBtn = document.getElementById("closeSuccessModal");
+      closeBtn.addEventListener("click", () => modal.remove());
+    },
+
+    // delete account (keeps original behavior but uses alert for errors)
+    async deleteAccount() {
+      const confirmBox = document.createElement("div");
+      confirmBox.classList.add(
+        "fixed",
+        "inset-0",
+        "flex",
+        "items-center",
+        "justify-center",
+        "z-50"
+      );
+      confirmBox.style.backgroundColor = "rgba(255, 255, 255, 0.7)";
+      confirmBox.style.backdropFilter = "blur(3px)";
+
+      confirmBox.innerHTML = `
+        <div class="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full mx-4 border border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">
+            Are you sure you want to delete your account?
+          </h2>
+          <p class="text-gray-500 mb-6 text-sm">
+            This action cannot be undone.
+          </p>
+          <div class="flex justify-center gap-4">
+            <button id="confirmDelete" class="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition">
+              Yes, Delete
+            </button>
+            <button id="cancelDelete" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 transition">
+              Cancel
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(confirmBox);
+
+      const confirmBtn = document.getElementById("confirmDelete");
+      const cancelBtn = document.getElementById("cancelDelete");
+
+      cancelBtn.addEventListener("click", () => confirmBox.remove());
+
+      confirmBtn.addEventListener("click", async () => {
+        try {
+          const auth = getAuth();
+          const user = auth.currentUser;
+
+          if (!user) {
+            confirmBox.remove();
+            alert("No user found!");
+            return;
+          }
+
+          const userRef = doc(db, "users", user.uid);
+          await deleteDoc(userRef);
+          await user.delete();
+
+          confirmBox.remove();
+          this.$router.push("/");
+        } catch (error) {
+          console.error("Error deleting account:", error);
+          confirmBox.remove();
+          alert("Failed to delete account. Please try again.");
+        }
+      });
+    },
+
+    // -----------------------
+    // PASSWORD SECTION (unchanged, still uses toast)
+    // -----------------------
+
+    // show/hide password fields
     toggle(field) {
       if (field === "current") this.showCurrent = !this.showCurrent;
       else if (field === "new") this.showNew = !this.showNew;
       else if (field === "repeat") this.showRepeat = !this.showRepeat;
     },
 
-    // 🟢 تحديث كلمة السر
+    // update password (keeps toast notifications)
     async onSubmit() {
       if (this.form.new !== this.form.repeat) {
         toast.error("New password and confirmation do not match!");
@@ -622,32 +809,8 @@ export default {
         toast.error(error.message);
       }
     },
-
-    // 🗑️ حذف الحساب بالكامل
-    async deleteAccount() {
-      try {
-        const auth = getAuth();
-        const user = auth.currentUser;
-
-        if (!user || !this.userId) {
-          toast.error("No user logged in!");
-          return;
-        }
-
-        // حذف من Firestore
-        await deleteDoc(doc(db, "users", this.userId));
-
-        // حذف من Auth
-        await deleteUser(user);
-
-        toast.success("Account deleted successfully");
-        this.$router.push("/login");
-      } catch (error) {
-        console.error("Error deleting account:", error);
-        toast.error("Failed to delete account!");
-      }
-    },
   },
 };
 </script>
+
 
