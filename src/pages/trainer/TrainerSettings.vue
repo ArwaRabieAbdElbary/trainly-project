@@ -7,19 +7,13 @@
       </p>
     </div>
     <!-- ========= Personal Info Section ========= -->
-    <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7"
-    >
+    <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7">
       <div class="flex items-center gap-3 mb-6">
-        <div
-          class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
-        >
+        <div class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
           <img src="../../assets/images/page-1.png" alt="" class="w-5 h-5" />
         </div>
         <div>
-          <h2 class="text-lg font-medium text-gray-900">
-            Personal Information
-          </h2>
+          <h2 class="text-lg font-medium text-gray-900">Personal Information</h2>
           <p class="text-sm text-gray-500">Update your personal details</p>
         </div>
       </div>
@@ -64,9 +58,7 @@
         <!-- Inputs -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <label class="block text-sm font-medium text-gray-900"
-              >First Name</label
-            >
+            <label class="block text-sm font-medium text-gray-900">First Name</label>
             <input
               v-model="formData.firstName"
               type="text"
@@ -75,9 +67,7 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900"
-              >Last Name</label
-            >
+            <label class="block text-sm font-medium text-gray-900">Last Name</label>
             <input
               v-model="formData.lastName"
               type="text"
@@ -95,9 +85,7 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900"
-              >Gender</label
-            >
+            <label class="block text-sm font-medium text-gray-900">Gender</label>
             <select
               v-model="formData.gender"
               class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -121,9 +109,7 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900"
-              >Country</label
-            >
+            <label class="block text-sm font-medium text-gray-900">Country</label>
             <input
               v-model="formData.country"
               type="text"
@@ -132,9 +118,7 @@
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900"
-              >Birthday</label
-            >
+            <label class="block text-sm font-medium text-gray-900">Birthday</label>
             <input
               v-model="formData.birthdate"
               type="date"
@@ -145,9 +129,7 @@
 
         <!-- Experience -->
         <div>
-          <label class="block text-sm font-medium text-gray-900"
-            >Years of Experience</label
-          >
+          <label class="block text-sm font-medium text-gray-900">Years of Experience</label>
           <input
             v-model="formData.experience"
             type="number"
@@ -213,19 +195,17 @@
 </div>
 
         <!-- Buttons -->
-        <div
-          class="mt-10 flex-wrap md:flex justify-between items-center w-full"
-        >
+        <div class="flex flex-col md:flex-row mt-10 justify-between w-full gap-4 md:gap-0">
           <button
             type="submit"
-            class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm py-2 px-6 rounded-lg transition"
+            class="text-white bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm py-2 px-6 rounded-lg transition mx-auto md:mx-0"
           >
             Save Changes
           </button>
           <button
             type="button"
             @click="deleteAccount"
-            class="border-2 border-red-500 text-red-500 font-medium text-sm cursor-pointer py-2 px-6 rounded-lg hover:bg-red-50 transition"
+            class="border-2 border-red-500 text-red-500 font-medium text-sm cursor-pointer py-2 px-6 rounded-lg hover:bg-red-50 transition mx-auto md:mx-0"
           >
             Delete Account
           </button>
@@ -234,13 +214,9 @@
     </div>
 
     <!-- ========= Security Section ========= -->
-    <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7"
-    >
+    <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7">
       <div class="flex">
-        <div
-          class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
-        >
+        <div class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
           <img src="../../assets/images/security.png" alt="" class="w-5 h-5" />
         </div>
 
@@ -255,9 +231,7 @@
       <form class="max-w-[95%] ps-[50px]" @submit.prevent="onSubmit">
         <!-- Current password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
-            >Current Password</label
-          >
+          <label class="block mb-2 text-sm font-medium text-gray-900">Current Password</label>
           <div class="relative">
             <input
               :type="showCurrent ? 'text' : 'password'"
@@ -320,9 +294,7 @@
 
         <!-- New password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
-            >New Password</label
-          >
+          <label class="block mb-2 text-sm font-medium text-gray-900">New Password</label>
           <div class="relative">
             <input
               :type="showNew ? 'text' : 'password'"
@@ -388,9 +360,7 @@
 
         <!-- Repeat password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
-            >Confirm Password</label
-          >
+          <label class="block mb-2 text-sm font-medium text-gray-900">Confirm Password</label>
           <div class="relative">
             <input
               :type="showRepeat ? 'text' : 'password'"
@@ -457,16 +427,12 @@
 
         <button
           type="submit"
-          class="text-white mt-5 bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          class="text-white mt-5 bg-[#00B0FF] hover:bg-[#36ace2] cursor-pointer focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-auto md:mx-0 block"
         >
           Update Password
         </button>
 
-        <p
-          v-if="message"
-          class="text-sm mt-3 text-center"
-          :class="messageColor"
-        >
+        <p v-if="message" class="text-sm mt-3 text-center" :class="messageColor">
           {{ message }}
         </p>
       </form>
@@ -474,15 +440,10 @@
   </section>
 </template>
 
-
 <script>
 import { db, storage } from "@/Firebase/firebaseConfig.js";
 import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
-import {
-  ref as storageRef,
-  uploadBytes,
-  getDownloadURL,
-} from "firebase/storage";
+import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
   getAuth,
   updatePassword,
@@ -564,7 +525,7 @@ export default {
       if (!file) return null;
       const fileRef = storageRef(
         storage,
-        `users/${this.userId}/${type}-${Date.now()}-${file.name}`
+        `users/${this.userId}/${type}-${Date.now()}-${file.name}`,
       );
       await uploadBytes(fileRef, file);
       return await getDownloadURL(fileRef);
@@ -682,10 +643,7 @@ export default {
       }
 
       try {
-        const credential = EmailAuthProvider.credential(
-          user.email,
-          this.form.current
-        );
+        const credential = EmailAuthProvider.credential(user.email, this.form.current);
         await reauthenticateWithCredential(user, credential);
         await updatePassword(user, this.form.new);
 
