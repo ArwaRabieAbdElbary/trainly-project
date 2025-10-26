@@ -449,7 +449,7 @@ import {
   updatePassword,
   reauthenticateWithCredential,
   EmailAuthProvider,
-  onAuthStateChanged,
+  
 } from "firebase/auth";
 import { toast } from "vue3-toastify";
 
@@ -479,7 +479,7 @@ export default {
       newProfilePhoto: null,
       newCertificate: null,
 
-      // بيانات الباسورد
+      // password section (unchanged)
       form: { current: "", new: "", repeat: "" },
       showCurrent: false,
       showNew: false,
@@ -487,26 +487,22 @@ export default {
     };
   },
 
-  mounted() {
-    this.checkUserAndFetchData();
+  async mounted() {
+    // get uid automatically since user is already signed in
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+      this.userId = user.uid;
+      await this.fetchTrainerData();
+    } else {
+      // fallback: if for any reason there's no currentUser, ask to login
+      alert("No user found. Please log in again.");
+      this.$router.push("/login");
+    }
   },
 
   methods: {
-    // ✅ التأكد من تسجيل الدخول
-    async checkUserAndFetchData() {
-      const auth = getAuth();
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          this.userId = user.uid;
-          await this.fetchTrainerData();
-        } else {
-          toast.error("Please login first");
-          this.$router.push("/login");
-        }
-      });
-    },
-
-    // 🟢 جلب بيانات المستخدم
+    // fetch trainer data from Firestore
     async fetchTrainerData() {
       try {
         if (!this.userId) return;
@@ -517,117 +513,223 @@ export default {
         }
       } catch (error) {
         console.error("Error fetching trainer data:", error);
+        alert("An error occurred while loading your data.");
       }
     },
 
-    // 🟢 رفع الملفات
+    // upload file to storage and return download URL
     async uploadFile(file, type) {
       if (!file) return null;
-      const fileRef = storageRef(
-        storage,
-        `users/${this.userId}/${type}-${Date.now()}-${file.name}`,
-      );
-      await uploadBytes(fileRef, file);
-      return await getDownloadURL(fileRef);
+      try {
+        const fileRef = storageRef(
+          storage,
+          `users/${this.userId}/${type}-${Date.now()}-${file.name}`
+        );
+        await uploadBytes(fileRef, file);
+        return await getDownloadURL(fileRef);
+      } catch (error) {
+        console.error("File upload failed:", error);
+        alert("File upload failed. Please try again.");
+        return null;
+      }
     },
 
+    // remove certificate from local array and Firestore (doesn't delete file in storage)
     async removeCertificate(index) {
-  try {
-    if (!this.userId || !this.formData.certifications) return;
+      try {
+        if (!this.userId || !this.formData.certifications) return;
 
-    // Remove from local data FIRST
-    this.formData.certifications.splice(index, 1);
+        // remove locally
+        this.formData.certifications.splice(index, 1);
 
-    // Update Firestore with the new array
-    const userRef = doc(db, "users", this.userId);
-    await updateDoc(userRef, {
-      certifications: this.formData.certifications
-    });
+        // update firestore
+        const userRef = doc(db, "users", this.userId);
+        await updateDoc(userRef, {
+          certifications: this.formData.certifications,
+        });
+      } catch (error) {
+        console.error("Error removing certificate:", error);
+        alert("Failed to remove certificate.");
+      }
+    },
 
-    // Show success toast
-    toast.success("Certificate removed successfully");
-
-    // ❌ DO NOT call fetchTrainerData() here
-    // The local state is already correct
-
-  } catch (error) {
-    console.error("Error removing certificate:", error);
-    toast.error("Failed to remove certificate!");
-    // On error, refetch to restore correct state
-    await this.fetchTrainerData();
-  }
-},
-
-    // 🟢 تحديث بيانات المستخدم
+    // main update function for profile (no toasts here)
     async updateTrainer() {
-  try {
-    if (!this.userId) {
-      toast.error("No user logged in!");
-      return;
-    }
+      try {
+        if (!this.userId) {
+          alert("No user found!");
+          return;
+        }
 
-    // Create update object with only changed fields
-    const updateData = {};
+        const updateData = {};
 
-    if (this.newProfilePhoto) {
-      updateData.profilePicture = await this.uploadFile(
-        this.newProfilePhoto,
-        "profilePhoto"
+        // handle new profile photo
+        if (this.newProfilePhoto) {
+          const photoUrl = await this.uploadFile(
+            this.newProfilePhoto,
+            "profilePhoto"
+          );
+          if (photoUrl) {
+            updateData.profilePicture = photoUrl;
+            this.formData.profilePicture = photoUrl;
+          }
+        }
+
+        // handle new certificate
+        if (this.newCertificate) {
+          const certUrl = await this.uploadFile(this.newCertificate, "certificate");
+          if (certUrl) {
+            if (!this.formData.certifications) this.formData.certifications = [];
+            this.formData.certifications.push(certUrl);
+            updateData.certifications = this.formData.certifications;
+          }
+        }
+
+        // add/edit textual fields
+        Object.assign(updateData, {
+          firstName: this.formData.firstName,
+          lastName: this.formData.lastName,
+          email: this.formData.email,
+          gender: this.formData.gender,
+          city: this.formData.city,
+          country: this.formData.country,
+          birthdate: this.formData.birthdate,
+          experience: this.formData.experience,
+          phone: this.formData.phone,
+          sport: this.formData.sport,
+          role: this.formData.role,
+          status: this.formData.status,
+          username: this.formData.username,
+        });
+
+        const docRef = doc(db, "users", this.userId);
+        await updateDoc(docRef, updateData);
+
+        // reset file inputs
+        this.newProfilePhoto = null;
+        this.newCertificate = null;
+
+        // show success modal (same style as delete confirm)
+        this.showSuccessModal();
+      } catch (error) {
+        console.error("Error updating trainer data:", error);
+        alert("An error occurred. Please try again.");
+      }
+    },
+
+    // success modal (same structure as confirmBox but single OK button)
+    showSuccessModal() {
+      const modal = document.createElement("div");
+      modal.classList.add(
+        "fixed",
+        "inset-0",
+        "flex",
+        "items-center",
+        "justify-center",
+        "z-50"
       );
-      this.formData.profilePicture = updateData.profilePicture;
-    }
+      modal.style.backgroundColor = "rgba(255, 255, 255, 0.7)";
+      modal.style.backdropFilter = "blur(3px)";
 
-    if (this.newCertificate) {
-      const url = await this.uploadFile(this.newCertificate, "certificate");
-      if (!this.formData.certifications) this.formData.certifications = [];
-      this.formData.certifications.push(url);
-      updateData.certifications = this.formData.certifications;
-    }
+      modal.innerHTML = `
+        <div class="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full mx-4 border border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">
+            Profile Updated Successfully
+          </h2>
+          <p class="text-gray-500 mb-6 text-sm">
+            Your information has been saved.
+          </p>
+          <div class="flex justify-center">
+            <button id="closeSuccessModal" class="bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition">
+              OK
+            </button>
+          </div>
+        </div>
+      `;
 
-    // Only update fields that changed
-    if (Object.keys(updateData).length > 0) {
-      const docRef = doc(db, "users", this.userId);
+      document.body.appendChild(modal);
 
-      // Merge: true prevents overwriting entire document
-      await updateDoc(docRef, updateData);
-    }
+      const closeBtn = document.getElementById("closeSuccessModal");
+      closeBtn.addEventListener("click", () => modal.remove());
+    },
 
-    // Update other form fields
-    const docRef = doc(db, "users", this.userId);
-    await updateDoc(docRef, {
-      firstName: this.formData.firstName,
-      lastName: this.formData.lastName,
-      email: this.formData.email,
-      gender: this.formData.gender,
-      city: this.formData.city,
-      country: this.formData.country,
-      birthdate: this.formData.birthdate,
-      experience: this.formData.experience,
-      // Keep existing certifications if not uploading new one
-      ...(updateData.certifications && { certifications: updateData.certifications }),
-      ...(updateData.profilePicture && { profilePicture: updateData.profilePicture })
-    });
+    // delete account (keeps original behavior but uses alert for errors)
+    async deleteAccount() {
+      const confirmBox = document.createElement("div");
+      confirmBox.classList.add(
+        "fixed",
+        "inset-0",
+        "flex",
+        "items-center",
+        "justify-center",
+        "z-50"
+      );
+      confirmBox.style.backgroundColor = "rgba(255, 255, 255, 0.7)";
+      confirmBox.style.backdropFilter = "blur(3px)";
 
-    toast.success("Data updated successfully");
+      confirmBox.innerHTML = `
+        <div class="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full mx-4 border border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">
+            Are you sure you want to delete your account?
+          </h2>
+          <p class="text-gray-500 mb-6 text-sm">
+            This action cannot be undone.
+          </p>
+          <div class="flex justify-center gap-4">
+            <button id="confirmDelete" class="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition">
+              Yes, Delete
+            </button>
+            <button id="cancelDelete" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 transition">
+              Cancel
+            </button>
+          </div>
+        </div>
+      `;
 
-    // Reset file inputs
-    this.newProfilePhoto = null;
-    this.newCertificate = null;
+      document.body.appendChild(confirmBox);
 
-  } catch (error) {
-    console.error("Error updating trainer data:", error);
-    toast.error("Failed to update data!");
-  }
-},
+      const confirmBtn = document.getElementById("confirmDelete");
+      const cancelBtn = document.getElementById("cancelDelete");
 
-    // 🟢 إظهار أو إخفاء كلمة السر
+      cancelBtn.addEventListener("click", () => confirmBox.remove());
+
+      confirmBtn.addEventListener("click", async () => {
+        try {
+          const auth = getAuth();
+          const user = auth.currentUser;
+
+          if (!user) {
+            confirmBox.remove();
+            alert("No user found!");
+            return;
+          }
+
+          const userRef = doc(db, "users", user.uid);
+          await deleteDoc(userRef);
+          await user.delete();
+
+          confirmBox.remove();
+          this.$router.push("/");
+        } catch (error) {
+          console.error("Error deleting account:", error);
+          confirmBox.remove();
+          alert("Failed to delete account. Please try again.");
+        }
+      });
+    },
+
+    // -----------------------
+    // PASSWORD SECTION (unchanged, still uses toast)
+    // -----------------------
+
+    // show/hide password fields
     toggle(field) {
       if (field === "current") this.showCurrent = !this.showCurrent;
       else if (field === "new") this.showNew = !this.showNew;
       else if (field === "repeat") this.showRepeat = !this.showRepeat;
     },
 
-    // 🟢 تحديث كلمة السر
+    // update password (keeps toast notifications)
     async onSubmit() {
       if (this.form.new !== this.form.repeat) {
         toast.error("New password and confirmation do not match!");
@@ -654,88 +756,8 @@ export default {
         toast.error(error.message);
       }
     },
-
-    async deleteAccount() {
-  // Step 1: Show confirmation modal
-  const confirmBox = document.createElement("div");
-  confirmBox.classList.add(
-    "fixed", "inset-0", "flex", "items-center", "justify-center", "z-50"
-  );
-
-  confirmBox.style.backgroundColor = "rgba(255, 255, 255, 0.7)";
-  confirmBox.style.backdropFilter = "blur(3px)";
-
-  confirmBox.innerHTML = `
-    <div class="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full mx-4 border border-gray-200">
-      <h2 class="text-lg font-semibold text-gray-800 mb-4">
-        Are you sure you want to delete your account?
-      </h2>
-      <p class="text-gray-500 mb-6 text-sm">
-        This action cannot be undone.
-      </p>
-      <div class="flex justify-center gap-4">
-        <button id="confirmDelete" class="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition">
-          Yes, Delete
-        </button>
-        <button id="cancelDelete" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 transition">
-          Cancel
-        </button>
-      </div>
-    </div>
-  `;
-
-  document.body.appendChild(confirmBox);
-
-  const confirmBtn = document.getElementById("confirmDelete");
-  const cancelBtn = document.getElementById("cancelDelete");
-
-  // Cancel button - just close modal
-  cancelBtn.addEventListener("click", () => confirmBox.remove());
-
-  // Confirm button - delete account
-  confirmBtn.addEventListener("click", async () => {
-    try {
-      const auth = getAuth();
-      const user = auth.currentUser;
-
-      if (!user) {
-        confirmBox.remove();
-        toast.error("No user is signed in!");
-        return;
-      }
-
-      // Delete user document from Firestore
-      const userRef = doc(db, "users", user.uid);
-      await deleteDoc(userRef);
-
-      // Delete Firebase Auth account
-      await user.delete();
-
-      // Close modal
-      confirmBox.remove();
-
-      // Show success toast (NOT another modal)
-      toast.success(
-        "Your account has been deleted.",
-        {
-          position: "top-right",
-          autoClose: 3000,
-        }
-      );
-
-      // Redirect after 30 seconds
-      setTimeout(async () => {
-        await auth.signOut();
-        this.$router.push("/");
-      }, 3000);
-
-    } catch (error) {
-      console.error("Error deleting account:", error);
-      confirmBox.remove();
-      toast.error("Failed to delete account. Please try again.");
-    }
-  });
-},
   },
 };
 </script>
+
+

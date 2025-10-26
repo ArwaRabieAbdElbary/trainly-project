@@ -1,4 +1,5 @@
 <template>
+ 
   <nav class="top-0 z-50 w-full">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
       <div class="flex items-center justify-between">
@@ -167,6 +168,7 @@
             <span class="ms-3 font-medium">Log out</span>
           </button>
         </li>
+      
 
         <!-- ✅ Confirmation Modal -->
         <Teleport to="body">
@@ -176,10 +178,12 @@
             @cancel="cancelLogout"
           />
         </Teleport>
+       
       </ul>
     </div>
   </aside>
 </template>
+
 
 <script>
 import { ref, onMounted } from "vue";
@@ -193,11 +197,14 @@ export default {
   components: { ConfirmLogoutModal },
   setup() {
     const isSidebarOpen = ref(false);
+   
     const traineeImage = ref("");
     const showLogoutModal = ref(false);
     const db = getFirestore();
     const auth = getAuth();
     const router = useRouter();
+
+   
 
     const toggleSidebar = () => {
       isSidebarOpen.value = !isSidebarOpen.value;

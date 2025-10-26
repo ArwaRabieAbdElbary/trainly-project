@@ -219,6 +219,7 @@
   </aside>
 </template>
 
+
 <script>
 import { onMounted, ref } from "vue";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
