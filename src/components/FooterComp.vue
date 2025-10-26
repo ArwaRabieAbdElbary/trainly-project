@@ -123,20 +123,21 @@
               <span class="sr-only">Dribbble account</span>
             </a>
           </div>
-        </div>
-        <!-- Language Switch -->
-        <div class="">
-          <div class="relative">
+
+          <div class="mt-6 relative inline-block">
+            <!-- Button -->
             <button
               @click="toggleDropdown"
-              class="w-22 md:w-36 flex items-center justify-between gap-2 px-4 py-2 bg-white text-black rounded-full shadow-md hover:bg-gray-200 transition"
+              class="flex items-center justify-between gap-2 w-28 md:w-36 px-4 py-2 bg-white text-black rounded-full shadow-md hover:bg-gray-100 transition-all duration-200 z-10 relative"
+              :class="{ 'rounded-t-none rounded-b-2xl border border-gray-200 shadow-sm': showDropdown }"
             >
               <span class="font-medium">
-                {{ $i18n.locale === "en" ? "English" : "العربية" }}
+                {{ $i18n.locale === 'en' ? 'English' : 'العربية' }}
               </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
+                class="h-4 w-4 transition-transform duration-300"
+                :class="{ 'rotate-180': showDropdown }"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -150,19 +151,22 @@
               </svg>
             </button>
 
-            <!-- Dropdown Menu -->
-            <div
-              v-if="showDropdown"
-              class="absolute w-22 md:w-36 bg-white text-black rounded-xl shadow-lg overflow-hidden animate-fade-in"
-            >
-              <button
-                @click="switchLang"
-                class=" px-4 py-2 text-sm md:text-base hover:bg-gray-100 transition"
+            <!-- Drop down-->
+            <transition name="fade-up">
+              <div
+                v-if="showDropdown"
+                class="absolute bottom-full left-0 w-full bg-white text-black rounded-t-2xl border border-gray-200 border-b-0 shadow-sm overflow-hidden translate-y-[1px] z-0"
               >
-                {{ $i18n.locale === "en" ? "العربية" : "English" }}
-              </button>
-            </div>
+                <button
+                  @click="switchLang"
+                  class="w-full text-center px-4 py-2 hover:bg-gray-100 transition"
+                >
+                  {{ $i18n.locale === 'en' ? 'العربية' : 'English' }}
+                </button>
+              </div>
+            </transition>
           </div>
+
         </div>
       </div>
     </div>
@@ -200,3 +204,19 @@ export default {
   },
 };
 </script>
+
+
+<style scoped>
+.fade-up-enter-active {
+  transition:  0.25s ease;
+}
+.fade-up-leave-active {
+  transition:  0.2s ease;
+}
+.fade-up-enter-from,
+.fade-up-leave-to {
+  opacity: 0;
+  transform: translateY(5px);
+}
+
+</style>
