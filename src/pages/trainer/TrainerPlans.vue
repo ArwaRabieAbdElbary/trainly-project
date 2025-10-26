@@ -1,24 +1,25 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br p-8">
+  <div class="min-h-screen bg-gradient-to-br p-4 sm:p-6 lg:p-8">
     <div class="max-w-7xl mx-auto">
       <!-- Header Section -->
-      <div class="bg-white shadow-sm rounded-2xl p-8 mb-6">
-        <div class="flex justify-between items-center mb-2">
+      <div class="bg-white shadow-sm rounded-2xl p-4 sm:p-6 lg:p-8 mb-6">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-2">
           <div>
-            <h1 class="text-3xl font-bold text-gray-900">My Plans</h1>
-            <p class="text-gray-500 mt-1">Easily manage, edit, and organize all your training plans in one place</p>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">My Plans</h1>
+            <p class="text-gray-500 mt-1 text-sm sm:text-base">Easily manage, edit, and organize all your training plans in one place</p>
           </div>
           <button
             @click="showCreateModal = true"
-            class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2 shadow-md hover:shadow-lg cursor-pointer"
+            class="bg-blue-600 text-white px-4 sm:px-6 py-3 rounded-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-2 shadow-md hover:shadow-lg cursor-pointer whitespace-nowrap"
           >
             <span class="text-xl">+</span>
-            Create New Plan
+            <span class="hidden sm:inline cursor-pointer">Create New Plan</span>
+            <span class="sm:hidden">New Plan</span>
           </button>
         </div>
 
         <!-- Search & Filter -->
-        <div class="flex gap-4 mt-6">
+        <div class="flex flex-col sm:flex-row gap-4 mt-6">
           <div class="relative flex-1">
             <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">🔍</span>
             <input
@@ -30,7 +31,7 @@
           </div>
           <select
             v-model="filterStatus"
-            class="px-6 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer"
+            class="px-4 sm:px-6 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white cursor-pointer"
           >
             <option value="All">All Plans</option>
             <option value="Active">Active</option>
@@ -39,8 +40,8 @@
         </div>
       </div>
 
-      <!-- Table Section -->
-      <div class="bg-white shadow-sm rounded-2xl overflow-hidden">
+      <!-- Table Section - Desktop -->
+      <div class="bg-white shadow-sm rounded-2xl overflow-hidden hidden md:block">
         <table class="w-full">
           <thead class="bg-blue-50 border-b-2 border-blue-100">
             <tr>
@@ -85,7 +86,7 @@
               <td class="p-5">
                 <button
                   @click="openManageModal(plan)"
-                  class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-all"
+                  class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-all cursor-pointer"
                 >
                   Manage Plans
                 </button>
@@ -93,6 +94,51 @@
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- Cards Section - Mobile & Tablet -->
+      <div class="md:hidden space-y-4">
+        <div v-if="filteredPlans.length === 0" class="bg-white shadow-sm rounded-2xl p-8 text-center text-gray-400">
+          No plans found
+        </div>
+        <div
+          v-for="plan in filteredPlans"
+          :key="plan.id"
+          class="bg-white shadow-sm rounded-2xl p-4 sm:p-6 hover:shadow-md transition-shadow"
+        >
+          <div class="flex items-start justify-between mb-3">
+            <div class="flex items-center gap-3 flex-1">
+              <div class="bg-blue-100 p-2 rounded-lg">
+                <span class="text-blue-600 text-xl">📋</span>
+              </div>
+              <span class="font-medium text-gray-800 text-lg">{{ plan.title }}</span>
+            </div>
+            <span
+              :class="plan.status === 'Active'
+                ? 'text-green-600 bg-green-50'
+                : 'text-red-600 bg-red-50'"
+              class="px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap"
+            >
+              {{ plan.status }}
+            </span>
+          </div>
+          <div class="grid grid-cols-2 gap-3 mb-4 text-sm">
+            <div>
+              <span class="text-gray-500">Duration:</span>
+              <span class="text-gray-800 font-medium ml-1">{{ plan.duration }}</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Clients:</span>
+              <span class="text-gray-800 font-medium ml-1">{{ plan.clientsCount || 0 }}</span>
+            </div>
+          </div>
+          <button
+            @click="openManageModal(plan)"
+            class="w-full bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-all"
+          >
+            Manage Plans
+          </button>
+        </div>
       </div>
     </div>
 
@@ -102,20 +148,20 @@
       class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 p-4"
       @click.self="showCreateModal = false"
     >
-      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl animate-fadeIn">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl animate-fadeIn max-h-[90vh] overflow-y-auto">
         <!-- Modal Header -->
-        <div class="flex justify-between items-center p-6 border-b">
+        <div class="flex justify-between items-center p-4 sm:p-6 border-b sticky top-0 bg-white z-10">
           <div class="flex items-center gap-3">
             <div class="bg-blue-100 p-2 rounded-lg">
               <span class="text-blue-600 text-xl">📋</span>
             </div>
-            <h2 class="text-xl font-bold text-gray-800">Create a New Plan</h2>
+            <h2 class="text-lg sm:text-xl font-bold text-gray-800 cursor-pointer">Create a New Plan</h2>
           </div>
         </div>
 
         <!-- Modal Body -->
-        <div class="p-6 space-y-4">
-          <div class="grid grid-cols-2 gap-4">
+        <div class="p-4 sm:p-6 space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-600 mb-2">Title of The Plan</label>
               <input
@@ -129,7 +175,7 @@
               <label class="block text-sm font-medium text-gray-600 mb-2">Status</label>
               <select
                 v-model="newPlan.status"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
               >
                 <option value="Active">Active</option>
                 <option value="Pending">Pending</option>
@@ -137,7 +183,7 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-600 mb-2">Number of Sessions</label>
               <input
@@ -151,7 +197,7 @@
               <label class="block text-sm font-medium text-gray-600 mb-2">Duration</label>
               <select
                 v-model="newPlan.duration"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
               >
                 <option value="" disabled>Select duration</option>
                 <option value="3 weeks">3 weeks</option>
@@ -182,26 +228,84 @@
                 placeholder="Description"
                 class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <button class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+              <button
+                 onclick="window.open('https://www.google.com/maps?q=My+Location', '_blank')"
+                 class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer">
                 📍
               </button>
             </div>
           </div>
+
+          <!-- Description Field -->
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-2">Plan Description</label>
+            <textarea
+              v-model="newPlan.description"
+              rows="3"
+              placeholder="Enter a detailed description of the plan..."
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            ></textarea>
+            <p class="text-xs text-gray-500 mt-1">This will be visible to trainees</p>
+          </div>
+
+          <!-- Image Upload -->
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-2">Plan Image</label>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3">
+                <label class="flex-1 cursor-pointer">
+                  <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-blue-500 transition-colors text-center">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      @change="handleImageSelect"
+                      class="hidden"
+                    />
+                    <div class="flex flex-col items-center gap-2">
+                      <span class="text-3xl">📸</span>
+                      <span class="text-sm text-gray-600">Click to upload image</span>
+                      <span class="text-xs text-gray-400">Max size: 5MB</span>
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              <!-- Image Preview -->
+              <div v-if="imagePreviewUrl" class="relative">
+                <img
+                  :src="imagePreviewUrl"
+                  alt="Preview"
+                  class="w-full h-48 object-cover rounded-lg border border-gray-200"
+                />
+                <button
+                  @click="selectedImageFile = null; imagePreviewUrl = null"
+                  class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors"
+                  type="button"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">This will be visible to trainees</p>
+          </div>
         </div>
 
         <!-- Modal Footer -->
-        <div class="flex justify-end gap-3 p-6 border-t bg-gray-50">
+        <div class="flex flex-col sm:flex-row justify-end gap-3 p-4 sm:p-6 border-t bg-gray-50 sticky bottom-0">
           <button
-            @click="showCreateModal = false"
-            class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors text-gray-700"
+            @click="showCreateModal = false; selectedImageFile = null; imagePreviewUrl = null"
+            class="w-full sm:w-auto px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors text-gray-700 cursor-pointer"
           >
             Cancel
           </button>
           <button
             @click="createPlan"
-            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            :disabled="uploadingImage"
+            class="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Create a New Plan
+            {{ uploadingImage ? 'Uploading...' : 'Create a New Plan' }}
           </button>
         </div>
       </div>
@@ -213,21 +317,21 @@
       class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 p-4"
       @click.self="showManageModal = false"
     >
-      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl animate-fadeIn">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl animate-fadeIn max-h-[90vh] overflow-y-auto">
         <!-- Modal Header -->
-        <div class="flex justify-between items-center p-6 border-b">
+        <div class="flex justify-between items-center p-4 sm:p-6 border-b sticky top-0 bg-white z-10">
           <div class="flex items-center gap-3">
             <div class="bg-blue-100 p-2 rounded-lg">
               <span class="text-blue-600 text-xl">📋</span>
             </div>
-            <h2 class="text-xl font-bold text-gray-800">Plan Details</h2>
+            <h2 class="text-lg sm:text-xl font-bold text-gray-800">Plan Details</h2>
           </div>
         </div>
 
         <!-- Modal Body -->
-        <div class="p-6 space-y-4">
-          <div class="grid grid-cols-3 gap-4">
-            <div>
+        <div class="p-4 sm:p-6 space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="sm:col-span-1">
               <label class="block text-sm font-medium text-gray-600 mb-2">Title of The Plan</label>
               <input
                 v-model="selectedPlan.title"
@@ -248,7 +352,7 @@
               <label class="block text-sm font-medium text-gray-600 mb-2">Status</label>
               <select
                 v-model="selectedPlan.status"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
               >
                 <option value="Active">Active</option>
                 <option value="Pending">Pending</option>
@@ -256,7 +360,7 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-600 mb-2">Number of Sessions</label>
               <input
@@ -269,7 +373,7 @@
               <label class="block text-sm font-medium text-gray-600 mb-2">Duration</label>
               <select
                 v-model="selectedPlan.duration"
-                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
               >
                 <option value="3 weeks">3 weeks</option>
                 <option value="6 weeks">6 weeks</option>
@@ -298,28 +402,100 @@
               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+
+          <!-- Description Field -->
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-2">Plan Description</label>
+            <textarea
+              v-model="selectedPlan.description"
+              rows="3"
+              placeholder="Enter a detailed description of the plan..."
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            ></textarea>
+          </div>
+
+          <!-- Image Upload -->
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-2">Plan Image</label>
+            <div class="space-y-3">
+              <!-- Current Image Preview -->
+              <div v-if="selectedPlan.image && !imagePreviewUrl" class="relative">
+                <img
+                  :src="selectedPlan.image"
+                  alt="Current plan image"
+                  class="w-full h-48 object-cover rounded-lg border border-gray-200"
+                />
+                <div class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded">
+                  Current Image
+                </div>
+              </div>
+
+              <!-- Upload New Image -->
+              <div class="flex items-center gap-3">
+                <label class="flex-1 cursor-pointer">
+                  <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 hover:border-blue-500 transition-colors text-center">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      @change="handleImageSelect"
+                      class="hidden"
+                    />
+                    <div class="flex flex-col items-center gap-2">
+                      <span class="text-3xl">📸</span>
+                      <span class="text-sm text-gray-600">
+                        {{ selectedPlan.image ? 'Change image' : 'Upload image' }}
+                      </span>
+                      <span class="text-xs text-gray-400">Max size: 5MB</span>
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              <!-- New Image Preview -->
+              <div v-if="imagePreviewUrl" class="relative">
+                <img
+                  :src="imagePreviewUrl"
+                  alt="New preview"
+                  class="w-full h-48 object-cover rounded-lg border border-gray-200"
+                />
+                <button
+                  @click="selectedImageFile = null; imagePreviewUrl = null"
+                  class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors"
+                  type="button"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                <div class="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
+                  New Image
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Modal Footer -->
-        <div class="flex justify-between p-6 border-t bg-gray-50">
+        <div class="flex flex-col sm:flex-row justify-between gap-3 p-4 sm:p-6 border-t bg-gray-50 sticky bottom-0">
           <button
             @click="confirmDelete"
-            class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+            class="w-full sm:w-auto px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors order-2 sm:order-1 cursor-pointer"
           >
             Delete Plan
           </button>
-          <div class="flex gap-3">
+          <div class="flex flex-col sm:flex-row gap-3 order-1 sm:order-2">
             <button
-              @click="showManageModal = false"
-              class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors text-gray-700"
+              @click="showManageModal = false; selectedImageFile = null; imagePreviewUrl = null"
+              class="w-full sm:w-auto px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors text-gray-700 cursor-pointer"
             >
               Discard Changes
             </button>
             <button
               @click="updatePlan"
-              class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              :disabled="uploadingImage"
+              class="w-full sm:w-auto px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Save Changes
+              {{ uploadingImage ? 'Uploading...' : 'Save Changes' }}
             </button>
           </div>
         </div>
@@ -332,24 +508,24 @@
       class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 p-4"
       @click.self="showDeleteModal = false"
     >
-      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md animate-fadeIn text-center p-8">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md animate-fadeIn text-center p-6 sm:p-8">
         <div class="flex justify-center mb-4">
-          <div class="bg-red-100 p-4 rounded-full">
-            <span class="text-red-600 text-4xl">🗑️</span>
+          <div class="bg-red-100 p-3 sm:p-4 rounded-full">
+            <span class="text-red-600 text-3xl sm:text-4xl">🗑️</span>
           </div>
         </div>
-        <h2 class="text-xl font-bold text-gray-800 mb-2">Are you sure you want to delete this plan?</h2>
-        <p class="text-gray-500 mb-6">This action cannot be undone.</p>
-        <div class="flex gap-3 justify-center">
+        <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">Are you sure you want to delete this plan?</h2>
+        <p class="text-sm sm:text-base text-gray-500 mb-6">This action cannot be undone.</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
           <button
             @click="showDeleteModal = false"
-            class="px-8 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+            class="w-full sm:w-auto px-6 sm:px-8 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors cursor-pointer"
           >
             Cancel
           </button>
           <button
             @click="deletePlan"
-            class="px-8 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+            class="w-full sm:w-auto px-6 sm:px-8 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors cursor-pointer"
           >
             Delete
           </button>
@@ -362,13 +538,13 @@
       v-if="showSuccessModal"
       class="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 p-4"
     >
-      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md animate-fadeIn text-center p-8">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md animate-fadeIn text-center p-6 sm:p-8">
         <div class="flex justify-center mb-4">
-          <div class="bg-green-100 p-4 rounded-full">
-            <span class="text-green-600 text-5xl">✓</span>
+          <div class="bg-green-100 p-3 sm:p-4 rounded-full">
+            <span class="text-green-600 text-4xl sm:text-5xl">✓</span>
           </div>
         </div>
-        <h2 class="text-xl font-bold text-gray-800">{{ successMessage }}</h2>
+        <h2 class="text-lg sm:text-xl font-bold text-gray-800">{{ successMessage }}</h2>
       </div>
     </div>
   </div>
@@ -387,15 +563,17 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth"; // ✅ إضافة auth
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { toast } from "vue3-toastify";
 
 export default {
   name: "TrainerPlans",
   setup() {
     const db = getFirestore();
-    const auth = getAuth(); // ✅ تعريف auth
-    const trainerUid = ref(null); // ✅ بدل الثابت بمتغير reactive
+    const auth = getAuth();
+    const storage = getStorage();
+    const trainerUid = ref(null);
 
     const plans = ref([]);
     const showCreateModal = ref(false);
@@ -406,6 +584,9 @@ export default {
     const searchQuery = ref("");
     const filterStatus = ref("All");
     const selectedPlan = ref(null);
+    const uploadingImage = ref(false);
+    const selectedImageFile = ref(null);
+    const imagePreviewUrl = ref(null);
 
     const newPlan = ref({
       title: "",
@@ -414,15 +595,54 @@ export default {
       sessions: 0,
       duration: "",
       price: 0,
+      description: "",
+      image: null,
     });
 
-    // ✅ جلب الخطط بناءً على UID الحالي
     const fetchPlans = async () => {
-      if (!trainerUid.value) return; // تأكد إن UID جاهز
+      if (!trainerUid.value) return;
       const plansRef = collection(db, "plans");
       const q = query(plansRef, where("trainer_uid", "==", trainerUid.value));
       const snapshot = await getDocs(q);
       plans.value = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    };
+
+    const handleImageSelect = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        if (!file.type.startsWith('image/')) {
+          toast.error("Please select an image file", { position: "top-center", autoClose: 2000 });
+          return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+          toast.error("Image size should be less than 5MB", { position: "top-center", autoClose: 2000 });
+          return;
+        }
+        selectedImageFile.value = file;
+        imagePreviewUrl.value = URL.createObjectURL(file);
+      }
+    };
+
+    const uploadPlanImage = async () => {
+      if (!selectedImageFile.value) return null;
+
+      uploadingImage.value = true;
+      try {
+        const timestamp = Date.now();
+        const fileName = `plans/${trainerUid.value}/${timestamp}_${selectedImageFile.value.name}`;
+        const imageRef = storageRef(storage, fileName);
+
+        await uploadBytes(imageRef, selectedImageFile.value);
+        const downloadURL = await getDownloadURL(imageRef);
+
+        return downloadURL;
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        toast.error("Failed to upload image", { position: "top-center", autoClose: 2000 });
+        return null;
+      } finally {
+        uploadingImage.value = false;
+      }
     };
 
     const createPlan = async () => {
@@ -449,9 +669,19 @@ export default {
           return;
         }
 
+        let imageUrl = null;
+        if (selectedImageFile.value) {
+          imageUrl = await uploadPlanImage();
+          if (!imageUrl) {
+            toast.error("Failed to upload image. Please try again.", { position: "top-center", autoClose: 2000 });
+            return;
+          }
+        }
+
         await addDoc(collection(db, "plans"), {
           ...newPlan.value,
-          trainer_uid: trainerUid.value, // ✅ استخدام UID الديناميكي
+          image: imageUrl,
+          trainer_uid: trainerUid.value,
           clientsCount: 0,
         });
 
@@ -462,7 +692,11 @@ export default {
           sessions: 0,
           duration: "",
           price: 0,
+          description: "",
+          image: null,
         };
+        selectedImageFile.value = null;
+        imagePreviewUrl.value = null;
         showCreateModal.value = false;
         showSuccess("The plan is created successfully");
         fetchPlans();
@@ -486,6 +720,16 @@ export default {
 
       try {
         const planRef = doc(db, "plans", selectedPlan.value.id);
+
+        let imageUrl = selectedPlan.value.image;
+        if (selectedImageFile.value) {
+          imageUrl = await uploadPlanImage();
+          if (!imageUrl) {
+            toast.error("Failed to upload image. Please try again.", { position: "top-center", autoClose: 2000 });
+            return;
+          }
+        }
+
         await updateDoc(planRef, {
           title: selectedPlan.value.title,
           status: selectedPlan.value.status,
@@ -493,8 +737,12 @@ export default {
           sessions: selectedPlan.value.sessions,
           duration: selectedPlan.value.duration,
           price: selectedPlan.value.price,
+          description: selectedPlan.value.description,
+          image: imageUrl,
         });
 
+        selectedImageFile.value = null;
+        imagePreviewUrl.value = null;
         showManageModal.value = false;
         showSuccess("The plan is updated successfully");
         fetchPlans();
@@ -537,7 +785,6 @@ export default {
       });
     });
 
-    // ✅ التحقق من المستخدم الحالي عند التحميل
     onMounted(() => {
       onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -561,6 +808,10 @@ export default {
       showSuccessModal,
       successMessage,
       selectedPlan,
+      uploadingImage,
+      selectedImageFile,
+      imagePreviewUrl,
+      handleImageSelect,
       createPlan,
       openManageModal,
       updatePlan,

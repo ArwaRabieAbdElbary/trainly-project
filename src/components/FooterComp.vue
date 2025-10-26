@@ -1,22 +1,26 @@
 <template>
-  <footer class="bg-black text-white mt-10">
+  <footer class="relative bg-black text-white mt-10">
     <div class="mx-auto w-full max-w-screen-xl py-8">
       <div class="flex justify-around flex-col md:flex-row gap-5 md:gap-0 pl-5 md:pl-0">
         <div>
-          <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">{{$t('aboutUs')}}</h2>
+          <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">
+            {{ $t("aboutUs") }}
+          </h2>
           <p class="font-[100] text-[12px] md:text-[15px]">
-                {{$t('aboutText')}} 
-                <br />
-                {{$t('aboutText2')}}
-                <br />
-                {{$t('aboutText3')}}
+            {{ $t("aboutText") }}
+            <br />
+            {{ $t("aboutText2") }}
+            <br />
+            {{ $t("aboutText3") }}
           </p>
         </div>
         <div>
-          <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">{{$t('contactUs')}}</h2>
+          <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">
+            {{ $t("contactUs") }}
+          </h2>
           <ul class="font-[300] text-[12px] md:text-[15px]">
             <li class="mb-2">
-              <span>{{$t('email')}} : </span>
+              <span>{{ $t("email") }} : </span>
               <a
                 href="https://github.com/themesberg/flowbite"
                 class="hover:underline cursor-pointer"
@@ -24,12 +28,17 @@
               >
             </li>
             <li class="text-[12px] md:text-[15px]">
-              <h6>{{ $t('phone') }} : <span class="hover:underline cursor-pointer">+1 (800) 123-4567</span></h6>
+              <h6>
+                {{ $t("phone") }} :
+                <span class="hover:underline cursor-pointer">+1 (800) 123-4567</span>
+              </h6>
             </li>
           </ul>
         </div>
         <div>
-          <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">{{$t('followUs')}}</h2>
+          <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">
+            {{ $t("followUs") }}
+          </h2>
           <div class="flex md:mt-4 items-center mt-0">
             <a href="#" class="hover:text-gray-500">
               <svg
@@ -111,6 +120,46 @@
             </a>
           </div>
         </div>
+        <!-- Language Switch -->
+        <div class="absolute bottom-6 right-65">
+          <div class="relative">
+            <button
+              @click="toggleDropdown"
+              class="flex items-center justify-between gap-2 w-36 px-4 py-2 bg-white text-black rounded-full shadow-md hover:bg-gray-200 transition"
+            >
+              <span class="font-medium">
+                {{ $i18n.locale === "en" ? "English" : "العربية" }}
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            <!-- Dropdown Menu -->
+            <div
+              v-if="showDropdown"
+              class="absolute bottom-12 right-0 w-36 bg-white text-black rounded-xl shadow-lg overflow-hidden animate-fade-in"
+            >
+              <button
+                @click="switchLang"
+                class="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
+              >
+                {{ $i18n.locale === "en" ? "العربية" : "English" }}
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="text-center pb-5">
@@ -124,5 +173,25 @@
 <script>
 export default {
   name: "FooterComp",
+  data() {
+    return {
+      showDropdown: false,
+    };
+  },
+  methods: {
+    toggleDropdown() {
+      this.showDropdown = !this.showDropdown;
+    },
+    switchLang() {
+      const newLocale = this.$i18n.locale === "en" ? "ar" : "en";
+      this.$i18n.locale = newLocale;
+      localStorage.setItem("lang", newLocale);
+      document.dir = newLocale === "ar" ? "rtl" : "ltr";
+      document.documentElement.lang = newLocale;
+      document.body.style.fontFamily =
+        newLocale === "ar" ? "'Tajawal', sans-serif" : "'Poppins', sans-serif";
+      this.showDropdown = false;
+    },
+  },
 };
 </script>

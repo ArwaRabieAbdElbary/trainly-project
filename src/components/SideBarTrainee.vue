@@ -1,9 +1,14 @@
 <template>
-<nav class=" top-0 z-50 w-full"  >
-  <div class="px-3 py-3 lg:px-5 lg:pl-3">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center justify-start rtl:justify-end">
-        <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg  hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-20">
+  <nav class="top-0 z-50 w-full">
+    <div class="px-3 py-3 lg:px-5 lg:pl-3">
+      <div class="flex items-center justify-between">
+        <!-- ✅ زرار السايد بار (شغال بVue) -->
+        <div class="flex items-center justify-start rtl:justify-end">
+          <button
+            @click="toggleSidebar"
+            type="button"
+            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+          >
             <span class="sr-only">Open sidebar</span>
             <svg
               class="w-6 h-6"
@@ -21,12 +26,16 @@
           </button>
         </div>
 
+        <!-- باقي الناف زي ما هو -->
         <div class="flex items-center">
           <div class="flex items-center ms-3 gap-[40px]">
-            <div class="hidden md:block ">
-              <img src="@/assets/images/mingcute_notification-line.png" alt="" class="w-7 h-7">
-            </div >
-
+            <div class="hidden md:block">
+              <img
+                src="@/assets/images/mingcute_notification-line.png"
+                alt=""
+                class="w-7 h-7"
+              />
+            </div>
 
             <div>
               <button
@@ -37,27 +46,65 @@
               >
                 <img
                   class="w-8 h-8 rounded-full"
-                  :src="traineeImage || 'https://media1.tenor.com/m/IfbOs_yh89AAAAAC/loading-buffering.gif'"
+                  :src="
+                    traineeImage ||
+                    'https://media1.tenor.com/m/IfbOs_yh89AAAAAC/loading-buffering.gif'
+                  "
                   alt="user photo"
                 />
               </button>
             </div>
-
           </div>
         </div>
       </div>
     </div>
   </nav>
 
-<aside
-    id="default-sidebar"
-    class="hidden lg:block fixed top-0 left-0 z-40 w-65 h-screen transition-transform -translate-x-full sm:translate-x-0 rounded-lg"
+  <!-- ✅ Overlay أبيض شفاف -->
+  <div
+    v-if="isSidebarOpen"
+    class="fixed inset-0 filter backdrop-blur-sm bg-opacity-70 z-30 lg:hidden transition-all duration-300"
+    @click="toggleSidebar"
+  ></div>
+
+  <!-- ✅ سايد بار متجاوب -->
+  <aside
+    :class="[
+      'fixed top-0 left-0 z-40 w-65 h-screen bg-all transition-transform duration-300 ease-in-out rounded-tr-4xl',
+      isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
+      'lg:translate-x-0 lg:block'
+    ]"
     aria-label="Sidebar"
   >
-    <div class="h-full px-3 py-4 overflow-y-auto bg-all rounded-tr-4xl">
+    <div class="h-full px-3 py-4 overflow-y-auto">
       <ul class="space-y-4 font-light text-[14px] mx-5">
-        <li class="mb-11 mt-3 mx-2">
+        <!-- ✅ Logo -->
+        <li class="mb-8 mt-3 mx-2">
           <img src="@/assets/images/Project LOGO.png" class="h-8 w-25 me-3" alt="Logo" />
+        </li>
+
+        <!-- ✅ Back to Home Button -->
+        <li class="mb-6">
+          <router-link
+            to="/traineehome"
+            class="flex items-center p-2 text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg hover:from-blue-600 hover:to-blue-700 transition duration-300 shadow-md"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+            <span class="ms-3 font-medium">Back to Home</span>
+          </router-link>
         </li>
 
         <li>
@@ -69,6 +116,7 @@
             <span class="ms-3">My trainers</span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/traineeplans"
@@ -78,6 +126,7 @@
             <span class="ms-3">My Plans</span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/traineeinbox"
@@ -87,6 +136,7 @@
             <span class="ms-3">Inbox</span>
           </router-link>
         </li>
+
         <li>
           <router-link
             to="/trainee/settings"
@@ -108,31 +158,31 @@
         </li>
 
         <!-- ✅ Log Out Button -->
-    <li>
-      <button
-        @click="handleLogout"
-        class="flex items-center p-2 text-red-600 rounded-lg hover:bg-blue-200 w-full transition duration-300 cursor-pointer"
-      >
-        <img src="@/assets/images/logout.png" alt="logout icon" class="w-5 h-5" />
-        <span class="ms-3 font-medium">Log out</span>
-      </button>
-    </li>
+        <li>
+          <button
+            @click="handleLogout"
+            class="flex items-center p-2 text-red-600 rounded-lg hover:bg-blue-200 w-full transition duration-300 cursor-pointer"
+          >
+            <img src="@/assets/images/logout.png" alt="logout icon" class="w-5 h-5" />
+            <span class="ms-3 font-medium">Log out</span>
+          </button>
+        </li>
 
-    <!-- ✅ Confirmation Modal with Teleport -->
-<Teleport to="body">
-  <ConfirmLogoutModal
-    v-model="showLogoutModal"
-    @confirm="confirmLogout"
-    @cancel="cancelLogout"
-  />
-</Teleport>
+        <!-- ✅ Confirmation Modal -->
+        <Teleport to="body">
+          <ConfirmLogoutModal
+            v-model="showLogoutModal"
+            @confirm="confirmLogout"
+            @cancel="cancelLogout"
+          />
+        </Teleport>
       </ul>
     </div>
   </aside>
-    </template>
+</template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { ref, onMounted } from "vue";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "vue-router";
@@ -140,15 +190,18 @@ import ConfirmLogoutModal from "../components/ConfirmLogoutModal.vue";
 
 export default {
   name: "SideBarTrainee",
-  components: {
-    ConfirmLogoutModal,
-  },
+  components: { ConfirmLogoutModal },
   setup() {
+    const isSidebarOpen = ref(false);
     const traineeImage = ref("");
     const showLogoutModal = ref(false);
     const db = getFirestore();
     const auth = getAuth();
     const router = useRouter();
+
+    const toggleSidebar = () => {
+      isSidebarOpen.value = !isSidebarOpen.value;
+    };
 
     const fetchTraineeImage = async (uid) => {
       try {
@@ -165,7 +218,6 @@ export default {
     };
 
     const handleLogout = () => {
-      // فتح الـ Modal بدلاً من الـ Logout مباشرة
       showLogoutModal.value = true;
     };
 
@@ -179,21 +231,18 @@ export default {
     };
 
     const cancelLogout = () => {
-      // لو عايز تعمل حاجة لما المستخدم يلغي
       console.log("Logout cancelled");
     };
 
     onMounted(() => {
       onAuthStateChanged(auth, (user) => {
-        if (user) {
-          fetchTraineeImage(user.uid);
-        } else {
-          console.log("No user signed in.");
-        }
+        if (user) fetchTraineeImage(user.uid);
       });
     });
 
     return {
+      isSidebarOpen,
+      toggleSidebar,
       traineeImage,
       handleLogout,
       showLogoutModal,
@@ -205,14 +254,8 @@ export default {
 </script>
 
 <style scoped>
-.bg-all{
-    background: #D9EEFF;
-}
-.bg-nav{
-    background: #b8dbf8;
-}
-.bg-hov{
-  background: #83D3F799;
+.bg-all {
+  background: #d9eeff;
 }
 .router-link-active {
   background-color: #83d3f7 !important;
@@ -223,4 +266,3 @@ export default {
   filter: invert(29%) sepia(83%) saturate(749%) hue-rotate(181deg) brightness(95%) contrast(90%);
 }
 </style>
-
