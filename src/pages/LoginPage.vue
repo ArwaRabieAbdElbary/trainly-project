@@ -196,7 +196,7 @@ export default {
           router.push("/trainer/home");
         } else {
           showPopup("✅ Logged in successfully!");
-          router.push("/");
+          router.push("/traineehome");
         }
 
       } catch (error) {
@@ -228,7 +228,7 @@ export default {
                 if (userData.role === "trainer") {
                   router.push("/trainer/home");
                 } else {
-                  router.push("/");
+                  router.push("/traineehome");
                 }
               } else {
                 showPopup("❌ Profile missing or pending after linking. Contact support.");
@@ -287,7 +287,7 @@ export default {
           router.push("/trainer/home");
         } else {
           showPopup("✅ Logged in with Google!");
-          router.push("/");
+          router.push("/traineehome");
         }
 
       } catch (error) {

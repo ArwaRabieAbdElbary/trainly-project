@@ -21,6 +21,7 @@
           {{ $t("description2") }}
         </p>
         <button
+          @click="$router.push('/signup')"
           class="mt-6 px-6 py-1 lg:py-1 cursor-pointer rounded-3xl bg-primary text-white hover:opacity-90 transition text-lg md:text-2xl font-light lg:font-medium md:w-60 md:h-12 w-[40%]"
         >
           {{ $t("startJourney") }}
@@ -76,13 +77,13 @@
             <img
               src="@/assets/images/octicon_goal-16.png"
               alt="icon"
-              class="align-left w-6 h-6 md:w-6 md:h-6 lg:w-8 lg:h-8 mt-1"
+              class="align-left w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 mt-1"
             />
             <div>
-              <h3 class="font-semibold text-sm md:text-[17px] mb-1 leading-tight">
+              <h3 class="font-semibold text-[12px] md:text-[17px] mb-1 leading-tight">
                 {{ $t("personalizedTrainingTitle") }}
               </h3>
-              <p class="text-[11px] md:text-[15px] text-gray-900 leading-snug">
+              <p class="text-[10px] md:text-[15px] text-gray-900 leading-snug">
                 {{ $t("personalizedTrainingDesc") }}
               </p>
             </div>
@@ -93,13 +94,13 @@
             <img
               src="@/assets/images/Vector-1.png"
               alt="icon"
-              class="align-left w-6 h-6 md:w-8 md:h-8 mt-1"
+              class="align-left w-4 h-4 md:w-8 md:h-8 mt-1"
             />
             <div>
-              <h3 class="font-semibold text-sm md:text-[17px] mb-1 leading-tight">
+              <h3 class="font-semibold text-[12px] md:text-[17px] mb-1 leading-tight">
                 {{ $t("certifiedTrainersTitle") }}
               </h3>
-              <p class="text-[11px] md:text-[15px] text-gray-900 leading-snug">
+              <p class="text-[10px] md:text-[15px] text-gray-900 leading-snug">
                 {{ $t("certifiedTrainersDesc") }}
               </p>
             </div>
@@ -110,13 +111,13 @@
             <img
               src="@/assets/images/Vector2.png"
               alt="icon"
-              class="align-left w-6 h-6 md:w-8 md:h-8 mt-1"
+              class="align-left w-4 h-4 md:w-8 md:h-8 mt-1"
             />
             <div>
-              <h3 class="font-semibold text-sm md:text-[17px] mb-1 leading-tight">
+              <h3 class="font-semibold text-[12px] md:text-[17px] mb-1 leading-tight">
                 {{ $t("flexibleSchedulingTitle") }}
               </h3>
-              <p class="text-[11px] md:text-[15px] text-gray-900 leading-snug">
+              <p class="text-[10px] md:text-[15px] text-gray-900 leading-snug">
                 {{ $t("flexibleSchedulingDesc") }}
               </p>
             </div>
@@ -127,13 +128,13 @@
             <img
               src="@/assets/images/solar_cup-bold.png"
               alt="icon"
-              class="align-left w-6 h-6 md:w-8 md:h-8 mt-1"
+              class="align-left w-4 h-4 md:w-8 md:h-8 mt-1"
             />
             <div>
-              <h3 class="font-semibold text-sm md:text-base mb-1 leading-tight">
+              <h3 class="font-semibold text-[12px] md:text-[17px] mb-1 leading-tight">
                 {{ $t("progressTrackingTitle") }}
               </h3>
-              <p class="text-[11px] md:text-[15px] text-gray-900 leading-snug">
+              <p class="text-[10px] md:text-[15px] text-gray-900 leading-snug">
                 {{ $t("progressTrackingDesc") }}
               </p>
             </div>
@@ -217,7 +218,7 @@
 
   <!-- How It Works Section -->
   <section
-    class="bg-[#8CDAFE99] w-full h-[550px] md:h-[772px] lg:h-[795px] md:pt-[20px] lg:pt-[100px]"
+    class="bg-[#8CDAFE99] w-full h-[570px] md:h-[772px] lg:h-[795px] md:pt-[20px] lg:pt-[100px]"
   >
     <h2 class="text-[30px] lg:text-[45px] font-[600] text-center mb-17 pt-10 md:pt-0">
       {{ $t("howItWorks") }}
@@ -225,7 +226,7 @@
 
     <div class="relative flex flex-col items-center w-full mx-auto">
       <div
-        class="absolute top-[-40px] bottom-[-40px] w-[4px] bg-gradient-to-b from-[#00C853F2] to-[#0D8BF2] h-[437px] md:h-[680px] lg:h-[600px]"
+        class="absolute top-[-40px] bottom-[-40px] w-[4px] bg-gradient-to-b from-[#00C853F2] to-[#0D8BF2] h-[456px] md:h-[680px] lg:h-[600px]"
       ></div>
 
       <!-- Step 1 -->

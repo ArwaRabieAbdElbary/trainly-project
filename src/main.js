@@ -7,9 +7,9 @@ document.dir = savedLocale === "ar" ? "rtl" : "ltr";
 // ----------------------------
 import { createApp } from "vue";
 import App from "./App.vue";
-import "./Firebase/firebaseConfig.js"; // ✅ بيشغّل تهيئة Firebase مرة واحدة
+import "./Firebase/firebaseConfig.js";
 import { createRouter, createWebHistory } from "vue-router";
-import i18n from "./i18n"; // ✅ ملف اللغات
+import i18n from "./i18n";
 import Toast from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import "../src/style.css";
@@ -33,16 +33,21 @@ import ContactUs from "./pages/ContactUs.vue";
 import TrainerClient from "./pages/trainer/TrainerClient.vue";
 import TrainerReviews from "./pages/trainer/TrainerReviews.vue";
 import TrainerDashboardLayout from "./pages/trainer/TrainerDashboardLayout.vue";
-import TrainerProfile from "./pages/TrainerProfile.vue";
 import SearchPage from "./pages/SearchPage.vue";
 import TrainerPlans from "./pages/trainer/TrainerPlans.vue";
 import TrainerHome from "./pages/trainer/TrainerHome.vue";
 import HomePage from "./pages/HomePage.vue";
 import TrainerSettings from "./pages/trainer/TrainerSettings.vue";
 import TraineeDashboardLayout from "./pages/trainee/TraineeDashboardLayout.vue";
+import TraineeDashboard from "./pages/trainee/TraineeDashboard.vue";
 import TraineeSettings from "./pages/trainee/TraineeSettings.vue";
 import TraineeCustomerservice from "./pages/trainee/TraineeCustomerservice.vue";
 import TrainerCustomerservice from "./pages/trainer/TrainerCustomerservice.vue";
+import AboutUstrainee from "./pages/NavpagesforTrainee/AboutUstrainee.vue";
+import ContactUstrainee from "./pages/NavpagesforTrainee/ContactUstrainee.vue";
+import SportStrainee from "./pages/NavpagesforTrainee/SportsPagetrainee.vue";
+import TrainerProfile from "./pages/TrainerProfile.vue";
+import TrainerViewHisProfile from "./pages/TrainerViewHisProfile.vue";
 
 // ----------------------------
 // ✅ إعداد المسارات (Routes)
@@ -55,51 +60,30 @@ const routes = [
   { path: "/resetpassword2", name: "resetpassword2", component: ResetPassword2 },
   { path: "/forgetpassword1", name: "forgetpassword1", component: ForgetPassword1 },
   { path: "/forgetpassword2", name: "forgetpassword2", component: ForgetPassword2 },
-  { path: "/trainerclient", name: "trainerclient", component: TrainerClient },
-  { path: "/trainerplans", name: "trainerplans", component: TrainerPlans },
   { path: "/signup", name: "signup", component: Signup },
   { path: "/login", name: "login", component: LoginPage },
   { path: "/aboutus", name: "aboutus", component: AboutUs },
   { path: "/sports", name: "sports", component: SportS },
   { path: "/contactus", name: "contactus", component: ContactUs },
-  { path: "/search", name: "search", component: SearchPage },
-  {path: "/home", name: "home", component: HomePage },
-  { path: "/trainerprofile", name: "trainerprofile", component: TrainerProfile },
+  { path: "/viewtrainerprofile", name: "profile", component: TrainerProfile },
+  { path: "/searchresults", name: "search", component: SearchPage },
+  { path: "/traineehome", name: "traineehome", component: HomePage },
+  { path: "/aboutustrainee", name: "aboutustrainee", component: AboutUstrainee },
+  { path: "/contactustrainee", name: "contactustrainee", component: ContactUstrainee },
+  { path: "/sportstrainee", name: "sportstrainee", component: SportStrainee },
+  { path: "/myprofile", name: "trainerviewprofile", component: TrainerViewHisProfile },
+
   {
     path: "/trainer",
     name: "trainer",
     component: TrainerDashboardLayout,
     children: [
-      {
-        path: "home",
-        name: "trainerhome",
-        component: TrainerHome,
-      },
-      {
-        path: "plans",
-        name: "trainerplans",
-        component: TrainerPlans,
-      },
-      {
-        path: "reviews",
-        name: "trainerreviews",
-        component: TrainerReviews,
-      },
-      {
-        path: "clients",
-        name: "trainerclient",
-        component: TrainerClient,
-      },
-      {
-        path: "customerservice",
-        name: "trainercustomerservice",
-        component: TrainerCustomerservice,
-      },
-      {
-        path: "settings",
-        name: "trainersettings",
-        component: TrainerSettings,
-      },
+      { path: "home", name: "trainerhome", component: TrainerHome },
+      { path: "plans", name: "trainerplans", component: TrainerPlans },
+      { path: "reviews", name: "trainerreviews", component: TrainerReviews },
+      { path: "clients", name: "trainerclient", component: TrainerClient },
+      { path: "customerservice", name: "trainercustomerservice", component: TrainerCustomerservice },
+      { path: "settings", name: "trainersettings", component: TrainerSettings },
     ],
   },
   {
@@ -107,19 +91,11 @@ const routes = [
     name: "trainee",
     component: TraineeDashboardLayout,
     children: [
-      {
-        path: "settings",
-        name: "traineesettings",
-        component: TraineeSettings,
-      },
-      {
-        path: "customerservice",
-        name: "traineecustomerservice",
-        component: TraineeCustomerservice,
-      }
+      { path: "dashboard", name: "traineedashboard", component: TraineeDashboard },
+      { path: "settings", name: "traineesettings", component: TraineeSettings },
+      { path: "customerservice", name: "traineecustomerservice", component: TraineeCustomerservice },
     ],
   },
-
   { path: "/:pathMatch(.*)*", name: "error", component: ErrorPage },
 ];
 
@@ -129,15 +105,78 @@ const router = createRouter({
 });
 
 // ----------------------------
-// ✅ متابعة حالة المستخدم من Firebase Authentication
+// ✅ Navigation Guards
 // ----------------------------
-import { auth } from "./Firebase/firebaseConfig.js";
+import { auth, db } from "./Firebase/firebaseConfig.js";
+import { getDoc, doc } from "firebase/firestore";
+
+const publicPages = ["/", "/login", "/signup", "/aboutus", "/contactus", "/sports"];
+const traineePages = [
+  "/traineehome", "/searchresults", "/viewtrainerprofile",
+  "/aboutustrainee", "/contactustrainee", "/sportstrainee",
+  "/trainee/dashboard", "/trainee/settings", "/trainee/customerservice",
+];
+const trainerPages = [
+  "/trainer/home", "/trainer/plans", "/trainer/reviews",
+  "/trainer/clients", "/trainer/customerservice", "/trainer/settings",
+  "/myprofile",
+];
+
+// ✅ Helper function: انتظار تحميل حالة المستخدم من Firebase
+const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        unsubscribe();
+        resolve(user);
+      },
+      reject
+    );
+  });
+};
+
+router.beforeEach(async (to, from, next) => {
+  // لو الصفحة عامة → ادخل عادي
+  if (publicPages.includes(to.path)) return next();
+
+  // ✅ انتظر Firebase يخلص تحميل حالة المستخدم
+  const user = await getCurrentUser();
+
+  // لو مش عامل تسجيل دخول → يروح login
+  if (!user) return next("/login");
+
+  // لو عامل تسجيل دخول → نعرف هو trainee ولا trainer
+  try {
+    const ref = doc(db, "users", user.uid);
+    const snap = await getDoc(ref);
+    const role = snap.exists() ? snap.data().role : null;
+
+    // لو trainer حاول يدخل صفحة trainee
+    if (role === "trainer" && traineePages.includes(to.path)) {
+      return next("/error");
+    }
+
+    // لو trainee حاول يدخل صفحة trainer
+    if (role === "trainee" && trainerPages.includes(to.path)) {
+      return next("/error");
+    }
+
+    return next();
+  } catch (e) {
+    console.error("Error checking user role:", e);
+    return next("/error");
+  }
+});
+
+// ----------------------------
+// ✅ متابعة حالة المستخدم
+// ----------------------------
 import { onAuthStateChanged } from "firebase/auth";
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
     console.log("🔐 المستخدم مسجل الدخول:", user.email);
-    // ممكن هنا لاحقًا نجيب بياناته من Firestore ونخزنها في store أو localStorage
   } else {
     console.log("🚪 لا يوجد مستخدم مسجل حاليًا");
   }
@@ -150,13 +189,28 @@ createApp(App)
   .use(router)
   .use(i18n)
   .use(Toast, {
-  position: "top-center",
-  timeout: 2000,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  showCloseButtonOnHover: false,
-  hideProgressBar: false,
-  theme: "auto",
-})
-.mount("#app");
+    position: "top-center",
+    timeout: 2000,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "auto",
+  })
+  .mount("#app");
+
+  // ✅ إخفاء loading بعد ما كل حاجة تتحمل (including CSS)
+router.isReady().then(() => {
+  // نستنى شوية عشان ال CSS و ال components تخلص render
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      const appElement = document.getElementById('app');
+      const loader = document.querySelector('.app-loading');
+
+      if (appElement) appElement.classList.add('loaded');
+      if (loader) {
+        loader.classList.add('loaded');
+        setTimeout(() => loader.remove(), 300);
+      }
+    }, 50); // زود الوقت شوية عشان نتأكد إن كل حاجة ظهرت
+  });
+});

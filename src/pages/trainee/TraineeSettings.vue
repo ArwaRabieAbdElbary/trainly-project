@@ -572,43 +572,94 @@ export default {
       }
     },
 
-    // 🗑️ حذف الحساب بالكامل
-    async deleteAccount() {
-      try {
-        const auth = getAuth();
-        const user = auth.currentUser;
+async deleteAccount() {
+  // Step 1: Show confirmation modal
+  const confirmBox = document.createElement("div");
+  confirmBox.classList.add(
+    "fixed", "inset-0", "flex", "items-center", "justify-center", "z-50"
+  );
 
-        if (!user) {
-          toast.error("No user is logged in!");
-          return;
-        }
+  confirmBox.style.backgroundColor = "rgba(255, 255, 255, 0.7)";
+  confirmBox.style.backdropFilter = "blur(3px)";
 
-        // حذف بيانات المستخدم من Firestore
-        const userRef = doc(db, "users", user.uid);
-        await deleteDoc(userRef);
+  confirmBox.innerHTML = `
+    <div class="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full mx-4 border border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">
+        Are you sure you want to delete your account?
+      </h2>
+      <p class="text-gray-500 mb-6 text-sm">
+        This action cannot be undone.
+      </p>
+      <div class="flex justify-center gap-4">
+        <button id="confirmDelete" class="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 transition">
+          Yes, Delete
+        </button>
+        <button id="cancelDelete" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-lg hover:bg-gray-300 transition">
+          Cancel
+        </button>
+      </div>
+    </div>
+  `;
 
-        // حذف الحساب من Firebase Authentication
-        await user.delete();
+  document.body.appendChild(confirmBox);
 
-        toast.success("Account deleted successfully ✅");
+  const confirmBtn = document.getElementById("confirmDelete");
+  const cancelBtn = document.getElementById("cancelDelete");
 
-        // تسجيل خروج وتحويل بعد ثانيتين
-        setTimeout(async () => {
-          await auth.signOut();
-          this.$router.push("/login");
-        }, 2000);
-      } catch (error) {
-        console.error("Error deleting account:", error);
+  // Cancel button - just close modal
+  cancelBtn.addEventListener("click", () => confirmBox.remove());
 
-        if (error.code === "auth/requires-recent-login") {
-          toast.error("Please log in again before deleting your account.");
-        } else {
-          toast.error("Failed to delete account!");
-        }
+  // Confirm button - delete account
+  confirmBtn.addEventListener("click", async () => {
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (!user) {
+        confirmBox.remove();
+        toast.error("No user is signed in!");
+        return;
       }
-    },
+
+      // Delete user document from Firestore
+      const userRef = doc(db, "users", user.uid);
+      await deleteDoc(userRef);
+
+      // Delete Firebase Auth account
+      await user.delete();
+
+      // Close modal
+      confirmBox.remove();
+
+      // Show success toast (NOT another modal)
+      toast.success(
+        "Your account has been deleted.",
+        {
+          position: "top-right",
+          autoClose: 3000,
+        }
+      );
+
+      // Redirect after 30 seconds
+      setTimeout(async () => {
+        await auth.signOut();
+        this.$router.push("/");
+      }, 3000);
+
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      confirmBox.remove();
+      toast.error("Failed to delete account. Please try again.");
+    }
+  });
+}
+
+,
   },
 };
 </script>
+
+
+
 
 <style scoped></style>

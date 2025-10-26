@@ -86,7 +86,7 @@ export default {
 
             <br />
 
-            <router-link to="/" class="text-gray-600">
+            <router-link to="/login" class="text-gray-600">
               {{ $t('backToLogin') }}
             </router-link>
           </div>
