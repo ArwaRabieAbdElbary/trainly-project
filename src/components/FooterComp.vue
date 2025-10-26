@@ -1,7 +1,9 @@
 <template>
   <footer class="relative bg-black text-white mt-10">
     <div class="mx-auto w-full max-w-screen-xl py-8">
-      <div class="flex justify-around flex-col md:flex-row gap-5 md:gap-0 pl-5 md:pl-0">
+      <div
+        class="flex justify-around flex-col md:flex-row gap-5 md:gap-0 pl-5 md:pl-0"
+      >
         <div>
           <h2 class="mb-2 md:mb-6 text-sm font-semibold uppercase text-white">
             {{ $t("aboutUs") }}
@@ -30,7 +32,9 @@
             <li class="text-[12px] md:text-[15px]">
               <h6>
                 {{ $t("phone") }} :
-                <span class="hover:underline cursor-pointer">+1 (800) 123-4567</span>
+                <span class="hover:underline cursor-pointer"
+                  >+1 (800) 123-4567</span
+                >
               </h6>
             </li>
           </ul>
@@ -121,11 +125,11 @@
           </div>
         </div>
         <!-- Language Switch -->
-        <div class="absolute bottom-6 right-65">
+        <div class="">
           <div class="relative">
             <button
               @click="toggleDropdown"
-              class="flex items-center justify-between gap-2 w-36 px-4 py-2 bg-white text-black rounded-full shadow-md hover:bg-gray-200 transition"
+              class="w-22 md:w-36 flex items-center justify-between gap-2 px-4 py-2 bg-white text-black rounded-full shadow-md hover:bg-gray-200 transition"
             >
               <span class="font-medium">
                 {{ $i18n.locale === "en" ? "English" : "العربية" }}
@@ -149,11 +153,11 @@
             <!-- Dropdown Menu -->
             <div
               v-if="showDropdown"
-              class="absolute bottom-12 right-0 w-36 bg-white text-black rounded-xl shadow-lg overflow-hidden animate-fade-in"
+              class="absolute w-22 md:w-36 bg-white text-black rounded-xl shadow-lg overflow-hidden animate-fade-in"
             >
               <button
                 @click="switchLang"
-                class="w-full text-left px-4 py-2 hover:bg-gray-100 transition"
+                class=" px-4 py-2 text-sm md:text-base hover:bg-gray-100 transition"
               >
                 {{ $i18n.locale === "en" ? "العربية" : "English" }}
               </button>
@@ -164,7 +168,8 @@
     </div>
     <div class="text-center pb-5">
       <span class="text-sm text-center"
-        >© 2025 <a href="#" class="hover:underline">Trainly</a>. All Rights Reserved.
+        >© 2025 <a href="#" class="hover:underline">Trainly</a>. All Rights
+        Reserved.
       </span>
     </div>
   </footer>
