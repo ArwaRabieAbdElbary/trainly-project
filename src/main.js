@@ -55,6 +55,8 @@ import TrainerViewHisProfile from "./pages/TrainerViewHisProfile.vue";
 const routes = [
   { path: "/", name: "landing", component: LandingPage },
   { path: "/payment", name: "payment", component: PaymentPage },
+  { path: "/payment-success", name: "payment-success", component: PaymentPage },
+  { path: "/payment-cancel", name: "payment-cancel", component: FailedPage },
   { path: "/failed", name: "failed", component: FailedPage },
   { path: "/resetpassword", name: "resetpassword", component: ResetPassword },
   { path: "/resetpassword2", name: "resetpassword2", component: ResetPassword2 },
@@ -110,7 +112,7 @@ const router = createRouter({
 import { auth, db } from "./Firebase/firebaseConfig.js";
 import { getDoc, doc } from "firebase/firestore";
 
-const publicPages = ["/", "/login", "/signup", "/aboutus", "/contactus", "/sports"];
+const publicPages = ["/", "/login", "/signup", "/aboutus", "/contactus", "/sports", "/payment-success", "/payment-cancel"];
 const traineePages = [
   "/traineehome", "/searchresults", "/viewtrainerprofile",
   "/aboutustrainee", "/contactustrainee", "/sportstrainee",

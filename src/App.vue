@@ -22,7 +22,7 @@
     <router-view />
 
     <FooterComp
-      v-if="!['payment', 'failed', 'error', 'login', 'signup', 'trainerclient' , 'trainer' , 'trainerreviews','trainersettings' , 'traineesettings' , 'trainer' , 'trainee' ,'trainerplans','traineecustomerservice','trainercustomerservice' , 'trainerhome',  , 'traineedashboard'].includes($route.name)"
+      v-if="!['payment', 'failed', 'error', 'login', 'signup', 'trainerclient' , 'trainer' , 'trainerreviews','trainersettings' , 'traineesettings' , 'trainer' , 'trainee' ,'trainerplans','traineecustomerservice','trainercustomerservice' , 'trainerhome' , 'traineedashboard'].includes($route.name)"
     />
   </div>
 </template>
