@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white">
+  <div class="min-h-screen bg-white dark:bg-black">
     <!-- Hero Section - About Trainly -->
     <section class="max-w-6xl mx-auto py-11">
       <div
