@@ -4,6 +4,8 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { getFunctions } from 'firebase/functions';
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -30,5 +32,9 @@ const provider = new GoogleAuthProvider();
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+// ✅ Initialize Functions with region
+const functions = getFunctions(app, 'us-central1');
+
 // ✅ Exports used in your login page
-export { auth, provider, db, storage };
+export { auth, provider, db, storage, functions, app };
+

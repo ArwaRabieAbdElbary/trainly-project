@@ -1,4 +1,9 @@
 <template>
+  <!-- Toast Notification -->
+  <div v-if="showToast" class="toast flex justify-center items-center">
+    {{ toastMessage }}
+  </div>
+
   <div class="min-h-screen bg-gray-50">
     <!-- Loading State -->
     <div v-if="loading" class="max-w-7xl mx-auto px-4 py-10">
@@ -137,9 +142,18 @@
 
               <button
                 @click="bookPlan(plan)"
-                class="w-full py-2.5 rounded-lg bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-semibold transition-all transform hover:scale-105"
+                :disabled="processingPayment"
+                class="w-full py-2.5 rounded-lg font-semibold transition-all transform"
+                :class="processingPayment ? 'bg-gray-300 cursor-not-allowed' : 'bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white hover:scale-105'"
               >
-                Book Now
+                <span v-if="processingPayment" class="flex items-center justify-center gap-2">
+                  <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                  </svg>
+                  Processing...
+                </span>
+                <span v-else>Book Now</span>
               </button>
             </div>
           </div>
@@ -365,10 +379,10 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { getAuth } from "firebase/auth";
+import { auth, db, functions } from "../Firebase/firebaseConfig.js";
 import {
   doc,
   getDoc,
@@ -379,80 +393,93 @@ import {
   addDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import { db } from "@/Firebase/firebaseConfig";
+import { httpsCallable } from "firebase/functions";
 
-// router / auth
-const route = useRoute();
-const router = useRouter();
-const auth = getAuth();
+export default {
+  name: "TrainerProfile",
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
 
-// trainer uid source (query or params)
-const uid = route.query.uid || route.params.uid || null;
+    const uid = route.query.uid || route.params.uid || null;
+    const placeholder = "https://via.placeholder.com/400x300?text=No+Image";
 
-// placeholders
-const placeholder = "https://via.placeholder.com/400x300?text=No+Image";
+    const trainer = ref({});
+    const plans = ref([]);
+    const reviews = ref([]);
+    const loading = ref(true);
+    const error = ref(null);
+    const processingPayment = ref(false);
 
-// state
-const trainer = ref({});
-const plans = ref([]);
-const reviews = ref([]);
-const loading = ref(true);
-const error = ref(null);
+    const avgRating = ref(null);
+    const reviewsCount = ref(0);
 
-const avgRating = ref(null);
-const reviewsCount = ref(0);
+    const showAddReview = ref(false);
+    const addingReview = ref(false);
+    const newReview = ref({
+      reviewerName: "",
+      rating: 5,
+      comment: "",
+      phone: "",
+      sessionType: "",
+    });
 
-// add-review modal state
-const showAddReview = ref(false);
-const addingReview = ref(false);
-const newReview = ref({
-  reviewerName: "",
-  rating: 5,
-  comment: "",
-  phone: "",
-  sessionType: "",
-});
+    const toastMessage = ref("");
+    const showToast = ref(false);
 
-// computed helpers
-const avgRatingDisplay = computed(() => (avgRating.value !== null ? avgRating.value.toFixed(1) : "N/A"));
-const canSubmitReview = computed(() => newReview.value.reviewerName.trim() && newReview.value.comment.trim());
+    const showPopup = (message) => {
+      toastMessage.value = message;
+      showToast.value = true;
+      setTimeout(() => {
+        showToast.value = false;
+      }, 3000);
+    };
 
-// ------------------ Fetch trainer doc ------------------
-const fetchTrainer = async () => {
-  if (!uid) {
-    error.value = "No trainer ID provided";
-    return;
-  }
+    const avgRatingDisplay = computed(() =>
+      avgRating.value !== null ? avgRating.value.toFixed(1) : "N/A"
+    );
+    const canSubmitReview = computed(() =>
+      newReview.value.reviewerName.trim() && newReview.value.comment.trim()
+    );
 
-  try {
-    const docRef = doc(db, "users", uid);
-    const snap = await getDoc(docRef);
-    if (snap.exists()) {
-      const data = snap.data();
-      trainer.value = {
-        id: snap.id,
-        ...data,
-        certifications: data.certifications || [],
-      };
-    } else {
-      error.value = "Trainer not found";
-      trainer.value = {};
-    }
-  } catch (err) {
-    console.error("fetchTrainer error:", err);
-    error.value = "Failed to load trainer profile";
-    trainer.value = {};
-  }
-};
+    // ✅ Fetch Trainer
+    const fetchTrainer = async () => {
+      if (!uid) {
+        error.value = "No trainer ID provided";
+        return;
+      }
 
-// ------------------ Fetch plans (top-level collection with trainer_uid) ------------------
+      try {
+        const docRef = doc(db, "users", uid);
+        const snap = await getDoc(docRef);
+        if (snap.exists()) {
+          const data = snap.data();
+          trainer.value = {
+            id: snap.id,
+            ...data,
+            certifications: data.certifications || [],
+          };
+        } else {
+          error.value = "Trainer not found";
+          trainer.value = {};
+        }
+      } catch (err) {
+        console.error("fetchTrainer error:", err);
+        error.value = "Failed to load trainer profile";
+        trainer.value = {};
+      }
+    };
+
+   // ------------------ Fetch plans (fixed) ------------------
 const fetchPlans = async () => {
   plans.value = [];
-  if (!uid) return;
+  if (!uid) return; // <-- use uid, not uid.value
 
   try {
-    // Query top-level 'plans' collection where trainer_uid matches
-    const pq = query(collection(db, "plans"), where("trainer_uid", "==", uid));
+    const pq = query(
+      collection(db, "plans"),
+      where("trainer_uid", "==", uid) // <-- use uid here as well
+    );
     const snap = await getDocs(pq);
 
     if (!snap.empty) {
@@ -470,315 +497,493 @@ const fetchPlans = async () => {
             location: data.location || "",
             image: data.image || data.planImage || null,
             clientsCount: data.clientsCount || 0,
-            trainer_uid: data.trainer_uid
+            trainer_uid: data.trainer_uid,
           };
         })
-        // ✅ فلتر: اعرض فقط الـ plans اللي الـ status بتاعها active
-        .filter((plan) => plan.status.toLowerCase() === "active");
-    } else {
-      console.log("No plans found for this trainer");
-      plans.value = [];
+        .filter((plan) => (plan.status || "").toLowerCase() === "active");
     }
   } catch (err) {
     console.error("fetchPlans error:", err);
     plans.value = [];
   }
 };
-// ------------------ Fetch reviews (robust + client-side sort + avg calc) ------------------
-const fetchReviews = async () => {
-  if (!uid) return;
 
-  reviews.value = [];
-  avgRating.value = null;
-  reviewsCount.value = 0;
 
-  try {
-    let snap = null;
+    // ✅ Fetch Reviews
+    const fetchReviews = async () => {
+      if (!uid) return;
 
-    // Try top-level "reviews" collection first (without forcing orderBy to avoid docs without createdAt causing issues)
-    try {
-      const q = query(collection(db, "reviews"), where("trainerId", "==", uid));
-      snap = await getDocs(q);
-    } catch  {
-      snap = null;
-    }
-
-    // Fallback to subcollection users/{uid}/reviews
-    if (!snap || snap.empty) {
-      try {
-        const subQ = query(collection(db, `users/${uid}/reviews`));
-        snap = await getDocs(subQ);
-      } catch {
-        snap = null;
-      }
-    }
-
-    if (snap && !snap.empty) {
-      const list = [];
-      snap.forEach((d) => {
-        const data = d.data();
-        const rating =
-          typeof data.rating === "number"
-            ? data.rating
-            : data.rate
-            ? Number(data.rate)
-            : 0;
-
-        list.push({
-          id: d.id,
-          comment: data.comment || data.text || "",
-          rating,
-          createdAt: data.createdAt ?? null,
-          status: data.status || null,
-          traineeId: data.traineeId || data.reviewerUid || null,
-          traineeName: data.traineeName || data.reviewerName || null,
-          traineeProfilePic: data.traineeProfilePic || data.reviewerPhoto || null,
-          trainerId: data.trainerId || null,
-          trainerName: data.trainerName || null,
-          trainerProfilePic: data.trainerProfilePic || null,
-          sessionType: data.sessionType || null,
-        });
-      });
-
-      // client-side sort by createdAt desc (handle Firestore Timestamp and JS Date; nulls go last)
-      list.sort((a, b) => {
-        const toMillis = (x) => {
-          if (!x) return 0;
-          if (x.toDate && typeof x.toDate === "function") return x.toDate().getTime();
-          const t = new Date(x);
-          return isNaN(t.getTime()) ? 0 : t.getTime();
-        };
-        return toMillis(b.createdAt) - toMillis(a.createdAt);
-      });
-
-      reviews.value = list;
-
-      // compute avg & count
-      let total = 0;
-      let count = 0;
-      list.forEach((r) => {
-        if (typeof r.rating === "number" && r.rating > 0) {
-          total += r.rating;
-          count++;
-        }
-      });
-      avgRating.value = count > 0 ? total / count : null;
-      reviewsCount.value = count;
-    } else {
       reviews.value = [];
       avgRating.value = null;
       reviewsCount.value = 0;
-    }
-  } catch (err) {
-    console.error("fetchReviews error:", err);
-    // keep existing state
-  }
-};
 
-// ------------------ Overall load ------------------
-const loadData = async () => {
-  loading.value = true;
-  error.value = null;
-
-  if (!uid) {
-    error.value = "No trainer ID provided";
-    loading.value = false;
-    return;
-  }
-
-  await fetchTrainer();
-  if (!error.value) {
-    await Promise.all([fetchPlans(), fetchReviews()]);
-  }
-
-  loading.value = false;
-};
-
-onMounted(() => {
-  loadData();
-});
-
-// ------------------ Helpers ------------------
-const capitalize = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : "");
-const getExperience = () => {
-  const exp = trainer.value.experience ?? trainer.value.yearsOfExperience;
-  return exp !== null && exp !== undefined ? exp : "N/A";
-};
-const getLocation = () => {
-  const city = trainer.value.city;
-  const country = trainer.value.country;
-  if (city && country) return `${city}, ${country}`;
-  if (city) return city;
-  if (country) return country;
-  return "Location not specified";
-};
-const formatPrice = (price) => {
-  if (price === undefined || price === null || price === "") return "N/A";
-  return `$${Number(price).toFixed(2)}`;
-};
-const formatDate = (ts) => {
-  if (!ts) return "N/A";
-  try {
-    const date = ts.toDate ? ts.toDate() : new Date(ts);
-    return date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
-  } catch {
-    return "N/A";
-  }
-};
-const handleImageError = (e) => {
-  e.target.src = placeholder;
-};
-const viewCertificate = (certUrl) => window.open(certUrl, "_blank");
-const bookPlan = (plan) => {
-  router.push({ name: "booking", query: { planId: plan.id, trainerId: uid } }).catch(() => {
-    alert(`Booking coming soon\nPlan: ${plan.title || "—"}`);
-  });
-};
-const contactTrainer = () => {
-  if (trainer.value.email) {
-    window.location.href = `mailto:${trainer.value.email}`;
-    return;
-  }
-  router.push({ name: "chat", query: { trainerId: uid } }).catch(() => {
-    alert("Contact info not available");
-  });
-};
-
-// ------------------ Add review (optimistic + serverTimestamp) ------------------
-const openAddReview = () => {
-  const user = auth.currentUser;
-  if (!user) {
-    alert("Please login to add a review.");
-    router.push({ name: "login" });
-    return;
-  }
-  if (user.displayName) newReview.value.reviewerName = user.displayName;
-  showAddReview.value = true;
-};
-
-const closeAddReview = () => {
-  showAddReview.value = false;
-  newReview.value = { reviewerName: "", rating: 5, comment: "", phone: "", sessionType: "" };
-};
-
-const submitReview = async () => {
-  if (!uid) {
-    alert("No trainer specified");
-    return;
-  }
-  if (!canSubmitReview.value) {
-    alert("Please enter your name and comment");
-    return;
-  }
-
-  addingReview.value = true;
-
-  try {
-    const user = auth.currentUser;
-    let traineeName = newReview.value.reviewerName.trim();
-    let traineeProfilePic = null;
-    let traineeId = null;
-
-    if (user) {
-      traineeId = user.uid;
-      // try to fetch user doc for display name/picture
       try {
-        const uDoc = await getDoc(doc(db, "users", user.uid));
-        if (uDoc.exists()) {
-          const ud = uDoc.data();
-          if (ud.firstName) traineeName = `${ud.firstName} ${ud.lastName || ""}`.trim();
-          traineeProfilePic = ud.profilePicture || ud.profilePic || null;
+        let snap = null;
+
+        try {
+          const q = query(collection(db, "reviews"), where("trainerId", "==", uid));
+          snap = await getDocs(q);
+        } catch {
+          snap = null;
         }
-      } catch (e) {
-        console.warn("Could not fetch user profile:", e);
+
+        if (!snap || snap.empty) {
+          try {
+            const subQ = query(collection(db, `users/${uid}/reviews`));
+            snap = await getDocs(subQ);
+          } catch {
+            snap = null;
+          }
+        }
+
+        if (snap && !snap.empty) {
+          const list = [];
+          snap.forEach((d) => {
+            const data = d.data();
+            const rating =
+              typeof data.rating === "number"
+                ? data.rating
+                : data.rate
+                ? Number(data.rate)
+                : 0;
+
+            list.push({
+              id: d.id,
+              comment: data.comment || data.text || "",
+              rating,
+              createdAt: data.createdAt ?? null,
+              status: data.status || null,
+              traineeId: data.traineeId || data.reviewerUid || null,
+              traineeName: data.traineeName || data.reviewerName || null,
+              traineeProfilePic:
+                data.traineeProfilePic || data.reviewerPhoto || null,
+              trainerId: data.trainerId || null,
+              trainerName: data.trainerName || null,
+              trainerProfilePic: data.trainerProfilePic || null,
+              sessionType: data.sessionType || null,
+            });
+          });
+
+          list.sort((a, b) => {
+            const toMillis = (x) => {
+              if (!x) return 0;
+              if (x.toDate && typeof x.toDate === "function")
+                return x.toDate().getTime();
+              const t = new Date(x);
+              return isNaN(t.getTime()) ? 0 : t.getTime();
+            };
+            return toMillis(b.createdAt) - toMillis(a.createdAt);
+          });
+
+          reviews.value = list;
+
+          let total = 0;
+          let count = 0;
+          list.forEach((r) => {
+            if (typeof r.rating === "number" && r.rating > 0) {
+              total += r.rating;
+              count++;
+            }
+          });
+          avgRating.value = count > 0 ? total / count : null;
+          reviewsCount.value = count;
+        } else {
+          reviews.value = [];
+          avgRating.value = null;
+          reviewsCount.value = 0;
+        }
+      } catch (err) {
+        console.error("fetchReviews error:", err);
       }
-    }
-
-    const payloadForServer = {
-      comment: newReview.value.comment.trim(),
-      rating: Number(newReview.value.rating),
-      createdAt: serverTimestamp(),
-      status: "approved", // change to 'pending' if admin approval required
-      traineeId,
-      traineeName,
-      traineeProfilePic,
-      trainerId: uid,
-      trainerName: `${trainer.value.firstName || ""} ${trainer.value.lastName || ""}`.trim(),
-      trainerProfilePic: trainer.value.profilePicture || null,
-      phone: newReview.value.phone || null,
-      sessionType: newReview.value.sessionType || null,
     };
 
-    // Optimistic local review (user-visible immediately)
-    const localCreatedAt = new Date();
-    const localRev = {
-      id: "local-" + Date.now(),
-      ...payloadForServer,
-      createdAt: localCreatedAt,
+    // ✅ Load All Data
+    const loadData = async () => {
+      loading.value = true;
+      error.value = null;
+
+      if (!uid) {
+        error.value = "No trainer ID provided";
+        loading.value = false;
+        return;
+      }
+
+      await fetchTrainer();
+      if (!error.value) {
+        await Promise.all([fetchPlans(), fetchReviews()]);
+      }
+
+      loading.value = false;
     };
 
-    // add optimistic item at top
-    reviews.value.unshift(localRev);
+    const retryLoad = () => {
+      loadData();
+    };
 
-    // recompute avg locally
-    {
-      let total = 0, count = 0;
-      reviews.value.forEach(r => {
-        const rr = typeof r.rating === "number" ? r.rating : 0;
-        if (rr > 0) { total += rr; count++; }
+    onMounted(() => {
+      loadData();
+    });
+
+    // ✅ =================== STRIPE PAYMENT ===================
+    const bookPlan = async (plan) => {
+      const user = auth.currentUser;
+
+      // ✅ 1. التحقق من تسجيل الدخول
+      if (!user) {
+        showPopup("⚠️ Please login first to book this plan!");
+        setTimeout(() => {
+          router.push("/login");
+        }, 2000);
+        return;
+      }
+
+      try {
+        processingPayment.value = true;
+        showPopup("🔄 Preparing payment...");
+
+        // ✅ 2. تأكد من وجود token وحصل عليه
+        const token = await user.getIdToken(true); // force refresh
+        console.log("📞 User authenticated, token exists:", !!token);
+        console.log("📞 User ID:", user.uid);
+        console.log("📞 Token preview:", token.substring(0, 20) + "...");
+        
+        // ✅ 3. استدعاء Cloud Function مباشرة باستخدام fetch مع token
+        const functionsUrl = `https://us-central1-trainly-4f7a8.cloudfunctions.net/createCheckoutSession`;
+        
+        console.log("📞 Calling createCheckoutSession directly...");
+        
+        // حفظ trainer ID في localStorage للرجوع إليه بعد الدفع
+        localStorage.setItem('lastTrainerId', uid);
+        
+        const response = await fetch(functionsUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            data: {
+              planId: plan.id,
+              planName: plan.title || "Training Plan",
+              amount: Number(plan.price) || 0,
+              trainerId: uid,
+            }
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error?.message || `HTTP ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log("✅ Response:", result);
+        
+        const responseData = { data: result.result };
+
+        // ✅ 4. إعادة التوجيه لـ Stripe
+        if (responseData.data && responseData.data.url) {
+          showPopup("✅ Redirecting to payment...");
+          setTimeout(() => {
+            window.location.href = responseData.data.url;
+          }, 1000);
+        } else {
+          throw new Error("No checkout URL received");
+        }
+      } catch (err) {
+        console.error("❌ Payment error:", err);
+
+        if (err.code === "unauthenticated") {
+          showPopup("⚠️ Please login to continue with payment");
+          setTimeout(() => {
+            router.push("/login");
+          }, 2000);
+        } else if (err.code === "not-found") {
+          showPopup("❌ Your profile was not found. Please complete registration.");
+        } else if (err.code === "invalid-argument") {
+          showPopup("❌ Invalid payment data. Please try again.");
+        } else {
+          showPopup(`❌ Payment failed: ${err.message}`);
+        }
+      } finally {
+        processingPayment.value = false;
+      }
+    };
+
+    // ✅ Helpers
+    const capitalize = (s) =>
+      s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : "";
+
+    const getExperience = () => {
+      const exp = trainer.value.experience ?? trainer.value.yearsOfExperience;
+      return exp !== null && exp !== undefined ? exp : "N/A";
+    };
+
+    const getLocation = () => {
+      const city = trainer.value.city;
+      const country = trainer.value.country;
+      if (city && country) return `${city}, ${country}`;
+      if (city) return city;
+      if (country) return country;
+      return "Location not specified";
+    };
+
+    const formatPrice = (price) => {
+      if (price === undefined || price === null || price === "") return "N/A";
+      return `${Number(price).toFixed(2)}`;
+    };
+
+    const formatDate = (ts) => {
+      if (!ts) return "N/A";
+      try {
+        const date = ts.toDate ? ts.toDate() : new Date(ts);
+        return date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      } catch {
+        return "N/A";
+      }
+    };
+
+    const handleImageError = (e) => {
+      e.target.src = placeholder;
+    };
+
+    const viewCertificate = (certUrl) => window.open(certUrl, "_blank");
+
+    const contactTrainer = () => {
+      if (trainer.value.email) {
+        window.location.href = `mailto:${trainer.value.email}`;
+        return;
+      }
+      router.push({ name: "chat", query: { trainerId: uid } }).catch(() => {
+        alert("Contact info not available");
       });
-      avgRating.value = count > 0 ? total / count : null;
-      reviewsCount.value = count;
-    }
+    };
 
-    // persist to Firestore: try top-level then fallback to subcollection
-    let docRef = null;
-    try {
-      docRef = await addDoc(collection(db, "reviews"), payloadForServer);
-    } catch {
-      docRef = await addDoc(collection(db, `users/${uid}/reviews`), payloadForServer);
-    }
+    // ✅ Add Review Modal
+    const openAddReview = () => {
+      const user = auth.currentUser;
+      if (!user) {
+        showPopup("⚠️ Please login to add a review.");
+        setTimeout(() => {
+          router.push("/login");
+        }, 2000);
+        return;
+      }
+      if (user.displayName) newReview.value.reviewerName = user.displayName;
+      showAddReview.value = true;
+    };
 
-    // replace local id with server id and sync after small delay
-    if (docRef) {
-      const idx = reviews.value.findIndex(r => r.id && String(r.id).startsWith("local-"));
-      if (idx !== -1) reviews.value[idx].id = docRef.id;
-      // schedule sync to capture server timestamp & canonical data
-      setTimeout(() => { fetchReviews().catch(() => {}); }, 1200);
-    }
+    const closeAddReview = () => {
+      showAddReview.value = false;
+      newReview.value = {
+        reviewerName: "",
+        rating: 5,
+        comment: "",
+        phone: "",
+        sessionType: "",
+      };
+    };
 
-    closeAddReview();
-    // optional: show success toast/alert
-    // alert("Thank you for your review!");
-  } catch (err) {
-    console.error("submitReview error:", err);
-    alert("Failed to submit review. Please try again.");
-    // remove optimistic placeholder
-    reviews.value = reviews.value.filter(r => !(r.id && String(r.id).startsWith("local-")));
-    // recompute averages
-    {
-      let total = 0, count = 0;
-      reviews.value.forEach(r => {
-        const rr = typeof r.rating === "number" ? r.rating : 0;
-        if (rr > 0) { total += rr; count++; }
-      });
-      avgRating.value = count > 0 ? total / count : null;
-      reviewsCount.value = count;
-    }
-  } finally {
-    addingReview.value = false;
-  }
+    const submitReview = async () => {
+      if (!uid) {
+        showPopup("❌ No trainer specified");
+        return;
+      }
+      if (!canSubmitReview.value) {
+        showPopup("❌ Please enter your name and comment");
+        return;
+      }
+
+      addingReview.value = true;
+
+      try {
+        const user = auth.currentUser;
+        let traineeName = newReview.value.reviewerName.trim();
+        let traineeProfilePic = null;
+        let traineeId = null;
+
+        if (user) {
+          traineeId = user.uid;
+          try {
+            const uDoc = await getDoc(doc(db, "users", user.uid));
+            if (uDoc.exists()) {
+              const ud = uDoc.data();
+              if (ud.firstName)
+                traineeName = `${ud.firstName} ${ud.lastName || ""}`.trim();
+              traineeProfilePic = ud.profilePicture || ud.profilePic || null;
+            }
+          } catch (e) {
+            console.warn("Could not fetch user profile:", e);
+          }
+        }
+
+        const payloadForServer = {
+          comment: newReview.value.comment.trim(),
+          rating: Number(newReview.value.rating),
+          createdAt: serverTimestamp(),
+          status: "approved",
+          traineeId,
+          traineeName,
+          traineeProfilePic,
+          trainerId: uid,
+          trainerName: `${trainer.value.firstName || ""} ${
+            trainer.value.lastName || ""
+          }`.trim(),
+          trainerProfilePic: trainer.value.profilePicture || null,
+          phone: newReview.value.phone || null,
+          sessionType: newReview.value.sessionType || null,
+        };
+
+        const localCreatedAt = new Date();
+        const localRev = {
+          id: "local-" + Date.now(),
+          ...payloadForServer,
+          createdAt: localCreatedAt,
+        };
+
+        reviews.value.unshift(localRev);
+
+        {
+          let total = 0,
+            count = 0;
+          reviews.value.forEach((r) => {
+            const rr = typeof r.rating === "number" ? r.rating : 0;
+            if (rr > 0) {
+              total += rr;
+              count++;
+            }
+          });
+          avgRating.value = count > 0 ? total / count : null;
+          reviewsCount.value = count;
+        }
+
+        let docRef = null;
+        try {
+          docRef = await addDoc(collection(db, "reviews"), payloadForServer);
+        } catch {
+          docRef = await addDoc(
+            collection(db, `users/${uid}/reviews`),
+            payloadForServer
+          );
+        }
+
+        if (docRef) {
+          const idx = reviews.value.findIndex(
+            (r) => r.id && String(r.id).startsWith("local-")
+          );
+          if (idx !== -1) reviews.value[idx].id = docRef.id;
+          setTimeout(() => {
+            fetchReviews().catch(() => {});
+          }, 1200);
+        }
+
+        closeAddReview();
+        showPopup("✅ Thank you for your review!");
+      } catch (err) {
+        console.error("submitReview error:", err);
+        showPopup("❌ Failed to submit review. Please try again.");
+        reviews.value = reviews.value.filter(
+          (r) => !(r.id && String(r.id).startsWith("local-"))
+        );
+        {
+          let total = 0,
+            count = 0;
+          reviews.value.forEach((r) => {
+            const rr = typeof r.rating === "number" ? r.rating : 0;
+            if (rr > 0) {
+              total += rr;
+              count++;
+            }
+          });
+          avgRating.value = count > 0 ? total / count : null;
+          reviewsCount.value = count;
+        }
+      } finally {
+        addingReview.value = false;
+      }
+    };
+
+    return {
+      trainer,
+      plans,
+      reviews,
+      loading,
+      error,
+      processingPayment,
+      avgRating,
+      reviewsCount,
+      avgRatingDisplay,
+      placeholder,
+      showAddReview,
+      addingReview,
+      newReview,
+      canSubmitReview,
+      showToast,
+      toastMessage,
+      capitalize,
+      getExperience,
+      getLocation,
+      formatPrice,
+      formatDate,
+      handleImageError,
+      viewCertificate,
+      bookPlan,
+      contactTrainer,
+      openAddReview,
+      closeAddReview,
+      submitReview,
+      retryLoad,
+    };
+  },
 };
 </script>
 
 <style scoped>
 .line-clamp-2 {
-  overflow: hidden;
   display: -webkit-box;
-  -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-  line-clamp: 2;
-  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Toast Popup Style */
+.toast {
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(59, 130, 246, 0.95);
+  color: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  z-index: 9999;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeInOut 2.5s ease-in-out forwards;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -55%);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -55%);
+  }
 }
 
 @keyframes fade-in {
