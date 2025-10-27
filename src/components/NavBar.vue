@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="flex justify-between items-center px-[50px] md:px-[70px] h-20 bg-white shadow-sm relative"
+    class="flex justify-between items-center px-[50px] md:px-[70px] h-20 bg-white shadow-sm relative dark:bg-black"
   >
     <!-- 🔹 اللوجو -->
     <img src="@/assets/images/Project LOGO.png" alt="Logo" class="w-[140px] h-auto" />
@@ -33,6 +33,13 @@
       >
         {{ $t("get_started") }}
       </button>
+        <button
+        @click="toggleDarkMode"
+        class=" mx-auto block py-2 cursor-pointer"
+      >
+        {{ isDark ? '☀️' : '🌙' }}
+      </button>
+
 
       <img
         src="@/assets/images/language switch(1)(1).png"
@@ -93,11 +100,13 @@
 </template>
 
 <script>
+
 export default {
   name: "NavBar",
   data() {
     return {
       isOpen: false,
+      isDark: false
     };
   },
   methods: {
@@ -110,12 +119,29 @@ export default {
       document.body.style.fontFamily =
         newLocale === "ar" ? "'Tajawal', sans-serif" : "'Poppins', sans-serif";
     },
+    saveDark(val) {
+      localStorage.setItem('darkMode', val)
+      if (val) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    },
+    toggleDarkMode() {
+      this.isDark = !this.isDark
+      this.saveDark(this.isDark)
+    }
+    
   },
   mounted() {
     document.dir = this.$i18n.locale === "ar" ? "rtl" : "ltr";
+    const saved = localStorage.getItem('darkMode') === 'true'
+    this.isDark = saved
+    this.saveDark(saved)
   },
 };
 </script>
+
 
 <style scoped>
 /* 🌈 ألوان اللينكات */
