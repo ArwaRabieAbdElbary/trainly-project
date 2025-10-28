@@ -1,8 +1,8 @@
 <template>
   <section
-    class="relative w-full h-[450px] md:h-[600px] lg:h-[796px] max-w-full mx-auto overflow-visible mt-1 bg-sec1-sm"
+    class="relative w-full h-[450px] md:h-[600px] lg:h-[796px] max-w-full mx-auto overflow-visible bg-sec1-sm dark:bg-black"
   >
-    <div class="flex md:px-[70px] h-full justify-between">
+    <div class="flex md:px-[70px] h-full justify-between dark:bg-black dark:text-white">
       <div
         class="flex-1 pt-8 flex flex-col items-center md:items-start md:justify-start relative z-10 mt-13"
       >
@@ -50,7 +50,7 @@
   <section
     class="relative max-w-full pb-10 md:pb-0 h-auto md:h-[650px] lg:h-[796px] mx-auto overflow-hidden mt-0 lg:mt-10 bg-sec2-sm md:bg-sec2"
   >
-    <div class="flex h-full">
+    <div class="flex h-full dark:bg-black dark:">
       <div class="hidden lg:flex flex-1 relative">
         <div class="absolute inset-0"></div>
         <img
