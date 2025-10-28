@@ -79,8 +79,8 @@ exports.createCheckoutSession = functions.https.onRequest(async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: `https://trainly-4f7a8.web.app/payment-success?session_id={CHECKOUT_SESSION_ID}&trainerId=${trainerId || ''}`,
-      cancel_url: `https://trainly-4f7a8.web.app/payment-cancel?trainerId=${trainerId || ''}`,
+      success_url: `https://trainly0.netlify.app/payment-success?session_id={CHECKOUT_SESSION_ID}&trainerId=${trainerId || ''}`,
+      cancel_url: `https://trainly0.netlify.app/payment-cancel?trainerId=${trainerId || ''}`,
       metadata: {
         planId,
         userId,
