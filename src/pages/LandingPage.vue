@@ -283,7 +283,7 @@
         </div>
         <div class="w-1/2 ps-8 md:ps-12">
           <h3 class="text-md md:text-xl font-semibold">{{ $t("step4Title") }}</h3>
-          <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
+          <p class="text-gray-7075 leading-[150%] text-[13px] md:text-[17px]">
             {{ $t("step4Desc") }}
             <br />
             {{ $t("step4Desc2") }}
@@ -313,15 +313,11 @@
 </template>
 
 <style>
-:root {
+::root {
   --primary: #00c853;
   --secondry: #00b0ffb2;
   --third: #ffffff;
   --fourth: #7ae2a5f2;
-}
-
-.bg-primary {
-  background: linear-gradient(to right, var(--primary), var(--secondry));
 }
 
 .bg-sec1 {

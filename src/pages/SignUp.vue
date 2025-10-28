@@ -5,9 +5,11 @@
     <!-- Background image layer (blur on small screens, normal on desktop) -->
     <div
       class="absolute inset-0 bg-cover bg-center transition-all duration-300"
-      style="background-image: url(&quot;/src/assets/images/signup.png&quot;)"
-      aria-hidden="true"
-    ></div>
+    >
+      <div class="w-full h-full bg-cover bg-center" :style="{ backgroundImage: `url(${bgSignup})` }">
+
+      </div>
+    </div>
 
     <!-- optional dim overlay on small screens to increase contrast -->
     <div class="absolute inset-0 bg-black/25 lg:bg-transparent pointer-events-none"></div>
@@ -613,6 +615,7 @@ import {
   runTransaction,
 } from "firebase/firestore";
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+import bgSignup from "../assets/images/signup.png";
 
 export default {
   name: "RegistrationForm",
@@ -646,6 +649,7 @@ export default {
       usernameStatus: "",
       usernameMessage: "",
       usernameTimeout: null,
+      bgSignup,
     };
   },
   computed: {
