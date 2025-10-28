@@ -3,7 +3,8 @@
   {{ toastMessage }}
 </div>
   <div
-    class="bg-[url('/src/assets/images/couple-training-together-gym.jpg')] bg-cover bg-no-repeat bg-[position-x:100%] w-full h-screen flex items-center justify-start pl-20 max-[768px]:pl-0 max-[768px]:justify-center"
+    class="bg-cover bg-no-repeat bg-[position-x:100%] w-full h-screen flex items-center justify-start pl-20 max-[768px]:pl-0 max-[768px]:justify-center"
+    :style="{ backgroundImage: `url(${bgLogin})` }"
   >
     <div
       class="w-[480px] max-w-[calc(100%-40px)] mx-0 rounded-[10px] bg-white/95 p-3 flex items-start justify-center relative animate-slideUp"
@@ -47,9 +48,7 @@
               @click="togglePasswordVisibility"
             >
               <img
-                :src="
-                  passwordVisible ? '/src/assets/images/eye off.png' : '/src/assets/images/Eye.png'
-                "
+                :src="passwordVisible ? eyeOff : eye"
                 alt="Show/Hide"
                 class="w-full h-auto"
               />
@@ -65,7 +64,7 @@
           </a>
 
           <!-- Login Button -->
-<button
+          <button
   type="submit"
   class="w-full p-3 text-white text-lg rounded-md cursor-pointer mb-4 bg-gradient-to-r from-[#00C853] to-[#00b0ff] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
   :disabled="isLoading"
@@ -105,7 +104,7 @@
             @click="handleGoogleLogin"
             class="flex items-center justify-center gap-2 border border-gray-300 p-2 cursor-pointer rounded-md bg-white w-full"
           >
-            <img src="/src/assets/images/g-logo.png" alt="google" class="w-5 h-5" />
+            <img :src="googleLogo" alt="google" class="w-5 h-5" />
             Continue with Google
           </button>
 
@@ -133,6 +132,10 @@ import {
   signOut,
 } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import bgLogin from "../assets/images/couple-training-together-gym.jpg";
+import eye from "../assets/images/Eye.png";
+import eyeOff from "../assets/images/eye off.png";
+import googleLogo from "../assets/images/g-logo.png";
 
 export default {
   name: "LoginPage",
@@ -323,6 +326,10 @@ export default {
       passwordFieldType,
       showToast,
       toastMessage,
+      bgLogin,
+      eye,
+      eyeOff,
+      googleLogo,
     };
   },
 };

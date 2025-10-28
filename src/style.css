@@ -25,6 +25,7 @@ html[dir="ltr"] .text-start {
   --fourth:#7AE2A5F2;
 }
 
+
 html, body {
   overflow-x: hidden;
 }
@@ -35,6 +36,9 @@ input:focus {
 
 }
 
+/* Ensure navbar links are white in dark mode (non-active) */
+html.dark .nav-link { color: #ffffff !important; }
+html.dark .nav-link:hover { color: #ffffff !important; }
 
 
 .btn-primary {
