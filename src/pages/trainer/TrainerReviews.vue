@@ -171,7 +171,7 @@ export default {
           });
         }
       } catch (err) {
-        console.error("Error fetching reviews:", err);
+        console.error("Error fetching reviews :", err);
       }
     });
   },
