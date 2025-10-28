@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white dark:bg-black min-h-screen flex flex-col items-center py-12 px-4 sm:px-8">
+  <div class="bg-white shadow-3xl dark:bg-black min-h-screen flex flex-col items-center py-12 px-4 sm:px-8">
     <!-- Hero Section -->
     <div
       class="max-w-5xl w-full  bg-white dark:bg-[#3B3B3B] rounded-2xl shadow-sm p-8 sm:p-12 flex flex-col sm:flex-row items-center justify-between mb-12"
