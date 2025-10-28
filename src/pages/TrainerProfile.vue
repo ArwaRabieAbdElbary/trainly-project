@@ -663,7 +663,7 @@ const fetchPlans = async () => {
         console.log("📞 Token preview:", token ? token.substring(0, 20) + "..." : "none");
 
         // ✅ 3. استدعاء Cloud Function مباشرة باستخدام fetch مع token
-        const functionsUrl = `https://us-central1-trainly-4f7a8.cloudfunctions.net/createCheckoutSession`;
+        const functionsUrl = `https://us-central1-trainly0.netlify.cloudfunctions.net/createCheckoutSession`;
 
         console.log("📞 Calling createCheckoutSession directly...");
 
