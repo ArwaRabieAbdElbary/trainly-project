@@ -1,6 +1,6 @@
 <template>
  
-  <nav class="top-0 z-50 w-full">
+  <nav class="top-0 z-50 w-full dark:bg-black">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
       <div class="flex items-center justify-between">
         <!-- ✅ زرار السايد بار (شغال بVue) -->
@@ -77,7 +77,7 @@
     ]"
     aria-label="Sidebar"
   >
-    <div class="h-full px-3 py-4 overflow-y-auto">
+    <div class="h-full px-3 py-4 overflow-y-auto dark:bg-[#3B3B3B]">
       <ul class="space-y-4 font-light text-[14px] mx-5">
         <!-- ✅ Logo -->
         <li class="mb-8 mt-3 mx-2">

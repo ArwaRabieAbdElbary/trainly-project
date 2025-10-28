@@ -8,7 +8,7 @@
     </div>
     <!-- ========= Personal Info Section ========= -->
     <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7"
+      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7 dark:bg-[#3B3B3B]"
     >
       <div class="flex items-center gap-3 mb-6">
         <div
@@ -246,7 +246,7 @@
 
     <!-- ========= Security Section ========= -->
     <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7"
+      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7 dark:bg-[#3B3B3B]"
     >
       <div class="flex">
         <div
@@ -485,7 +485,7 @@
 
     <!-- ========= subsecribtion Section ========= -->
     <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-8"
+      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-8 dark:bg-[#3B3B3B]"
     >
       <!-- Header -->
       <div class="flex items-start mb-8">
@@ -509,7 +509,7 @@
       <!-- Content -->
       <div class="flex flex-col md:flex-row justify-between gap-10">
         <!-- Left side: Plan details -->
-        <div class="flex-1 bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100">
+        <div class="flex-1 bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100 dark:bg-[#3B3B3B]">
           <h3 class="text-lg font-medium mb-3 text-gray-800">Current Plan</h3>
           <ul class="space-y-3 text-gray-600 text-sm">
             <li><span class="font-medium text-gray-800">$29.99/month</span></li>
@@ -583,13 +583,13 @@
           </button>
 
           <button
-            class="border border-gray-300 text-gray-800 bg-[#f7f8f8] hover:bg-[#eaf3f7] focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-6 py-3 w-full transition"
+            class="border border-gray-300 text-gray-800 bg-[#f7f8f8] dark:bg-[#3B3B3B] hover:bg-[#eaf3f7] focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-6 py-3 w-full transition"
           >
             Downgrade Plan
           </button>
 
           <button
-            class="text-red-500 hover:text-red-600 border border-red-200 bg-[#fff5f5] font-medium rounded-lg text-sm px-6 py-3 w-full transition"
+            class="text-red-500 hover:text-red-600 border border-red-200 bg-[#fff5f5] dark:bg-[#3B3B3B] font-medium rounded-lg text-sm px-6 py-3 w-full transition"
           >
             Cancel Subscription
           </button>
@@ -598,7 +598,7 @@
     </div>
 
     <!-- ========= payment Section ========= -->
- <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-8">
+ <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-8 dark:bg-[#3B3B3B]">
   <!-- Header -->
   <div class="flex items-start mb-8">
     <div class="bg-[#D9EEFF] w-11 h-11 rounded-xl flex items-center justify-center mr-3">
@@ -626,13 +626,13 @@
   <!-- Content Section -->
   <div class="flex flex-col md:flex-row justify-between gap-10">
     <!-- Left side: Payment Methods -->
-    <div class="flex-1 bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100">
+    <div class="flex-1 bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100 dark:bg-[#3B3B3B]">
       <h3 class="text-lg font-semibold mb-4 text-gray-800">Payment Methods</h3>
 
       <!-- Card Method -->
      <!-- Card Method -->
 <div
-  class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 mb-4 shadow-sm"
+  class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 mb-4 shadow-sm dark:bg-[#3B3B3B]"
 >
   <img src="../../assets/images/i.png" alt="card" class="w-8 h-8" />
   <div>
@@ -643,7 +643,7 @@
 
 <!-- PayPal Method -->
 <div
-  class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 mb-6 shadow-sm"
+  class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 mb-6 shadow-sm dark:bg-[#3B3B3B]"
 >
   <img src="../../assets/images/ip.png" alt="paypal" class="w-8 h-8 opacity-90" />
   <div class="flex flex-col w-full">
@@ -663,7 +663,7 @@
         </button>
 
         <button
-          class="border border-gray-300 text-gray-800 bg-white hover:bg-gray-50 focus:ring-4 focus:ring-green-200 font-medium rounded-lg text-sm px-6 py-3 w-full transition"
+          class="border border-gray-300 text-gray-800 bg-white dark:bg-[#3B3B3B] hover:bg-gray-50 focus:ring-4 focus:ring-green-200 font-medium rounded-lg text-sm px-6 py-3 w-full transition"
         >
           Withdraw Earnings
         </button>
@@ -671,11 +671,11 @@
     </div>
 
     <!-- Right side: Recent Transactions -->
-    <div class="flex-1 bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100">
+    <div class="flex-1 bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100 dark:bg-[#3B3B3B]">
       <h3 class="text-lg font-semibold mb-4 text-gray-800">Recent Transactions</h3>
 
       <div class="flex flex-col gap-4">
-        <div class="flex justify-between items-center bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+        <div class="flex justify-between items-center bg-white rounded-xl p-4 border border-gray-200 shadow-sm dark:bg-[#3B3B3B]">
           <div>
             <p class="font-medium text-gray-800">Training Session</p>
             <p class="text-sm text-gray-500">Oct 15, 2025</p>
@@ -683,7 +683,7 @@
           <p class="text-green-600 font-semibold">+$80.00</p>
         </div>
 
-        <div class="flex justify-between items-center bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+        <div class="flex justify-between items-center bg-white rounded-xl p-4 border border-gray-200 shadow-sm dark:bg-[#3B3B3B]">
           <div>
             <p class="font-medium text-gray-800">Monthly Membership</p>
             <p class="text-sm text-gray-500">Oct 12, 2025</p>
@@ -691,7 +691,7 @@
           <p class="text-green-600 font-semibold">+$150.00</p>
         </div>
 
-        <div class="flex justify-between items-center bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+        <div class="flex justify-between items-center bg-white rounded-xl p-4 border border-gray-200 shadow-sm dark:bg-[#3B3B3B]">
           <div>
             <p class="font-medium text-gray-800">Platform Fee</p>
             <p class="text-sm text-gray-500">Oct 11, 2025</p>

@@ -9,7 +9,7 @@ export default {
     <div class="p-0">
       <div class="grid grid-cols-1 gap-4 mb-4">
         <div
-          class="flex flex-col items-left  h-23 rounded-sm bg-white"
+          class="flex flex-col items-left  h-23 rounded-sm bg-white dark:bg-black"
         >
           <h1 class="text-2xl">Clients</h1>
 
@@ -29,14 +29,14 @@ export default {
             <input
               type="text"
               placeholder="Search Clients"
-              class="border border-gray-300 rounded-xl pl-10 py-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="border border-gray-300 rounded-xl pl-10 py-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-[#3B3B3B]"
               required
             />
           </div>
         </div>
         <div class="col-span-4">
           <select
-            class="border border-gray-300 rounded-xl px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-400"
+            class="border border-gray-300 rounded-xl px-4 py-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-400 dark:bg-[#3B3B3B]"
             required
           >
             <option value="all">All Clients</option>
@@ -49,7 +49,7 @@ export default {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
         <!-- Card -->
         <div
-          class="flex flex-col border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition relative"
+          class="flex flex-col border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition relative dark:bg-[#3B3B3B]"
         >
           <!-- Profile -->
           <div class="flex items-center justify-between  mb-4 ">
@@ -87,7 +87,7 @@ export default {
 
         <!-- Example of expired -->
         <div
-          class="flex flex-col border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition relative"
+          class="flex flex-col border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition relative dark:bg-[#3B3B3B]"
         >
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
@@ -119,7 +119,7 @@ export default {
           </div>
         </div>
         <div
-          class="flex flex-col border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition relative"
+          class="flex flex-col border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition relative dark:bg-[#3B3B3B]"
         >
           <!-- Profile -->
           <div class="flex items-center justify-between  mb-4 ">
@@ -157,7 +157,7 @@ export default {
 
         <!-- Example of expired -->
         <div
-          class="flex flex-col border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition relative"
+          class="flex flex-col border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition relative dark:bg-[#3B3B3B]"
         >
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">
@@ -189,7 +189,7 @@ export default {
           </div>
         </div>
         <div
-          class="flex flex-col border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition relative"
+          class="flex flex-col border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition relative dark:bg-[#3B3B3B]"
         >
           <!-- Profile -->
           <div class="flex items-center justify-between  mb-4 ">
@@ -227,7 +227,7 @@ export default {
 
         <!-- Example of expired -->
         <div
-          class="flex flex-col border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition relative"
+          class="flex flex-col border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition relative dark:bg-[#3B3B3B]"
         >
           <div class="flex items-center justify-between mb-4">
             <div class="flex items-center">

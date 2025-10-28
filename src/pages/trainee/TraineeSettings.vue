@@ -1,7 +1,7 @@
 <template>
   <!-- Welcome Header -->
   <div
-    class="w-full relative mb-10 bg-gradient-to-r from-[#D9EEFF] to-[#AEE2FF] rounded-2xl shadow-md p-6 flex items-center justify-between overflow-hidden"
+    class="w-full relative mb-10 bg-gradient-to-r from-[#D9EEFF] to-[#AEE2FF] rounded-2xl shadow-md p-6 flex items-center justify-between overflow-hidden "
   >
     <div class="absolute top-0 right-0 w-40 h-40 bg-white/20 rounded-full blur-2xl"></div>
 
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <section class="w-full flex flex-col gap-10">
+  <section class="w-full flex flex-col gap-10 dark:bg-black">
     <div class="">
       <h2 class="text-[24px] font-medium text-gray-900">Settings</h2>
       <p class="mt-2 text-[16px] text-gray-500">
@@ -27,7 +27,7 @@
 
     <form
       @submit.prevent="showConfirmUpdateModal"
-      class="p-15 border border-gray-200 rounded-3xl shadow-xl bg-white flex flex-col items-center"
+      class="p-15 border border-gray-200 rounded-3xl shadow-xl bg-white flex flex-col items-center dark:bg-[#3B3B3B]"
     >
       <div class="flex items-center gap-3 mb-6 self-start">
         <div class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
@@ -180,7 +180,7 @@
     </form>
 
     <!-- ========= Security Section ========= -->
-    <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-10">
+    <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-10 dark:bg-[#3B3B3B]">
       <div class="flex mx-5">
         <div class="bg-[#f4f8fc] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1">
           <img src="../../assets/images/security.png" alt="" class="w-5 h-5" />
