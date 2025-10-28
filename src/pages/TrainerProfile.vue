@@ -140,13 +140,14 @@
                 </div>
               </div>
 
+              <!-- بدل :disabled="processingPayment" -->
               <button
                 @click="bookPlan(plan)"
-                :disabled="processingPayment"
+                :disabled="processingPayment && processingPlanId === plan.id"
                 class="w-full py-2.5 rounded-lg font-semibold transition-all transform"
-                :class="processingPayment ? 'bg-gray-300 cursor-not-allowed' : 'bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white hover:scale-105'"
+                :class="(processingPayment && processingPlanId === plan.id) ? 'bg-gray-300 cursor-not-allowed' : 'bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white hover:scale-105'"
               >
-                <span v-if="processingPayment" class="flex items-center justify-center gap-2">
+                <span v-if="processingPayment && processingPlanId === plan.id" class="flex items-center justify-center gap-2">
                   <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
@@ -155,6 +156,7 @@
                 </span>
                 <span v-else>Book Now</span>
               </button>
+
             </div>
           </div>
         </div>
@@ -410,6 +412,8 @@ export default {
     const loading = ref(true);
     const error = ref(null);
     const processingPayment = ref(false);
+    // <-- new: id للخطة اللي عليها معالجة الآن (null لو مفيش)
+    const processingPlanId = ref(null);
 
     const avgRating = ref(null);
     const reviewsCount = ref(0);
@@ -624,7 +628,11 @@ const fetchPlans = async () => {
       loadData();
     });
 
-    // ✅ =================== STRIPE PAYMENT ===================
+    // ✅ =================== STRIPE PAYMENT (modified only) ===================
+    // تحسّنات:
+    // - يمنع النقرات المتكررة
+    // - وقت انتظار للـ fetch (30s)
+    // - معالجة أخطاء أوضح وحفظ lastPlanId
     const bookPlan = async (plan) => {
       const user = auth.currentUser;
 
@@ -637,63 +645,104 @@ const fetchPlans = async () => {
         return;
       }
 
+      // منع إعادة النقر أثناء معالجة طلب دفع آخر
+      if (processingPayment.value) {
+        showPopup("⚠️ A payment is already in progress. Please wait...");
+        return;
+      }
+
       try {
         processingPayment.value = true;
+        processingPlanId.value = plan.id; // <-- هنا نحدد أي plan تحت المعالجة
         showPopup("🔄 Preparing payment...");
 
         // ✅ 2. تأكد من وجود token وحصل عليه
         const token = await user.getIdToken(true); // force refresh
         console.log("📞 User authenticated, token exists:", !!token);
         console.log("📞 User ID:", user.uid);
-        console.log("📞 Token preview:", token.substring(0, 20) + "...");
-        
+        console.log("📞 Token preview:", token ? token.substring(0, 20) + "..." : "none");
+
         // ✅ 3. استدعاء Cloud Function مباشرة باستخدام fetch مع token
         const functionsUrl = `https://us-central1-trainly-4f7a8.cloudfunctions.net/createCheckoutSession`;
-        
+
         console.log("📞 Calling createCheckoutSession directly...");
-        
-        // حفظ trainer ID في localStorage للرجوع إليه بعد الدفع
-        localStorage.setItem('lastTrainerId', uid);
-        
-        const response = await fetch(functionsUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+
+        // حفظ trainer ID و plan ID في localStorage للرجوع إليه بعد الدفع
+        localStorage.setItem("lastTrainerId", uid);
+        localStorage.setItem("lastPlanId", plan.id);
+
+        // إعداد طلب مع إمكانية الإلغاء (timeout)
+        const controller = new AbortController();
+        const timeoutMs = 30000;
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+        const payload = {
+          data: {
+            planId: plan.id,
+            planName: plan.title || plan.name || "Training Plan",
+            amount: Number(plan.price) || 0,
+            trainerId: uid,
           },
-          body: JSON.stringify({
-            data: {
-              planId: plan.id,
-              planName: plan.title || "Training Plan",
-              amount: Number(plan.price) || 0,
-              trainerId: uid,
-            }
-          })
+        };
+
+        const response = await fetch(functionsUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
         });
 
+        clearTimeout(timeoutId);
+
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error?.message || `HTTP ${response.status}`);
+          // حاول نقرا JSON لرسالة الخطأ إن وجدت
+          let errorData = null;
+          try {
+            errorData = await response.json();
+          } catch (e) {
+            /* ignore json parse error */
+          }
+          throw new Error(errorData?.error?.message || `HTTP ${response.status}`);
         }
 
-        const result = await response.json();
-        console.log("✅ Response:", result);
-        
-        const responseData = { data: result.result };
+        // قراءة الناتج (بعض الـ function ترجع الشكل { result: {...} })
+        let resultJson = null;
+        try {
+          resultJson = await response.json();
+        } catch (e) {
+          // لو مفيش JSON
+          throw new Error("Invalid response from payment server");
+        }
 
-        // ✅ 4. إعادة التوجيه لـ Stripe
-        if (responseData.data && responseData.data.url) {
+        // المرونة في استخراج رابط الـ checkout
+        const resultObj = resultJson.result ?? resultJson.data ?? resultJson;
+        const checkoutUrl =
+          resultObj?.url ||
+          resultObj?.checkoutUrl ||
+          resultObj?.checkout_url ||
+          resultObj?.session?.url ||
+          null;
+
+        if (checkoutUrl) {
           showPopup("✅ Redirecting to payment...");
+          // نفس التأخير البسيط قبل إعادة التوجيه علشان توست يبان
           setTimeout(() => {
-            window.location.href = responseData.data.url;
-          }, 1000);
+            window.location.href = checkoutUrl;
+          }, 900);
         } else {
+          console.error("No checkout URL in response:", resultJson);
           throw new Error("No checkout URL received");
         }
       } catch (err) {
         console.error("❌ Payment error:", err);
 
-        if (err.code === "unauthenticated") {
+        // أنواع الأخطاء الشائعة
+        if (err.name === "AbortError") {
+          showPopup("❌ Payment request timed out. Please try again.");
+        } else if (err.code === "unauthenticated") {
           showPopup("⚠️ Please login to continue with payment");
           setTimeout(() => {
             router.push("/login");
@@ -703,10 +752,11 @@ const fetchPlans = async () => {
         } else if (err.code === "invalid-argument") {
           showPopup("❌ Invalid payment data. Please try again.");
         } else {
-          showPopup(`❌ Payment failed: ${err.message}`);
+          showPopup(`❌ Payment failed: ${err.message || err}`);
         }
       } finally {
         processingPayment.value = false;
+        processingPlanId.value = null; // <-- نفضي الـ processing id بعد الانتهاء
       }
     };
 
@@ -914,6 +964,7 @@ const fetchPlans = async () => {
       loading,
       error,
       processingPayment,
+      processingPlanId, // <- expose to template
       avgRating,
       reviewsCount,
       avgRatingDisplay,
@@ -941,6 +992,8 @@ const fetchPlans = async () => {
   },
 };
 </script>
+
+
 
 <style scoped>
 .line-clamp-2 {
