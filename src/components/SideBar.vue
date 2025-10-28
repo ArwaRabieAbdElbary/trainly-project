@@ -10,7 +10,7 @@
             type="button"
             class="inline-flex items-center justify-center p-2 text-gray-600 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 transition duration-200"
           >
-            <span class="sr-only">Open sidebar</span>
+            <span class="sr-only dark:text-white">Open sidebar</span>
             <svg
               class="w-6 h-6"
               aria-hidden="true"
@@ -84,11 +84,20 @@
   >
     <div class="h-full px-3 py-4 dark:bg-[#3B3B3B]">
       <ul class="space-y-4 font-light text-[14px] mx-5">
-        <li class="mb-11 mt-3 mx-2">
+         <!-- ✅ Logo -->
+        <li class="mb-8 mt-3 mx-2">
+          <!-- لوجو اللايت -->
           <img
             src="@/assets/images/Project LOGO.png"
-            class="h-8 w-25 me-3"
+            class="h-8 w-25 me-3 block dark:hidden"
             alt="Logo"
+          />
+
+          <!-- لوجو الدارك -->
+          <img
+            src="@/assets/images/LOGO for (Dark mode).png"
+            class="h-8 w-25 me-3 hidden dark:block"
+            alt="Logo Dark"
           />
         </li>
 
@@ -112,7 +121,7 @@
                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
               />
             </svg>
-            <span class="ms-3">View My Profile</span>
+            <span class="ms-3 dark:text-white">View My Profile</span>
           </router-link>
         </li>
 
@@ -122,7 +131,7 @@
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
             <img src="@/assets/images/bx_home.png" alt="" class="w-5 h-5" />
-            <span class="ms-3">Home</span>
+            <span class="ms-3 dark:text-white">Home</span>
           </router-link>
         </li>
 
@@ -136,7 +145,7 @@
               alt=""
               class="w-5 h-5"
             />
-            <span class="ms-3">My Plans</span>
+            <span class="ms-3 dark:text-white">My Plans</span>
           </router-link>
         </li>
 
@@ -150,7 +159,7 @@
               alt=""
               class="w-5 h-5"
             />
-            <span class="ms-3">Inbox</span>
+            <span class="ms-3 dark:text-white">Inbox</span>
           </router-link>
         </li>
 
@@ -164,7 +173,7 @@
               alt=""
               class="w-5 h-5"
             />
-            <span class="ms-3">Clients</span>
+            <span class="ms-3 dark:text-white">Clients</span>
           </router-link>
         </li>
 
@@ -178,7 +187,7 @@
               alt=""
               class="w-5 h-5"
             />
-            <span class="ms-3">Reviews</span>
+            <span class="ms-3 dark:text-white">Reviews</span>
           </router-link>
         </li>
 
@@ -192,7 +201,7 @@
               alt=""
               class="w-5 h-5"
             />
-            <span class="ms-3">Settings</span>
+            <span class="ms-3 dark:text-white">Settings</span>
           </router-link>
         </li>
 
@@ -206,7 +215,7 @@
               alt=""
               class="w-6 h-6"
             />
-            <span class="ms-3">Customer Service</span>
+            <span class="ms-3 dark:text-white">Customer Service</span>
           </router-link>
         </li>
 
