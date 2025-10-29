@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white dark:bg-black">
+  <div class="bg-white dark:bg-[#1e1e1e] ">
     <section class="w-[90%] md:w-[85%] mx-auto mt-10 mb-12 relative">
       <div
         class="relative flex flex-col justify-center items-center text-center text-white h-[200px] md:h-[377px] border-4 border-black rounded-3xl overflow-hidden shadow-lg"
@@ -23,7 +23,7 @@
 
           <!-- Search Bar -->
           <div
-            class="relative mx-auto flex items-center bg-white dark:bg-black rounded-xl border-2 border-black shadow-md overflow-hidden w-[90%] md:w-[80%]"
+            class="relative mx-auto flex items-center bg-white dark:bg-[#3B3B3B] rounded-xl border-2 border-black shadow-md overflow-hidden w-[90%] md:w-[80%]"
           >
             <input
               v-model="searchQuery"
@@ -86,7 +86,7 @@
             <div
               v-for="trainer in group"
               :key="trainer.uid"
-              class="relative w-[300px] h-[400px] flex-shrink-0 bg-white rounded-[25px] border border-gray-200 shadow-lg flex flex-col justify-between transition-transform duration-300 hover:scale-[1.03] overflow-hidden"
+              class="relative w-[300px] h-[400px] flex-shrink-0 bg-white dark:bg-[#3B3B3B] rounded-[25px] border border-gray-200 shadow-lg flex flex-col justify-between transition-transform duration-300 hover:scale-[1.03] overflow-hidden"
             >
               <!-- Trainer Image -->
               <img
@@ -97,14 +97,14 @@
 
               <!-- Trainer Info -->
               <div class="flex-1 p-5 text-left">
-                <h3 class="text-[20px] font-semibold text-gray-800 mb-1">
+                <h3 class="text-[20px] font-semibold text-gray-800 dark:text-gray-400 mb-1">
                   {{ trainer.firstName }} {{ trainer.lastName }}
                 </h3>
-                <p class="text-[#00B0FF] text-md font-medium mb-2 capitalize">
+                <p class="text-[#00B0FF] dark:text-gray-400 text-md font-medium mb-2 capitalize">
                   {{ trainer.sport }}
                 </p>
 
-                <p class="text-gray-500 text-sm mb-2 flex items-center">
+                <p class="text-gray-500 dark:text-gray-300 text-sm mb-2 flex items-center">
                   <img
                     src="@/assets/images/mi_location.png"
                     alt="location"
@@ -113,7 +113,7 @@
                   {{ trainer.city }}, {{ trainer.country }}
                 </p>
 
-                <p class="text-gray-600 text-sm flex items-center">
+                <p class="text-gray-600 dark:text-gray-300 text-sm flex items-center">
                   <img
                     src="@/assets/images/line-md_star-filled.png"
                     alt="star"
@@ -129,7 +129,7 @@
               <div class="absolute bottom-4 right-4">
                 <router-link
                   :to="{ path: '/viewtrainerprofile', query: { uid: trainer.uid } }"
-                  class="bg-[#00B0FF] hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-[15px] transition cursor-pointer"
+                  class="bg-[#00B0FF] dark:bg-[#555555] hover:bg-blue-600 text-white dark:text-gray-300 font-medium py-2 px-4 rounded-[15px] transition cursor-pointer"
                 >
                   View Profile
                 </router-link>
