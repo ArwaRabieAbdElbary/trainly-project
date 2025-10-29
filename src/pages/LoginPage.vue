@@ -3,7 +3,8 @@
     {{ toastMessage }}
   </div>
   <div
-    class="bg-[url('/src/assets/images/couple-training-together-gym.jpg')] bg-cover bg-no-repeat bg-[position-x:100%] w-full h-screen flex items-center justify-start pl-20 max-[768px]:pl-0 max-[768px]:justify-center"
+    class="bg-cover bg-no-repeat bg-[position-x:100%] w-full h-screen flex items-center justify-start pl-20 max-[768px]:pl-0 max-[768px]:justify-center"
+    :style="{ backgroundImage: `url(${bgLogin})` }"
   >
     <div
       class="w-[480px] max-w-[calc(100%-40px)] mx-0 rounded-[10px] bg-white dark:bg-[#3B3B3B]/80 p-3 flex items-start justify-center relative animate-slideUp"
@@ -49,9 +50,7 @@
               @click="togglePasswordVisibility"
             >
               <img
-                :src="
-                  passwordVisible ? '/src/assets/images/eye off.png' : '/src/assets/images/Eye.png'
-                "
+                :src="passwordVisible ? eyeOff : eye"
                 alt="Show/Hide"
                 class="w-full h-auto"
               />
@@ -69,35 +68,38 @@
 
           <!-- Login Button -->
           <button
-            type="submit"
-            class="w-full p-3 text-white text-lg rounded-md cursor-pointer mb-4 bg-gradient-to-r from-[#00C853] to-[#00b0ff] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-            :disabled="isLoading"
-          >
-            <template v-if="!isLoading"> Log In </template>
-            <template v-else>
-              <svg
-                class="animate-spin h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                ></path>
-              </svg>
-              <span>Logging in...</span>
-            </template>
-          </button>
+  type="submit"
+  class="w-full p-3 text-white text-lg rounded-md cursor-pointer mb-4 bg-gradient-to-r from-[#00C853] to-[#00b0ff] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+  :disabled="isLoading"
+>
+  <template v-if="!isLoading">
+    Log In
+  </template>
+  <template v-else>
+    <svg
+      class="animate-spin h-5 w-5 text-white"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        class="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        stroke-width="4"
+      ></circle>
+      <path
+        class="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+      ></path>
+    </svg>
+    <span>Logging in...</span>
+  </template>
+</button>
+
 
           <!-- Google Button -->
           <button
@@ -105,7 +107,7 @@
             @click="handleGoogleLogin"
             class="flex items-center dark:text-white dark:bg-[#555555] justify-center gap-2 border border-gray-300 p-2 cursor-pointer rounded-md bg-white w-full"
           >
-            <img src="/src/assets/images/g-logo.png" alt="google" class="w-5 h-5" />
+            <img :src="googleLogo" alt="google" class="w-5 h-5" />
             Continue with Google
           </button>
 
@@ -138,6 +140,10 @@ import {
   signOut,
 } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import bgLogin from "../assets/images/couple-training-together-gym.jpg";
+import eye from "../assets/images/Eye.png";
+import eyeOff from "../assets/images/eye off.png";
+import googleLogo from "../assets/images/g-logo.png";
 
 export default {
   name: "LoginPage",
@@ -193,10 +199,8 @@ export default {
 
         // ✅ تحقق من الدور (role)
         if (userData.role === "trainer") {
-          showPopup("✅ Logged in successfully!");
           router.push("/trainer/home");
         } else {
-          showPopup("✅ Logged in successfully!");
           router.push("/traineehome");
         }
       } catch (error) {
@@ -323,6 +327,10 @@ export default {
       passwordFieldType,
       showToast,
       toastMessage,
+      bgLogin,
+      eye,
+      eyeOff,
+      googleLogo,
     };
   },
 };

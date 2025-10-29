@@ -1,6 +1,5 @@
 <template>
- 
-  <nav class="top-0 z-50 w-full">
+  <nav class="top-0 z-50 w-full dark:bg-black">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
       <div class="flex items-center justify-between">
         <!-- ✅ زرار السايد بار (شغال بVue) -->
@@ -73,15 +72,27 @@
     :class="[
       'fixed top-0 left-0 z-40 w-65 h-screen bg-all transition-transform duration-300 ease-in-out rounded-tr-4xl',
       isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
-      'lg:translate-x-0 lg:block'
+      'lg:translate-x-0 lg:block',
     ]"
     aria-label="Sidebar"
   >
-    <div class="h-full px-3 py-4 overflow-y-auto">
+    <div class="h-full px-3 py-4 overflow-y-auto dark:bg-[#3B3B3B]">
       <ul class="space-y-4 font-light text-[14px] mx-5">
         <!-- ✅ Logo -->
         <li class="mb-8 mt-3 mx-2">
-          <img src="@/assets/images/Project LOGO.png" class="h-8 w-25 me-3" alt="Logo" />
+          <!-- لوجو اللايت -->
+          <img
+            src="@/assets/images/Project LOGO.png"
+            class="h-8 w-25 me-3 block dark:hidden"
+            alt="Logo"
+          />
+
+          <!-- لوجو الدارك -->
+          <img
+            src="@/assets/images/LOGO for (Dark mode).png"
+            class="h-8 w-25 me-3 hidden dark:block"
+            alt="Logo Dark"
+          />
         </li>
 
         <!-- ✅ Back to Home Button -->
@@ -113,8 +124,12 @@
             to="/trainee/mytrainers"
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
-            <img src="@/assets/images/fluent_people-24-filled.png" alt="" class="w-5 h-5" />
-            <span class="ms-3">My trainers</span>
+            <img
+              src="@/assets/images/fluent_people-24-filled.png"
+              alt=""
+              class="w-5 h-5"
+            />
+            <span class="ms-3 dark:text-white">My trainers</span>
           </router-link>
         </li>
 
@@ -123,8 +138,12 @@
             to="/traineeplans"
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
-            <img src="@/assets/images/grommet-icons_plan.png" alt="" class="w-5 h-5" />
-            <span class="ms-3">My Plans</span>
+            <img
+              src="@/assets/images/grommet-icons_plan.png"
+              alt=""
+              class="w-5 h-5"
+            />
+            <span class="ms-3 dark:text-white">My Plans</span>
           </router-link>
         </li>
 
@@ -133,8 +152,12 @@
             to="/traineeinbox"
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
-            <img src="@/assets/images/wpf_message-outline.png" alt="" class="w-5 h-5" />
-            <span class="ms-3">Inbox</span>
+            <img
+              src="@/assets/images/wpf_message-outline.png"
+              alt=""
+              class="w-5 h-5"
+            />
+            <span class="ms-3 dark:text-white">Inbox</span>
           </router-link>
         </li>
 
@@ -143,8 +166,12 @@
             to="/trainee/settings"
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
-            <img src="@/assets/images/mdi_settings-outline.png" alt="" class="w-5 h-5" />
-            <span class="ms-3">Settings</span>
+            <img
+              src="@/assets/images/mdi_settings-outline.png"
+              alt=""
+              class="w-5 h-5"
+            />
+            <span class="ms-3 dark:text-white">Settings</span>
           </router-link>
         </li>
 
@@ -153,8 +180,12 @@
             to="/trainee/customerservice"
             class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-blue-200 transition duration-300"
           >
-            <img src="@/assets/images/mdi_customer-service.png" alt="" class="w-6 h-6" />
-            <span class="ms-3">Customer Service</span>
+            <img
+              src="@/assets/images/mdi_customer-service.png"
+              alt=""
+              class="w-6 h-6"
+            />
+            <span class="ms-3 dark:text-white">Customer Service</span>
           </router-link>
         </li>
 
@@ -164,11 +195,14 @@
             @click="handleLogout"
             class="flex items-center p-2 text-red-600 rounded-lg hover:bg-blue-200 w-full transition duration-300 cursor-pointer"
           >
-            <img src="@/assets/images/logout.png" alt="logout icon" class="w-5 h-5" />
+            <img
+              src="@/assets/images/logout.png"
+              alt="logout icon"
+              class="w-5 h-5"
+            />
             <span class="ms-3 font-medium">Log out</span>
           </button>
         </li>
-      
 
         <!-- ✅ Confirmation Modal -->
         <Teleport to="body">
@@ -178,7 +212,6 @@
             @cancel="cancelLogout"
           />
         </Teleport>
-       
       </ul>
     </div>
   </aside>
@@ -197,14 +230,12 @@ export default {
   components: { ConfirmLogoutModal },
   setup() {
     const isSidebarOpen = ref(false);
-   
+
     const traineeImage = ref("");
     const showLogoutModal = ref(false);
     const db = getFirestore();
     const auth = getAuth();
     const router = useRouter();
-
-   
 
     const toggleSidebar = () => {
       isSidebarOpen.value = !isSidebarOpen.value;
@@ -270,6 +301,7 @@ export default {
   font-weight: 600;
 }
 .router-link-active img {
-  filter: invert(29%) sepia(83%) saturate(749%) hue-rotate(181deg) brightness(95%) contrast(90%);
+  filter: invert(29%) sepia(83%) saturate(749%) hue-rotate(181deg)
+    brightness(95%) contrast(90%);
 }
 </style>

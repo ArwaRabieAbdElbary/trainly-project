@@ -1,26 +1,26 @@
 <template>
   <section class="max-w-5xl mx-auto flex flex-col gap-12">
     <div class="">
-      <h2 class="text-[24px] font-medium text-gray-900">Settings</h2>
-      <p class="mt-2 text-[16px] text-gray-500">
+      <h2 class="text-[24px] font-medium text-gray-900 dark:text-white">Settings</h2>
+      <p class="mt-2 text-[16px] text-gray-500 dark:text-white">
         Manage your account settings and preferences here.
       </p>
     </div>
     <!-- ========= Personal Info Section ========= -->
     <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7"
+      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7 dark:bg-[#3B3B3B]"
     >
       <div class="flex items-center gap-3 mb-6">
         <div
           class="bg-[#D9EEFF] w-10 h-10 rounded-lg flex items-center justify-center mr-2 mt-1"
         >
-          <img src="../../assets/images/page-1.png" alt="" class="w-5 h-5" />
+          <img src="@/assets/images/Page-1.png" alt="" class="w-5 h-5" />
         </div>
         <div>
-          <h2 class="text-lg font-medium text-gray-900">
+          <h2 class="text-lg font-medium text-gray-900 dark:text-white">
             Personal Information
           </h2>
-          <p class="text-sm text-gray-500">Update your personal details</p>
+          <p class="text-sm text-gray-500 dark:text-white">Update your personal details</p>
         </div>
       </div>
 
@@ -58,49 +58,49 @@
               class="absolute top-0 left-0 w-full h-full rounded-full object-cover"
             />
           </label>
-          <span class="text-sm text-gray-500">Upload your photo</span>
+          <span class="text-sm text-gray-500 dark:text-white">Upload your photo</span>
         </div>
 
         <!-- Inputs -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div>
-            <label class="block text-sm font-medium text-gray-900"
+            <label class="block text-sm font-medium text-gray-900 dark:text-white"
               >First Name</label
             >
             <input
               v-model="formData.firstName"
               type="text"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:text-gray-400"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900"
+            <label class="block text-sm font-medium text-gray-900 dark:text-white"
               >Last Name</label
             >
             <input
               v-model="formData.lastName"
               type="text"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:text-gray-400"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900">Email</label>
+            <label class="block text-sm font-medium text-gray-900 dark:text-white">Email</label>
             <input
               v-model="formData.email"
               type="email"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:text-gray-400"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900"
+            <label class="block text-sm font-medium text-gray-900 dark:text-white"
               >Gender</label
             >
             <select
               v-model="formData.gender"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:text-gray-400"
             >
               <option value="">Select</option>
               <option value="male">Male</option>
@@ -116,49 +116,49 @@
             <input
               v-model="formData.city"
               type="text"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:text-gray-400"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900"
+            <label class="block text-sm font-medium text-gray-900 dark:text-white"
               >Country</label
             >
             <input
               v-model="formData.country"
               type="text"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:text-gray-400"
             />
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-900"
+            <label class="block text-sm font-medium text-gray-900 dark:text-white"
               >Birthday</label
             >
             <input
               v-model="formData.birthdate"
               type="date"
-              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50"
+              class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-50 dark:text-gray-400 dark:bg-[#3B3B3B]"
             />
           </div>
         </div>
 
         <!-- Experience -->
         <div>
-          <label class="block text-sm font-medium text-gray-900"
+          <label class="block text-sm font-medium text-gray-900 dark:text-white"
             >Years of Experience</label
           >
           <input
             v-model="formData.experience"
             type="number"
-            class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            class="mt-2 w-full rounded-xl border border-gray-300 p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:text-gray-400"
           />
         </div>
 
         <!-- Upload Certificate -->
         <!-- Upload Certificate -->
         <div>
-          <h2 class="text-sm font-medium text-gray-900 mt-8">
+          <h2 class="text-sm font-medium text-gray-900 mt-8 dark:text-white">
             Upload Certificate
           </h2>
           <div
@@ -187,7 +187,7 @@
                 <div
                   v-for="(cert, index) in formData.certifications"
                   :key="index"
-                  class="flex items-center justify-between bg-gray-50 p-3 rounded-lg"
+                  class="flex items-center justify-between bg-gray-50 dark:bg-gray-400 p-3 rounded-lg"
                 >
                   <a
                     :href="cert"
@@ -246,7 +246,7 @@
 
     <!-- ========= Security Section ========= -->
     <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7"
+      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-7 dark:bg-[#3B3B3B]"
     >
       <div class="flex">
         <div
@@ -256,8 +256,8 @@
         </div>
 
         <div>
-          <h2 class="text-xl font-[500] mb-1">Security</h2>
-          <p class="mb-6 font-[400] text-[13px] text-gray-500">
+          <h2 class="text-xl font-[500] mb-1 dark:text-white">Security</h2>
+          <p class="mb-6 font-[400] text-[13px] text-gray-500 dark:text-white">
             Manage your password and security settings
           </p>
         </div>
@@ -266,7 +266,7 @@
       <form class="max-w-[95%] ps-[50px]" @submit.prevent="onSubmit">
         <!-- Current password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
+          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >Current Password</label
           >
           <div class="relative">
@@ -331,7 +331,7 @@
 
         <!-- New password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
+          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >New Password</label
           >
           <div class="relative">
@@ -399,7 +399,7 @@
 
         <!-- Repeat password -->
         <div class="mb-5">
-          <label class="block mb-2 text-sm font-medium text-gray-900"
+          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >Confirm Password</label
           >
           <div class="relative">
@@ -485,7 +485,7 @@
 
     <!-- ========= subsecribtion Section ========= -->
     <div
-      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-8"
+      class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-8 dark:bg-[#3B3B3B]"
     >
       <!-- Header -->
       <div class="flex items-start mb-8">
@@ -499,8 +499,8 @@
           />
         </div>
         <div>
-          <h2 class="text-xl font-[500] mb-1 text-gray-800">Subscription</h2>
-          <p class="text-sm text-gray-500">
+          <h2 class="text-xl font-[500] mb-1 text-gray-800 dark:text-white">Subscription</h2>
+          <p class="text-sm text-gray-500 dark:text-white">
             Manage your current subscription and plan details here.
           </p>
         </div>
@@ -509,14 +509,14 @@
       <!-- Content -->
       <div class="flex flex-col md:flex-row justify-between gap-10">
         <!-- Left side: Plan details -->
-        <div class="flex-1 bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100">
-          <h3 class="text-lg font-medium mb-3 text-gray-800">Current Plan</h3>
+        <div class="flex-1 bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100 dark:bg-[#3B3B3B]">
+          <h3 class="text-lg font-medium mb-3 text-gray-800 dark:text-gray-400">Current Plan</h3>
           <ul class="space-y-3 text-gray-600 text-sm">
-            <li><span class="font-medium text-gray-800">$29.99/month</span></li>
-            <li>
-              Next renewal: <span class="font-medium">November 15, 2025</span>
+            <li><span class="font-medium text-gray-800 dark:text-gray-500">$29.99/month</span></li>
+            <li class="dark:text-gray-500">
+              Next renewal: <span class="font-medium dark:text-gray-500">November 15, 2025</span>
             </li>
-            <ul class="space-y-2 text-gray-600 text-sm mt-4">
+            <ul class="space-y-2 text-gray-600 text-sm mt-4 dark:text-gray-500">
               <li class="flex items-center gap-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -535,7 +535,7 @@
                 6 plans/month
               </li>
 
-              <li class="flex items-center gap-2">
+              <li class="flex items-center gap-2 dark:text-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="w-5 h-5 text-green-500"
@@ -553,7 +553,7 @@
                 Unlimited clients
               </li>
 
-              <li class="flex items-center gap-2">
+              <li class="flex items-center gap-2 dark:text-gray-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="w-5 h-5 text-green-500"
@@ -583,13 +583,13 @@
           </button>
 
           <button
-            class="border border-gray-300 text-gray-800 bg-[#f7f8f8] hover:bg-[#eaf3f7] focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-6 py-3 w-full transition"
+            class="border border-gray-300 text-gray-800 bg-[#f7f8f8] dark:bg-[#3B3B3B] hover:bg-[#eaf3f7] focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-6 py-3 w-full transition"
           >
             Downgrade Plan
           </button>
 
           <button
-            class="text-red-500 hover:text-red-600 border border-red-200 bg-[#fff5f5] font-medium rounded-lg text-sm px-6 py-3 w-full transition"
+            class="text-red-500 hover:text-red-600 border border-red-200 bg-[#fff5f5] dark:bg-[#3B3B3B] font-medium rounded-lg text-sm px-6 py-3 w-full transition"
           >
             Cancel Subscription
           </button>
@@ -598,7 +598,7 @@
     </div>
 
     <!-- ========= payment Section ========= -->
- <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-8">
+ <div class="w-full border border-gray-200 rounded-3xl shadow-xl bg-white p-8 dark:bg-[#3B3B3B]">
   <!-- Header -->
   <div class="flex items-start mb-8">
     <div class="bg-[#D9EEFF] w-11 h-11 rounded-xl flex items-center justify-center mr-3">
@@ -626,13 +626,13 @@
   <!-- Content Section -->
   <div class="flex flex-col md:flex-row justify-between gap-10">
     <!-- Left side: Payment Methods -->
-    <div class="flex-1 bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100">
+    <div class="flex-1 bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100 dark:bg-[#3B3B3B]">
       <h3 class="text-lg font-semibold mb-4 text-gray-800">Payment Methods</h3>
 
       <!-- Card Method -->
      <!-- Card Method -->
 <div
-  class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 mb-4 shadow-sm"
+  class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 mb-4 shadow-sm dark:bg-[#3B3B3B]"
 >
   <img src="../../assets/images/i.png" alt="card" class="w-8 h-8" />
   <div>
@@ -643,7 +643,7 @@
 
 <!-- PayPal Method -->
 <div
-  class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 mb-6 shadow-sm"
+  class="flex items-center gap-4 bg-white border border-gray-200 rounded-xl p-4 mb-6 shadow-sm dark:bg-[#3B3B3B]"
 >
   <img src="../../assets/images/ip.png" alt="paypal" class="w-8 h-8 opacity-90" />
   <div class="flex flex-col w-full">
@@ -663,7 +663,7 @@
         </button>
 
         <button
-          class="border border-gray-300 text-gray-800 bg-white hover:bg-gray-50 focus:ring-4 focus:ring-green-200 font-medium rounded-lg text-sm px-6 py-3 w-full transition"
+          class="border border-gray-300 text-gray-800 bg-white dark:bg-[#3B3B3B] hover:bg-gray-50 focus:ring-4 focus:ring-green-200 font-medium rounded-lg text-sm px-6 py-3 w-full transition"
         >
           Withdraw Earnings
         </button>
@@ -671,11 +671,11 @@
     </div>
 
     <!-- Right side: Recent Transactions -->
-    <div class="flex-1 bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100">
+    <div class="flex-1 bg-[#F9FAFB] p-6 rounded-2xl border border-gray-100 dark:bg-[#3B3B3B]">
       <h3 class="text-lg font-semibold mb-4 text-gray-800">Recent Transactions</h3>
 
       <div class="flex flex-col gap-4">
-        <div class="flex justify-between items-center bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+        <div class="flex justify-between items-center bg-white rounded-xl p-4 border border-gray-200 shadow-sm dark:bg-[#3B3B3B]">
           <div>
             <p class="font-medium text-gray-800">Training Session</p>
             <p class="text-sm text-gray-500">Oct 15, 2025</p>
@@ -683,7 +683,7 @@
           <p class="text-green-600 font-semibold">+$80.00</p>
         </div>
 
-        <div class="flex justify-between items-center bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+        <div class="flex justify-between items-center bg-white rounded-xl p-4 border border-gray-200 shadow-sm dark:bg-[#3B3B3B]">
           <div>
             <p class="font-medium text-gray-800">Monthly Membership</p>
             <p class="text-sm text-gray-500">Oct 12, 2025</p>
@@ -691,7 +691,7 @@
           <p class="text-green-600 font-semibold">+$150.00</p>
         </div>
 
-        <div class="flex justify-between items-center bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+        <div class="flex justify-between items-center bg-white rounded-xl p-4 border border-gray-200 shadow-sm dark:bg-[#3B3B3B]">
           <div>
             <p class="font-medium text-gray-800">Platform Fee</p>
             <p class="text-sm text-gray-500">Oct 11, 2025</p>

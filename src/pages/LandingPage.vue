@@ -1,8 +1,8 @@
 <template>
   <section
-    class="relative w-full h-[450px] md:h-[600px] lg:h-[796px] max-w-full mx-auto overflow-visible mt-1 bg-sec1-sm"
+    class="relative w-full h-[450px] md:h-[600px] lg:h-[796px] max-w-full mx-auto overflow-visible bg-sec1-sm dark:bg-black"
   >
-    <div class="flex md:px-[70px] h-full justify-between">
+    <div class="flex md:px-[70px] h-full justify-between dark:bg-black dark:text-white">
       <div
         class="flex-1 pt-8 flex flex-col items-center md:items-start md:justify-start relative z-10 mt-13"
       >
@@ -50,7 +50,7 @@
   <section
     class="relative max-w-full pb-10 md:pb-0 h-auto md:h-[650px] lg:h-[796px] mx-auto overflow-hidden mt-0 lg:mt-10 bg-sec2-sm md:bg-sec2"
   >
-    <div class="flex h-full">
+    <div class="flex h-full dark:bg-black dark:">
       <div class="hidden lg:flex flex-1 relative">
         <div class="absolute inset-0"></div>
         <img
@@ -283,7 +283,7 @@
         </div>
         <div class="w-1/2 ps-8 md:ps-12">
           <h3 class="text-md md:text-xl font-semibold">{{ $t("step4Title") }}</h3>
-          <p class="text-gray-700 leading-[150%] text-[13px] md:text-[17px]">
+          <p class="text-gray-7075 leading-[150%] text-[13px] md:text-[17px]">
             {{ $t("step4Desc") }}
             <br />
             {{ $t("step4Desc2") }}
@@ -313,15 +313,11 @@
 </template>
 
 <style>
-:root {
+::root {
   --primary: #00c853;
   --secondry: #00b0ffb2;
   --third: #ffffff;
   --fourth: #7ae2a5f2;
-}
-
-.bg-primary {
-  background: linear-gradient(to right, var(--primary), var(--secondry));
 }
 
 .bg-sec1 {

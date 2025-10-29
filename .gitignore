@@ -55,3 +55,6 @@ functions/config.json
 # OS files
 Thumbs.db
 desktop.ini
+
+# Local Netlify folder
+.netlify
